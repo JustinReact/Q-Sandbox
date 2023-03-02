@@ -9,45 +9,50 @@ function App() {
   const [selectedCoin, setSelectedCoin] = useState("QORT");
   const [messageReceiver, setMessageReceiver] = useState("");
   const [message, setMessage] = useState("");
+  const [name, setName] = useState('')
+  const [service, setService] = useState('')
+  const [base64, setBase64] = useState('')
+  const [identifier, setIdentifier] = useState('')
+  const [groupId, setGroupId] = useState('')
 
   const buttonData = [
     {
       name: "Get address of logged in account",
       bgColor: "#279a27",
       onClick: async function getUserAccount() {
-        let account = await qortalRequest({
-          action: "GET_USER_ACCOUNT",
-        });
-        let address = account.address;
-        console.log({ address });
+        try {
+          let account = await qortalRequest({
+            action: "GET_USER_ACCOUNT",
+          });
+          let address = account.address;
+          console.log({ address });
+        } catch (error) {
+          console.error(error)
+        }
+        
       },
     },
-    // {
-    //   name: "Get public key of logged in account",
-    //   bgColor: "#e3bc21",
-    //   onClick: async function getPubKey() {
-    //     let pubkey = await qortalRequest({
-    //       action: "GET_USER_ACCOUNT",
-    //     });
-    //     let publicKey = account.publicKey;
-    //     console.log({ publicKey });
-    //   },
-    // },
     {
       name: "Publish QDN resource",
       bgColor: "#e957ec",
       onClick: async function publishQDNResource() {
-        const resourceResponse = await qortalRequest({
-          action: "PUBLISH_QDN_RESOURCE",
-          name: "Demo", // Publisher must own the registered name - use GET_ACCOUNT_NAMES for a list
-          service: "WEBSITE",
-          data64: "base64_encoded_data",
-          title: "Title",
-          description: "Description",
-          category: "TECHNOLOGY",
-          tags: ["tag1", "tag2", "tag3", "tag4", "tag5"],
-        });
-        console.log({ resourceResponse });
+        try {
+          const resourceResponse = await qortalRequest({
+            action: "PUBLISH_QDN_RESOURCE",
+            name: name, // Publisher must own the registered name - use GET_ACCOUNT_NAMES for a list
+            service: service,
+            data64: base64,
+            title: "Title",
+            description: "Description",
+            category: "TECHNOLOGY",
+            tags: ["tag1", "tag2", "tag3", "tag4", "tag5"],
+            identifier: identifier
+          });
+          console.log({ resourceResponse });
+        } catch (error) {
+          console.error(error)
+        }
+        
       },
     },
     {
@@ -66,17 +71,7 @@ function App() {
         }
       },
     },
-    // {
-    //   name: "Get wallet balance (foreign coin)",
-    //   bgColor: "#9d52f3",
-    //   onClick: async function getWalletBalanceLTC() {
-    //     const LCBalance = await qortalRequest({
-    //       action: "GET_WALLET_BALANCE",
-    //       coin: "LTC",
-    //     });
-    //     console.log({ LCBalance });
-    //   },
-    // },
+   
     {
       name: "Send coin to address",
       bgColor: "#ea5252",
@@ -95,32 +90,7 @@ function App() {
         }
       },
     },
-    // {
-    //   name: "Send coin to address (LTC)",
-    //   bgColor: "#6552f3",
-    //   onClick: async function sendCoinToAddressLTC() {
-    //     const response = await qortalRequest({
-    //       action: "SEND_COIN",
-    //       coin: "QORT",
-    //       destinationAddress: "QZLJV7wbaFyxaoZQsjm6rb9MWMiDzWsqM2",
-    //       amount: 100000000, // 1 QORT
-    //       fee: 10000, // 0.0001 QORT
-    //     });
-    //     console.log({ response });
-    //   },
-    // },
-    // {
-    //   name: "Send a group chat message",
-    //   bgColor: "#52d1ea",
-    //   onClick: async function sendGroupMsg() {
-    //     const response = await qortalRequest({
-    //       action: "SEND_CHAT_MESSAGE",
-    //       groupId: 0,
-    //       message: "Test",
-    //     });
-    //     console.log({ response });
-    //   },
-    // },
+   
     {
       name: "Send a private chat message",
       bgColor: "#14ff6a",
@@ -141,29 +111,39 @@ function App() {
       name: "Join Group",
       bgColor: "#ffff00",
       onClick: async function joinGroup() {
-        const response = await qortalRequest({
-          action: "JOIN_GROUP",
-          groupId: 100,
-        });
-        console.log({ response });
+        try {
+          const response = await qortalRequest({
+            action: "JOIN_GROUP",
+            groupId: groupId,
+          });
+          console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+        
       },
     },
     {
       name: "Deploy an AT",
       bgColor: "#1613be",
       onClick: async function deployAT() {
-        const response = await qortalRequest({
-          action: "DEPLOY_AT",
-          creationBytes: "12345",
-          name: "test name",
-          description: "test description",
-          type: "test type",
-          tags: "test tags",
-          amount: 100000000, // 1 QORT
-          assetId: 0,
-          fee: 20000, // 0.0002 QORT
-        });
-        console.log({ response });
+        try {
+          const response = await qortalRequest({
+            action: "DEPLOY_AT",
+            creationBytes: "12345",
+            name: "test name",
+            description: "test description",
+            type: "test type",
+            tags: "test tags",
+            amount: 100000000, // 1 QORT
+            assetId: 0,
+            fee: 20000, // 0.0002 QORT
+          });
+          console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+      
       },
     },
   ];
@@ -181,6 +161,16 @@ function App() {
         setAmount={setAmount}
         selectedCoin={selectedCoin}
         setSelectedCoin={setSelectedCoin}
+        name={name}
+        setName={setName}
+        service={service}
+        setService={setService}
+        base64={base64}
+        setBase64={setBase64}
+        identifier={identifier}
+        setIdentifier={setIdentifier}
+        groupId={groupId}
+        setGroupId={setGroupId}
       >
         {buttonData.map((button, index) => {
           return (
