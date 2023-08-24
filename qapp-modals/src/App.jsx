@@ -130,14 +130,13 @@ function App() {
         try {
           const response = await qortalRequest({
             action: "DEPLOY_AT",
-            creationBytes: "12345",
+            creationBytes: "1Pub6o13xyqfCZj8BMzmXsREVJR6h4xxpS2VPV1R2QwjP78r2ozxsNuvb28GWrT8FoTTQMGnVP7pNii6auUqYr2uunWfcxwhERbDgFdsJqtrJMpQNGB9GerAXYyiFiij35cP6eHw7BmALb3viT6VzqaXX9YB25iztekV5cTreJg7o2hRpFc9Rv8Z9dFXcD1Mm4WCaMaknUgchDi7qDnHA7JX8bn9EFD4WMG5nZHMsrmeqBHirURXr2dMxFprTBo187zztmw73hxJNfGz5jrnqtHkk9j4zmcSZnoMznPZnDyi8DCDhijBfZkgXx2wirepKEgK1aZh7uLhdeBRqvZsinhZamwtY49UJZ3rVVjrrQXnTk4dTKXpjUBzqAsvmSmxP81KJgQGTBJrYLbsbE2JT9q",
             name: "test name",
             description: "test description",
             type: "test type",
             tags: "test tags",
-            amount: 100000000, // 1 QORT
-            assetId: 0,
-            fee: 20000, // 0.0002 QORT
+            amount: 0.01, 
+            assetId: 0
           });
           console.log({ response });
         } catch (error) {
