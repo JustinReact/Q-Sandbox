@@ -1,8 +1,8 @@
 #root {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   margin: 0 auto;
-  background-color: #f3f1f1;
+  background-color: #242424;
 }
 
 .container {

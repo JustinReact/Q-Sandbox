@@ -29,7 +29,7 @@ function App() {
         } catch (error) {
           console.error(error)
         }
-        
+
       },
     },
     {
@@ -52,7 +52,7 @@ function App() {
         } catch (error) {
           console.error(error)
         }
-        
+
       },
     },
     {
@@ -71,7 +71,7 @@ function App() {
         }
       },
     },
-   
+
     {
       name: "Send coin to address",
       bgColor: "#ea5252",
@@ -90,7 +90,7 @@ function App() {
         }
       },
     },
-   
+
     {
       name: "Send a private chat message",
       bgColor: "#14ff6a",
@@ -120,7 +120,7 @@ function App() {
         } catch (error) {
           console.error(error)
         }
-        
+
       },
     },
     {
@@ -135,16 +135,117 @@ function App() {
             description: "test description",
             type: "test type",
             tags: "test tags",
-            amount: 0.01, 
+            amount: 0.01,
             assetId: 0
           });
           console.log({ response });
         } catch (error) {
           console.error(error)
         }
-      
+
       },
     },
+    {
+      name: "Open a new tab",
+      bgColor: "#08b45e",
+      onClick: async function openNewTab() {
+        try {
+          const response = await qortalRequest({
+            action: "OPEN_NEW_TAB",
+            qortalLink: 'qortal://APP/Ear-Bump/liked',
+          });
+          console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+
+      },
+    },
+    {
+      name: "Get Permission for Notifications from User",
+      bgColor: "#d12203",
+      onClick: async function openNewTab() {
+        try {
+          const response = await qortalRequest({
+            action: 'NOTIFICATIONS_PERMISSION',
+          })
+          console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+
+      },
+    },
+    {
+      name: "Send local notification",
+      bgColor: "#5308b4",
+      onClick: async function openNewTab() {
+        try {
+          const response = await qortalRequest({
+            action: 'SEND_LOCAL_NOTIFICATION',
+            qortalLink: 'qortal://APP/Ear-Bump/liked',
+            title: 'hello testing',
+            url: "qortal://APP/Q-Blog",
+            message: 'this is the body message',
+            icon: "data:image/gif;base64,R0lGODlhPQBEAPeoAJosM//AwO/AwHVYZ/z595kzAP/s7P+goOXMv8+fhw/v739/f+8PD98fH/8mJl+fn/9ZWb8/PzWlwv///6wWGbImAPgTEMImIN9gUFCEm/gDALULDN8PAD6atYdCTX9gUNKlj8wZAKUsAOzZz+UMAOsJAP/Z2ccMDA8PD/95eX5NWvsJCOVNQPtfX/8zM8+QePLl38MGBr8JCP+zs9myn/8GBqwpAP/GxgwJCPny78lzYLgjAJ8vAP9fX/+MjMUcAN8zM/9wcM8ZGcATEL+QePdZWf/29uc/P9cmJu9MTDImIN+/r7+/vz8/P8VNQGNugV8AAF9fX8swMNgTAFlDOICAgPNSUnNWSMQ5MBAQEJE3QPIGAM9AQMqGcG9vb6MhJsEdGM8vLx8fH98AANIWAMuQeL8fABkTEPPQ0OM5OSYdGFl5jo+Pj/+pqcsTE78wMFNGQLYmID4dGPvd3UBAQJmTkP+8vH9QUK+vr8ZWSHpzcJMmILdwcLOGcHRQUHxwcK9PT9DQ0O/v70w5MLypoG8wKOuwsP/g4P/Q0IcwKEswKMl8aJ9fX2xjdOtGRs/Pz+Dg4GImIP8gIH0....."
+          })
+          console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+
+      },
+    },
+    {
+      name: "Create a poll",
+      bgColor: "#b40880",
+      onClick: async function createNewPoll() {
+        try {
+          await qortalRequest({
+            action: "CREATE_POLL",
+            pollName: "A test poll 5",
+            pollDescription: "Test description",
+            pollOptions: ['option1, option2, option3'],
+            pollOwnerAddress: 'QbpZL12Lh7K2y6xPZure4pix5jH6ViVrF2'
+          });
+          console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
+    {
+      name: "Vote on poll",
+      bgColor: "#309ed1",
+      onClick: async function voteOnPoll() {
+        try {
+          await qortalRequest({
+            action: "VOTE_ON_POLL",
+            pollName: "A test poll 3",
+            optionIndex: 1,
+          });
+          console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
+    {
+      name: "DEPLOY AT",
+      bgColor: "#ff5100",
+      onClick: async function deployAT() {
+        try {
+          await qortalRequest({
+            action: "VOTE_ON_POLL",
+            pollName: "A test poll 3",
+            optionIndex: 1,
+          });
+          console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    }
   ];
 
   return (
