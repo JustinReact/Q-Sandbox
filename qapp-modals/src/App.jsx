@@ -208,7 +208,6 @@ function App() {
             pollOptions: ['option1, option2, option3'],
             pollOwnerAddress: 'QbpZL12Lh7K2y6xPZure4pix5jH6ViVrF2'
           });
-          console.log({ response });
         } catch (error) {
           console.error(error)
         }
@@ -224,7 +223,6 @@ function App() {
             pollName: "A test poll 3",
             optionIndex: 1,
           });
-          console.log({ response });
         } catch (error) {
           console.error(error)
         }
@@ -241,6 +239,35 @@ function App() {
             optionIndex: 1,
           });
           console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
+    {
+      name: "GET_USER_WALLET",
+      bgColor: "#09ff0060",
+      onClick: async function getUserWallet() {
+        try {
+          const response = await qortalRequest({
+            action: "GET_USER_WALLET",
+            coin: "QORT"
+          });
+          console.log({ response });
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
+    {
+      name: "GET_DAY_SUMMARY",
+      bgColor: "#ff00aa61",
+      onClick: async function getDaySummary() {
+        try {
+          const summary = await qortalRequest({
+            action: "GET_DAY_SUMMARY",
+          });
+          console.log({ summary });
         } catch (error) {
           console.error(error)
         }

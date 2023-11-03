@@ -1,8 +1,16 @@
 .wrapper {
+  display: grid;
+  grid-gap: 200px;
+  grid-template-columns: repeat(2, 1fr);
   padding: 25px;
-  display: flex;
   align-items: center;
+}
+
+.main-row {
+  display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .row {
@@ -12,6 +20,7 @@
   font-weight: 600;
   align-items: center;
   margin: 25px 0;
+  color: #000000;
 }
 
 .custom-input {
