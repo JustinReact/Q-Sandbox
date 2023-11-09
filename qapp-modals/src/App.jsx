@@ -14,6 +14,10 @@ function App() {
   const [base64, setBase64] = useState('')
   const [identifier, setIdentifier] = useState('')
   const [groupId, setGroupId] = useState('')
+  const [getProfileProperty, setGetProfileProperty] = useState('')
+  const [setProfilePropertyName, setSetProfilePropertyName] = useState('')
+  const [setProfilePropertyObjectKey, setSetProfilePropertyObjectKey] = useState('')
+  const [setProfilePropertyObjectValue, setSetProfilePropertyObjectValue] = useState('')
 
   const buttonData = [
     {
@@ -51,8 +55,12 @@ function App() {
           console.log({ resourceResponse });
         } catch (error) {
           console.error(error)
+        } finally {
+          setName('');
+          setService('');
+          setBase64('');
+          setIdentifier('');
         }
-
       },
     },
     {
@@ -87,6 +95,9 @@ function App() {
           console.log({ response });
         } catch (error) {
           console.error(error);
+        } finally {
+          setDestinationAddress('');
+          setAmount(0);
         }
       },
     },
@@ -104,6 +115,9 @@ function App() {
           console.log({ response });
         } catch (error) {
           console.error(error);
+        } finally {
+          setMessageReceiver('');
+          setMessage('');
         }
       },
     },
@@ -119,8 +133,9 @@ function App() {
           console.log({ response });
         } catch (error) {
           console.error(error)
+        } finally {
+          setGroupId('')
         }
-
       },
     },
     {
@@ -272,7 +287,69 @@ function App() {
           console.error(error)
         }
       },
-    }
+    },
+    {
+      name: "GET_PROFILE_DATA",
+      bgColor: "#ff00bfe0",
+      onClick: async function getProfileDataFunc() {
+        if (!getProfileProperty) {
+          return alert('Please enter a property to get')
+        }
+        try {
+          const summary = await qortalRequest({
+            action: "GET_PROFILE_DATA", // returns "User does not have a profile" when error
+            property: getProfileData
+          });
+          console.log({ summary });
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
+    {
+      name: "SET_PROFILE_DATA",
+      bgColor: "#005effdf",
+      onClick: async function setProfileData() {
+        if (!setProfilePropertyName || !setProfilePropertyObjectKey || !setProfilePropertyObjectValue) {
+          return alert('Please enter a property name, property object key & property object value to set');
+        }
+        try {
+          const summary = await qortalRequestWithTimeout({
+            action: "SET_PROFILE_DATA", // returns "saved" when success
+            property: setProfilePropertyName,
+            // custom property can be -private and the whole object will be private
+            data: {
+              // always returns key-value object
+              customData: {
+                [setProfilePropertyObjectKey]: setProfilePropertyObjectValue
+              }
+            }
+          }, 30000);
+          console.log({ summary });
+        } catch (error) {
+          console.error(error)
+        } finally {
+          setSetProfilePropertyName('');
+          setSetProfilePropertyObjectKey('');
+          setSetProfilePropertyObjectValue('');
+        }
+      },
+    },
+    {
+      name: "OPEN_PROFILE",
+      bgColor: "#fff200df",
+      onClick: async function openProfile() {
+        try {
+          const profile = await qortalRequest({
+            action: "OPEN_PROFILE",
+            name: "Bester"
+          });
+          console.log({ profile })
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
   ];
 
   return (
@@ -298,6 +375,14 @@ function App() {
         setIdentifier={setIdentifier}
         groupId={groupId}
         setGroupId={setGroupId}
+        getProfileProperty={getProfileProperty}
+        setGetProfileProperty={setGetProfileProperty}
+        setProfilePropertyName={setProfilePropertyName}
+        setSetProfilePropertyName={setSetProfilePropertyName}
+        setProfilePropertyObjectKey={setProfilePropertyObjectKey}
+        setSetProfilePropertyObjectKey={setSetProfilePropertyObjectKey}
+        setProfilePropertyObjectValue={setProfilePropertyObjectValue}
+        setSetProfilePropertyObjectValue={setSetProfilePropertyObjectValue}
       >
         {buttonData.map((button, index) => {
           return (

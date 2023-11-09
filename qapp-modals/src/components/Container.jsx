@@ -22,7 +22,15 @@ const Container = ({
   identifier,
   setIdentifier,
   groupId,
-  setGroupId
+  setGroupId,
+  getProfileProperty,
+  setGetProfileProperty,
+  setProfilePropertyName,
+  setSetProfilePropertyName,
+  setProfilePropertyObjectKey,
+  setSetProfilePropertyObjectKey,
+  setProfilePropertyObjectValue,
+  setSetProfilePropertyObjectValue
 }) => {
   const [coinType] = useState(["QORT", "LTC", "DOGE", "RVN", "ARRR"]);
 
@@ -134,6 +142,54 @@ const Container = ({
             value={groupId}
             onChange={(e) => {
               setGroupId(e.target.value);
+            }}
+          />
+        </div>
+        <div className="row">Get Profile Data Property</div>
+        <div className="message-row">
+          <input
+            type="text"
+            className="custom-input"
+            placeholder="Profile Property"
+            value={getProfileProperty}
+            onChange={(e) => {
+              setGetProfileProperty(e.target.value);
+            }}
+          />
+        </div>
+        <div className="row">Set Profile Data Property Name</div>
+        <div className="message-row">
+          <input
+            type="text"
+            className="custom-input"
+            placeholder="Profile Property Name"
+            value={setProfilePropertyName}
+            onChange={(e) => {
+              setSetProfilePropertyName(e.target.value);
+            }}
+          />
+        </div>
+        <div className="row">Set Profile Data Object Key</div>
+        <div className="message-row">
+          <input
+            type="text"
+            className="custom-input"
+            placeholder="Profile Property Object Key"
+            value={setProfilePropertyObjectKey}
+            onChange={(e) => {
+              setSetProfilePropertyObjectKey(e.target.value);
+            }}
+          />
+        </div>
+        <div className="row">Set Profile Data Object Value</div>
+        <div className="message-row">
+          <input
+            type="text"
+            className="custom-input"
+            placeholder="Profile Property Object Value"
+            value={setProfilePropertyObjectValue}
+            onChange={(e) => {
+              setSetProfilePropertyObjectValue(e.target.value);
             }}
           />
         </div>
