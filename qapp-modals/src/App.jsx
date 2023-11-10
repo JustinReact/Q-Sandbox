@@ -292,13 +292,14 @@ function App() {
       name: "GET_PROFILE_DATA",
       bgColor: "#ff00bfe0",
       onClick: async function getProfileDataFunc() {
+        console.log({ getProfileProperty })
         if (!getProfileProperty) {
           return alert('Please enter a property to get')
         }
         try {
           const summary = await qortalRequest({
             action: "GET_PROFILE_DATA", // returns "User does not have a profile" when error
-            property: getProfileData
+            property: getProfileProperty
           });
           console.log({ summary });
         } catch (error) {
@@ -345,6 +346,20 @@ function App() {
             name: "Bester"
           });
           console.log({ profile })
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
+    {
+      name: "GET_FRIENDS_LIST",
+      bgColor: "#00ff40df",
+      onClick: async function getFriendsList() {
+        try {
+          const friendsList = await qortalRequest({
+            action: "GET_FRIENDS_LIST"
+          });
+          console.log({ friendsList })
         } catch (error) {
           console.error(error)
         }
