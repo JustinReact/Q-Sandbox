@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import Button from "./components/Button";
 import Container from "./components/Container";
+import QSandboxLogo from "./assets/images/QSandboxLogo.png";
 
 function App() {
   const [destinationAddress, setDestinationAddress] = useState("");
@@ -64,7 +64,7 @@ function App() {
       },
     },
     {
-      name: "Get wallet balance (QORT)",
+      name: "Get wallet balance",
       bgColor: "#13ecff",
       onClick: async function getWalletBalance() {
         try {
@@ -140,7 +140,7 @@ function App() {
     },
     {
       name: "Deploy an AT",
-      bgColor: "#1613be",
+      bgColor: "#132eff",
       onClick: async function deployAT() {
         try {
           const response = await qortalRequest({
@@ -193,7 +193,7 @@ function App() {
     },
     {
       name: "Send local notification",
-      bgColor: "#5308b4",
+      bgColor: "#af73ff",
       onClick: async function openNewTab() {
         try {
           const response = await qortalRequest({
@@ -213,7 +213,7 @@ function App() {
     },
     {
       name: "Create a poll",
-      bgColor: "#b40880",
+      bgColor: "#2addb6",
       onClick: async function createNewPoll() {
         try {
           await qortalRequest({
@@ -229,7 +229,7 @@ function App() {
       },
     },
     {
-      name: "Vote on poll",
+      name: "Vote on a poll",
       bgColor: "#309ed1",
       onClick: async function voteOnPoll() {
         try {
@@ -244,24 +244,8 @@ function App() {
       },
     },
     {
-      name: "DEPLOY AT",
-      bgColor: "#ff5100",
-      onClick: async function deployAT() {
-        try {
-          await qortalRequest({
-            action: "VOTE_ON_POLL",
-            pollName: "A test poll 3",
-            optionIndex: 1,
-          });
-          console.log({ response });
-        } catch (error) {
-          console.error(error)
-        }
-      },
-    },
-    {
-      name: "GET_USER_WALLET",
-      bgColor: "#09ff0060",
+      name: "Get user wallet",
+      bgColor: "#ffa600",
       onClick: async function getUserWallet() {
         try {
           const response = await qortalRequest({
@@ -275,7 +259,7 @@ function App() {
       },
     },
     {
-      name: "GET_DAY_SUMMARY",
+      name: "Get day summary",
       bgColor: "#ff00aa61",
       onClick: async function getDaySummary() {
         try {
@@ -289,7 +273,7 @@ function App() {
       },
     },
     {
-      name: "GET_PROFILE_DATA",
+      name: "Get profile property",
       bgColor: "#ff00bfe0",
       onClick: async function getProfileDataFunc() {
         console.log({ getProfileProperty })
@@ -308,7 +292,7 @@ function App() {
       },
     },
     {
-      name: "SET_PROFILE_DATA",
+      name: "Set profile property",
       bgColor: "#005effdf",
       onClick: async function setProfileData() {
         if (!setProfilePropertyName || !setProfilePropertyObjectKey || !setProfilePropertyObjectValue) {
@@ -337,7 +321,7 @@ function App() {
       },
     },
     {
-      name: "OPEN_PROFILE",
+      name: "Open user profile",
       bgColor: "#fff200df",
       onClick: async function openProfile() {
         try {
@@ -352,7 +336,7 @@ function App() {
       },
     },
     {
-      name: "GET_FRIENDS_LIST",
+      name: "Get friends list",
       bgColor: "#00ff40df",
       onClick: async function getFriendsList() {
         try {
@@ -369,6 +353,9 @@ function App() {
 
   return (
     <div className="container">
+      <div className="flex-row">
+        <img className="logo" src={QSandboxLogo} alt="q-sandbox-logo" />
+      </div>
       <Container
         message={message}
         setMessage={setMessage}
@@ -398,17 +385,8 @@ function App() {
         setSetProfilePropertyObjectKey={setSetProfilePropertyObjectKey}
         setProfilePropertyObjectValue={setProfilePropertyObjectValue}
         setSetProfilePropertyObjectValue={setSetProfilePropertyObjectValue}
+        buttonData={buttonData}
       >
-        {buttonData.map((button, index) => {
-          return (
-            <Button
-              key={index}
-              bgColor={button.bgColor}
-              name={button.name}
-              onClick={button.onClick}
-            />
-          );
-        })}
       </Container>
     </div>
   );
