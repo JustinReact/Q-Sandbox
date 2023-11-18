@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { Tooltip } from "@mui/material";
 import "./App.css";
 import Container from "./components/Container";
 import QSandboxLogo from "./assets/images/QSandboxLogo.png";
+import InfoIcon from "@mui/icons-material/Info";
 
 function App() {
   const [destinationAddress, setDestinationAddress] = useState("");
@@ -10,6 +12,7 @@ function App() {
   const [messageReceiver, setMessageReceiver] = useState("");
   const [message, setMessage] = useState("");
   const [name, setName] = useState('')
+  const [userName, setUserName] = useState('')
   const [service, setService] = useState('')
   const [base64, setBase64] = useState('')
   const [identifier, setIdentifier] = useState('')
@@ -324,10 +327,13 @@ function App() {
       name: "Open user profile",
       bgColor: "#fff200df",
       onClick: async function openProfile() {
+        if (!userName) {
+          return alert('Please enter a username');
+        }
         try {
           const profile = await qortalRequest({
             action: "OPEN_PROFILE",
-            name: "Bester"
+            name: userName
           });
           console.log({ profile })
         } catch (error) {
@@ -354,7 +360,12 @@ function App() {
   return (
     <div className="container">
       <div className="flex-row">
-        <img className="logo" src={QSandboxLogo} alt="q-sandbox-logo" />
+        <Tooltip className="tooltip" title="Thanks for using Q-Sandbox! Please have the browser console open when using the qortalRequests to see the response payloads. Please contact Phil or Bester by Q-Mail if something does not seem to not work as expected. Thanks and happy coding!" arrow placement="bottom">
+          <InfoIcon className="info-icon" />
+        </Tooltip>
+        <div className="logo-container">
+          <img className="logo" src={QSandboxLogo} alt="q-sandbox-logo" />
+        </div>
       </div>
       <Container
         message={message}
@@ -386,6 +397,8 @@ function App() {
         setProfilePropertyObjectValue={setProfilePropertyObjectValue}
         setSetProfilePropertyObjectValue={setSetProfilePropertyObjectValue}
         buttonData={buttonData}
+        userName={userName}
+        setUserName={setUserName}
       >
       </Container>
     </div>

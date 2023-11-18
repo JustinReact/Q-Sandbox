@@ -13,9 +13,10 @@ const Container = ({
   setMessage,
   messageReceiver,
   setMessageReceiver,
-  children,
   name,
   setName,
+  userName,
+  setUserName,
   service,
   setService,
   base64,
@@ -290,6 +291,17 @@ const Container = ({
       <div className="main-row">
         <div className="card">
           <div className="row">Open user profile</div>
+          <div className="message-row">
+            <input
+              type="text"
+              className="custom-input"
+              placeholder="User name"
+              value={userName}
+              onChange={(e) => {
+                setUserName(e.target.value);
+              }}
+            />
+          </div>
           {buttonData
             .filter(button => button.name === "Open user profile")
             .map((button, index) => {
