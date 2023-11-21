@@ -9,6 +9,7 @@ function App() {
   const [destinationAddress, setDestinationAddress] = useState("");
   const [amount, setAmount] = useState(0);
   const [selectedCoin, setSelectedCoin] = useState("QORT");
+  const [selectedCoinWallet, setSelectedCoinWallet] = useState("QORT");
   const [messageReceiver, setMessageReceiver] = useState("");
   const [message, setMessage] = useState("");
   const [name, setName] = useState('')
@@ -253,7 +254,7 @@ function App() {
         try {
           const response = await qortalRequest({
             action: "GET_USER_WALLET",
-            coin: "QORT"
+            coin: selectedCoinWallet
           });
           console.log({ response });
         } catch (error) {
@@ -378,6 +379,8 @@ function App() {
         setAmount={setAmount}
         selectedCoin={selectedCoin}
         setSelectedCoin={setSelectedCoin}
+        selectedCoinWallet={selectedCoinWallet}
+        setSelectedCoinWallet={setSelectedCoinWallet}
         name={name}
         setName={setName}
         service={service}

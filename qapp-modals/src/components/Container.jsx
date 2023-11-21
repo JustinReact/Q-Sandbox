@@ -9,6 +9,8 @@ const Container = ({
   setAmount,
   selectedCoin,
   setSelectedCoin,
+  selectedCoinWallet,
+  setSelectedCoinWallet,
   message,
   setMessage,
   messageReceiver,
@@ -251,7 +253,23 @@ const Container = ({
           }
         </div>
         <div className="card">
-          <div className="row">Get user wallet (QORT)</div>
+          <div className="row">Get user wallet</div>
+          <div className="coin-type-row">
+            {coinType.map((coin, index) => {
+              return (
+                <div
+                  onClick={() => {
+                    setSelectedCoinWallet(coin);
+                  }}
+                  style={{ backgroundColor: selectedCoinWallet === coin && "#ffa600" }}
+                  className="coin"
+                  key={index}
+                >
+                  {coin}
+                </div>
+              );
+            })}
+          </div>
           {buttonData
             .filter(button => button.name === "Get user wallet")
             .map((button, index) => {

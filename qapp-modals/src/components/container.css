@@ -115,6 +115,7 @@
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
   outline: none;
+  user-select: none;
 }
 
 .coin:hover {
