@@ -10,6 +10,7 @@ function App() {
   const [amount, setAmount] = useState(0);
   const [selectedCoin, setSelectedCoin] = useState("QORT");
   const [selectedCoinWallet, setSelectedCoinWallet] = useState("QORT");
+  const [selectedCoinWalletInfo, setSelectedCoinWalletInfo] = useState("BTC");
   const [messageReceiver, setMessageReceiver] = useState("");
   const [message, setMessage] = useState("");
   const [name, setName] = useState('')
@@ -356,6 +357,21 @@ function App() {
         }
       },
     },
+    {
+      name: "Get user wallet info",
+      bgColor: "#2600ffdf",
+      onClick: async function getUserWalletInfo() {
+        try {
+          const walletInfo = await qortalRequest({
+            action: "GET_USER_WALLET_INFO",
+            coin: selectedCoinWalletInfo
+          });
+          console.log({ walletInfo })
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
   ];
 
   return (
@@ -381,6 +397,8 @@ function App() {
         setSelectedCoin={setSelectedCoin}
         selectedCoinWallet={selectedCoinWallet}
         setSelectedCoinWallet={setSelectedCoinWallet}
+        selectedCoinWalletInfo={selectedCoinWalletInfo}
+        setSelectedCoinWalletInfo={setSelectedCoinWalletInfo}
         name={name}
         setName={setName}
         service={service}

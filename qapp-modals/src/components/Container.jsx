@@ -11,6 +11,8 @@ const Container = ({
   setSelectedCoin,
   selectedCoinWallet,
   setSelectedCoinWallet,
+  selectedCoinWalletInfo,
+  setSelectedCoinWalletInfo,
   message,
   setMessage,
   messageReceiver,
@@ -38,6 +40,7 @@ const Container = ({
   buttonData
 }) => {
   const [coinType] = useState(["QORT", "LTC", "DOGE", "RVN", "ARRR"]);
+  const [coinTypeWalletInfo] = useState(["BTC", "LTC", "DOGE", "RVN"]);
 
   return (
     <div className="wrapper">
@@ -167,6 +170,33 @@ const Container = ({
               })
             }
           </div>
+        </div>
+        <div className="card">
+          <div className="row">Get user wallet info</div>
+          <div className="coin-type-row">
+            {coinTypeWalletInfo.map((coin, index) => {
+              return (
+                <div
+                  onClick={() => {
+                    setSelectedCoinWalletInfo(coin);
+                  }}
+                  style={{ backgroundColor: selectedCoinWalletInfo === coin && "#2600ffdf" }}
+                  className="coin"
+                  key={index}
+                >
+                  {coin}
+                </div>
+              );
+            })}
+          </div>
+          {buttonData
+            .filter(button => button.name === "Get user wallet info")
+            .map((button, index) => {
+              return (
+                <Button key={index} bgColor={button.bgColor} onClick={button.onClick} name={button.name} />
+              )
+            })
+          }
         </div>
       </div>
       <div className="main-row">
