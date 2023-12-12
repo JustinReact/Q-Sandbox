@@ -362,10 +362,10 @@ function App() {
       bgColor: "#2600ffdf",
       onClick: async function getUserWalletInfo() {
         try {
-          const walletInfo = await qortalRequest({
+          const walletInfo = await qortalRequestWithTimeout({
             action: "GET_USER_WALLET_INFO",
             coin: selectedCoinWalletInfo
-          });
+          }, 15000);
           console.log({ walletInfo })
         } catch (error) {
           console.error(error)
