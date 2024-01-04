@@ -335,6 +335,19 @@ const Container = ({
             }
           </div>
         </div>
+        <div className="card">
+          <div className="row">Encrypt data</div>
+          <div className="message-row">
+            {buttonData
+              .filter(button => button.name === "Encrypt data")
+              .map((button, index) => {
+                return (
+                  <Button key={index} bgColor={button.bgColor} onClick={button.onClick} name={button.name} />
+                )
+              })
+            }
+          </div>
+        </div>
       </div>
       <div className="main-row">
         <div className="card">

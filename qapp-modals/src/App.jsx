@@ -358,6 +358,22 @@ function App() {
       },
     },
     {
+      name: "Encrypt data",
+      bgColor: "#30dfebdf",
+      onClick: async function encryptData() {
+        const file = new File(["content"], "filename.txt", {type: "text/plain"});
+        try {
+          const encryptedFile = await qortalRequest({
+            action: "ENCRYPT_DATA",
+            file,
+          });
+          console.log({ encryptedFile })
+        } catch (error) {
+          console.error(error)
+        }
+      },
+    },
+    {
       name: "Get user wallet info",
       bgColor: "#2600ffdf",
       onClick: async function getUserWalletInfo() {
