@@ -29,7 +29,7 @@
    Start the sandbox environment:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
 4. **Access the Qortal API**:
