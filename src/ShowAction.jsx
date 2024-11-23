@@ -3,6 +3,8 @@ import React, { useMemo } from 'react'
 import CloseIcon from "@mui/icons-material/Close";
 import { VOTE_ON_POLL } from './actions/VOTE_ON_POLL';
 import { CREATE_POLL } from './actions/CREATE_POLL';
+import { PUBLISH_QDN_RESOURCE } from './actions/PUBLISH_QDN_RESOURCE';
+import { PUBLISH_MULTIPLE_QDN_RESOURCES } from './actions/PUBLISH_MULTIPLE_QDN_RESOURCES';
 
 const Transition = React.forwardRef(function Transition(
     props,
@@ -21,6 +23,10 @@ export const ShowAction = ({selectedAction, handleClose, myAddress}) => {
               return VOTE_ON_POLL
               case 'CREATE_POLL':
                 return CREATE_POLL
+                case 'PUBLISH_QDN_RESOURCE':
+                  return PUBLISH_QDN_RESOURCE
+              case 'PUBLISH_MULTIPLE_QDN_RESOURCES':
+                return PUBLISH_MULTIPLE_QDN_RESOURCES
             default:
               return EmptyActionComponent
           }

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Box, CircularProgress, styled } from "@mui/material";
+import { Box, ButtonBase, CircularProgress, MenuItem, Select, styled } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
 import beautify from "js-beautify";
 import Button from "../components/Button";
+import { useDropzone } from "react-dropzone";
+import { services } from "../constants";
 
 export const Label = styled("label")(
   ({ theme }) => `
@@ -22,16 +24,26 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const VOTE_ON_POLL = () => {
+export const PUBLISH_QDN_RESOURCE = () => {
   const [requestData, setRequestData] = useState({
-    pollName: "myPoll",
-    optionIndex: 1,
+    service: "DOCUMENT",
+    identifier: "test-identifier",
+  });
+
+  const { getRootProps, getInputProps } = useDropzone({
+    maxFiles: 1,
+    onDrop: async (acceptedFiles) => {
+      const fileSelected = acceptedFiles[0];
+      if (fileSelected) {
+        setFile(fileSelected);
+      }
+    },
   });
   const [isLoading, setIsLoading] = useState(false);
-
+  const [file, setFile] = useState(null);
   const [responseData, setResponseData] = useState(
     formatResponse(`{
-    "type": "VOTE_ON_POLL",
+    "type": "PUBLISH_QDN_RESOURCE",
     "timestamp": 1697286687406,
     "reference": "3jU9WpEPAvu9iL3cMfVd2AUmn9AijJRzkGCxVtXfpuUFZubM8AFDcbk5XA9m5AhPfsbMDFkSDzPJnkjeLA5GA59E",
     "fee": "0.01000000",
@@ -45,22 +57,25 @@ export const VOTE_ON_POLL = () => {
   }`)
   );
 
-
   const codePollName = `
 await qortalRequest({
-  action: "VOTE_ON_POLL",
-  pollName: "${requestData?.pollName}",
-  optionIndex: ${requestData?.optionIndex},
+  action: "PUBLISH_QDN_RESOURCE",
+  service: "${requestData?.service}",
+  identifier: "${requestData?.identifier}", // optional 
+  data64: ${requestData?.data64 ? `"${requestData?.data64}"` : "empty"}, // base64 string. Remove this param if you are putting in a FILE object 
+  file: ${file ? 'FILE OBJECT' : "empty"} // File Object. Remove this param if you are putting in a base64 string.
 });
 `.trim();
 
   const executeQortalRequest = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       let account = await qortalRequest({
-        action: "VOTE_ON_POLL",
-        pollName: requestData?.pollName,
-        optionIndex: requestData?.optionIndex,
+        action: "PUBLISH_QDN_RESOURCE",
+        service: requestData?.service,
+        identifier: requestData?.identifier,
+        file,
+        data64: requestData?.data64
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -68,7 +83,7 @@ await qortalRequest({
       setResponseData(formatResponse(JSON.stringify(error)));
       console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
   const handleChange = (e) => {
@@ -79,6 +94,7 @@ await qortalRequest({
       };
     });
   };
+
   return (
     <div
       style={{
@@ -87,26 +103,66 @@ await qortalRequest({
     >
       <div className="card">
         <div className="message-row">
-          <Label>Poll name</Label>
+          <Label>Service</Label>
+          <Select
+            size="small"
+            labelId="label-select-category"
+            id="id-select-category"
+            value={requestData?.service}
+            displayEmpty
+            onChange={(e) => setRequestData((prev)=> {
+              return {
+                ...prev,
+                service: e.target.value
+              }
+            })}
+            sx={{
+              width: '300px'
+            }}
+          >
+            <MenuItem value={0}>
+              <em>No service selected</em>
+            </MenuItem>
+            {services?.map((service) => {
+              return (
+                <MenuItem key={service.name} value={service.name}>
+                  {`${service.name} - max ${service.sizeLabel}`} 
+                </MenuItem>
+              );
+            })}
+          </Select>
+          <Label>Index option</Label>
           <input
             type="text"
             className="custom-input"
-            placeholder="Poll name"
-            value={requestData.pollName}
-            name="pollName"
+            placeholder="identifier"
+            value={requestData.identifier}
+            name="identifier"
             onChange={handleChange}
           />
-          <Label>Index option</Label>
+          <button {...getRootProps()} style={{
+            width: '150px'
+          }}>
+            <input {...getInputProps()} />
+            Select file
+          </button>
+          {file && (
+            <ButtonBase sx={{
+              width: '150px'
+            }} onClick={()=> {
+              setFile(null)
+            }}>Remove file</ButtonBase>
+          )}
+          <Label>Base64 string</Label>
           <input
-            type="number"
+            type="text"
             className="custom-input"
-            placeholder="Index option"
-            value={requestData.optionIndex}
-            name="optionIndex"
-            onChange={handleChange}
-          />
+            name="data64"
+          value={requestData?.data64}
+          onChange={handleChange}
+        />
           <Button
-            name="Vote"
+            name="Publish"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
@@ -143,7 +199,10 @@ await qortalRequest({
               <CircularProgress />
             </Box>
           ) : (
-          <DisplayCodeResponse codeBlock={responseData} language="javascript" />
+            <DisplayCodeResponse
+              codeBlock={responseData}
+              language="javascript"
+            />
           )}
         </Box>
       </Box>

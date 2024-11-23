@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, styled } from "@mui/material";
+import { Box, CircularProgress, styled } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
@@ -24,6 +24,8 @@ export const formatResponse = (code) => {
   });
 };
 export const CREATE_POLL = ({myAddress}) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [requestData, setRequestData] = useState({
     pollName: "A test poll 3",
     pollDescription: "Test description",
@@ -71,6 +73,7 @@ await qortalRequest({
 
   const executeQortalRequest = async () => {
     try {
+      setIsLoading(true)
       let account = await qortalRequest({
         action: "CREATE_POLL",
         pollName: requestData?.pollName,
@@ -83,6 +86,8 @@ await qortalRequest({
     } catch (error) {
       setResponseData(formatResponse(JSON.stringify(error)));
       console.error(error);
+    } finally {
+      setIsLoading(false)
     }
   };
   const handleChange = (e) => {
@@ -164,7 +169,19 @@ await qortalRequest({
           }}
         >
           <h3>Response</h3>
-          <DisplayCodeResponse codeBlock={responseData} language="javascript" />
+          {isLoading ? (
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
+            <DisplayCodeResponse codeBlock={responseData} language="javascript" />
+          )}
         </Box>
       </Box>
     </div>
