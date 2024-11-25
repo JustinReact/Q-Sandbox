@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { Box, ButtonBase, CircularProgress, MenuItem, Select, styled } from "@mui/material";
+import { Box, CircularProgress, styled } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
 import beautify from "js-beautify";
 import Button from "../components/Button";
-import { useDropzone } from "react-dropzone";
-import { services } from "../constants";
 
 export const Label = styled("label")(
   ({ theme }) => `
@@ -24,26 +22,15 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const PUBLISH_QDN_RESOURCE = () => {
+export const OPEN_NEW_TAB = () => {
   const [requestData, setRequestData] = useState({
-    service: "DOCUMENT",
-    identifier: "test-identifier",
-  });
-
-  const { getRootProps, getInputProps } = useDropzone({
-    maxFiles: 1,
-    onDrop: async (acceptedFiles) => {
-      const fileSelected = acceptedFiles[0];
-      if (fileSelected) {
-        setFile(fileSelected);
-      }
-    },
+    qortalLink: 'qortal://APP/Q-Tube'
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [file, setFile] = useState(null);
+
   const [responseData, setResponseData] = useState(
     formatResponse(`{
-    "type": "PUBLISH_QDN_RESOURCE",
+    "type": "OPEN_NEW_TAB",
     "timestamp": 1697286687406,
     "reference": "3jU9WpEPAvu9iL3cMfVd2AUmn9AijJRzkGCxVtXfpuUFZubM8AFDcbk5XA9m5AhPfsbMDFkSDzPJnkjeLA5GA59E",
     "fee": "0.01000000",
@@ -57,25 +44,20 @@ export const PUBLISH_QDN_RESOURCE = () => {
   }`)
   );
 
+
   const codePollName = `
 await qortalRequest({
-  action: "PUBLISH_QDN_RESOURCE",
-  service: "${requestData?.service}",
-  identifier: "${requestData?.identifier}", // optional 
-  data64: ${requestData?.data64 ? `"${requestData?.data64}"` : "empty"}, // base64 string. Remove this param if you are putting in a FILE object 
-  file: ${file ? 'FILE OBJECT' : "empty"} // File Object. Remove this param if you are putting in a base64 string.
+  action: "OPEN_NEW_TAB",
+  qortalLink: "${requestData?.qortalLink}",
 });
 `.trim();
 
   const executeQortalRequest = async () => {
     try {
-      setIsLoading(true);
+      setIsLoading(true)
       let account = await qortalRequest({
-        action: "PUBLISH_QDN_RESOURCE",
-        service: requestData?.service,
-        identifier: requestData?.identifier,
-        file,
-        data64: requestData?.data64
+        action: "OPEN_NEW_TAB",
+        qortalLink: requestData?.qortalLink,
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -83,7 +65,7 @@ await qortalRequest({
       setResponseData(formatResponse(JSON.stringify(error)));
       console.error(error);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   };
   const handleChange = (e) => {
@@ -94,7 +76,6 @@ await qortalRequest({
       };
     });
   };
-
   return (
     <div
       style={{
@@ -103,66 +84,18 @@ await qortalRequest({
     >
       <div className="card">
         <div className="message-row">
-          <Label>Service</Label>
-          <Select
-            size="small"
-            labelId="label-select-category"
-            id="id-select-category"
-            value={requestData?.service}
-            displayEmpty
-            onChange={(e) => setRequestData((prev)=> {
-              return {
-                ...prev,
-                service: e.target.value
-              }
-            })}
-            sx={{
-              width: '300px'
-            }}
-          >
-            <MenuItem value={0}>
-              <em>No service selected</em>
-            </MenuItem>
-            {services?.map((service) => {
-              return (
-                <MenuItem key={service.name} value={service.name}>
-                  {`${service.name} - max ${service.sizeLabel}`} 
-                </MenuItem>
-              );
-            })}
-          </Select>
-          <Label>Identifier</Label>
+          <Label>Qortal Link</Label>
           <input
             type="text"
             className="custom-input"
-            placeholder="identifier"
-            value={requestData.identifier}
-            name="identifier"
+            placeholder="Qortal Link"
+            value={requestData.qortalLink}
+            name="qortalLink"
             onChange={handleChange}
           />
-          <button {...getRootProps()} style={{
-            width: '150px'
-          }}>
-            <input {...getInputProps()} />
-            Select file
-          </button>
-          {file && (
-            <ButtonBase sx={{
-              width: '150px'
-            }} onClick={()=> {
-              setFile(null)
-            }}>Remove file</ButtonBase>
-          )}
-          <Label>Base64 string</Label>
-          <input
-            type="text"
-            className="custom-input"
-            name="data64"
-          value={requestData?.data64}
-          onChange={handleChange}
-        />
+         
           <Button
-            name="Publish"
+            name="Open tab"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
@@ -199,10 +132,7 @@ await qortalRequest({
               <CircularProgress />
             </Box>
           ) : (
-            <DisplayCodeResponse
-              codeBlock={responseData}
-              language="javascript"
-            />
+          <DisplayCodeResponse codeBlock={responseData} language="javascript" />
           )}
         </Box>
       </Box>

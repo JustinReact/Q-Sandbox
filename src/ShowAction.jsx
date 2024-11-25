@@ -1,47 +1,52 @@
-import { AppBar, Box, Dialog, IconButton, Slide, Toolbar, Typography } from '@mui/material';
-import React, { useMemo } from 'react'
+import {
+  AppBar,
+  Box,
+  Dialog,
+  IconButton,
+  Slide,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import React, { useMemo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { VOTE_ON_POLL } from './actions/VOTE_ON_POLL';
-import { CREATE_POLL } from './actions/CREATE_POLL';
-import { PUBLISH_QDN_RESOURCE } from './actions/PUBLISH_QDN_RESOURCE';
-import { PUBLISH_MULTIPLE_QDN_RESOURCES } from './actions/PUBLISH_MULTIPLE_QDN_RESOURCES';
+import { VOTE_ON_POLL } from "./actions/VOTE_ON_POLL";
+import { CREATE_POLL } from "./actions/CREATE_POLL";
+import { PUBLISH_QDN_RESOURCE } from "./actions/PUBLISH_QDN_RESOURCE";
+import { PUBLISH_MULTIPLE_QDN_RESOURCES } from "./actions/PUBLISH_MULTIPLE_QDN_RESOURCES";
+import { OPEN_NEW_TAB } from "./actions/OPEN_NEW_TAB";
 
-const Transition = React.forwardRef(function Transition(
-    props,
-    ref
-  ) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
+export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
+  const ActionComponent = useMemo(() => {
+    switch (selectedAction?.action) {
+      case "VOTE_ON_POLL":
+        return VOTE_ON_POLL;
+      case "CREATE_POLL":
+        return CREATE_POLL;
+      case "PUBLISH_QDN_RESOURCE":
+        return PUBLISH_QDN_RESOURCE;
+      case "PUBLISH_MULTIPLE_QDN_RESOURCES":
+        return PUBLISH_MULTIPLE_QDN_RESOURCES;
+      case "OPEN_NEW_TAB":
+        return OPEN_NEW_TAB;
+      default:
+        return EmptyActionComponent;
+    }
+  }, [selectedAction?.action]);
 
-
-export const ShowAction = ({selectedAction, handleClose, myAddress}) => {
-
-    const ActionComponent = useMemo(()=> {
-        switch(selectedAction?.action) {
-            case 'VOTE_ON_POLL':
-              return VOTE_ON_POLL
-              case 'CREATE_POLL':
-                return CREATE_POLL
-                case 'PUBLISH_QDN_RESOURCE':
-                  return PUBLISH_QDN_RESOURCE
-              case 'PUBLISH_MULTIPLE_QDN_RESOURCES':
-                return PUBLISH_MULTIPLE_QDN_RESOURCES
-            default:
-              return EmptyActionComponent
-          }
-    }, [selectedAction?.action])
- 
-    if(!selectedAction) return null
+  if (!selectedAction) return null;
   return (
     <div>
-         <Dialog
+      <Dialog
         fullScreen
         open={!!selectedAction}
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative", bgcolor: "white", color: 'black' }}>
+        <AppBar sx={{ position: "relative", bgcolor: "white", color: "black" }}>
           <Toolbar>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               {selectedAction?.action}
@@ -51,9 +56,8 @@ export const ShowAction = ({selectedAction, handleClose, myAddress}) => {
               color="inherit"
               onClick={handleClose}
               aria-label="close"
-
             >
-              <CloseIcon  />
+              <CloseIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -63,12 +67,7 @@ export const ShowAction = ({selectedAction, handleClose, myAddress}) => {
             overflowY: "auto",
           }}
         >
-            <ActionComponent myAddress={myAddress} />
-            
-
-      
-
-        
+          <ActionComponent myAddress={myAddress} />
         </Box>
         {/* <LoadingSnackbar
           open={false}
@@ -78,10 +77,9 @@ export const ShowAction = ({selectedAction, handleClose, myAddress}) => {
         /> */}
       </Dialog>
     </div>
-  )
-}
+  );
+};
 
-
-const EmptyActionComponent = ()=> {
-    return null
-}
+const EmptyActionComponent = () => {
+  return null;
+};

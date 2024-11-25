@@ -198,7 +198,7 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  SET_TAB: {
+  OPEN_NEW_TAB: {
     category: "System",
     isTx: false,
     requiresApproval: false,
