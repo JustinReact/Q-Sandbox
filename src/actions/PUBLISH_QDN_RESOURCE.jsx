@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Box, ButtonBase, CircularProgress, MenuItem, Select, styled } from "@mui/material";
+import React, { useMemo, useState } from "react";
+import { Box, ButtonBase, Card, Checkbox, CircularProgress, MenuItem, Select, Typography, styled } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
@@ -41,6 +41,7 @@ export const PUBLISH_QDN_RESOURCE = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);
+  const [isEncrypted, setIsEncrypted] = useState(false)
   const [responseData, setResponseData] = useState(
     formatResponse(`{
     "type": "PUBLISH_QDN_RESOURCE",
@@ -57,15 +58,28 @@ export const PUBLISH_QDN_RESOURCE = () => {
   }`)
   );
 
-  const codePollName = `
-await qortalRequest({
-  action: "PUBLISH_QDN_RESOURCE",
-  service: "${requestData?.service}",
-  identifier: "${requestData?.identifier}", // optional 
-  data64: ${requestData?.data64 ? `"${requestData?.data64}"` : "empty"}, // base64 string. Remove this param if you are putting in a FILE object 
-  file: ${file ? 'FILE OBJECT' : "empty"} // File Object. Remove this param if you are putting in a base64 string.
-});
-`.trim();
+//   const codePollName = `
+// await qortalRequest({
+//   action: "PUBLISH_QDN_RESOURCE",
+//   service: "${requestData?.service}",
+//   identifier: "${requestData?.identifier}", // optional 
+//   data64: ${requestData?.data64 ? `"${requestData?.data64}"` : "empty"}, // base64 string. Remove this param if you are putting in a FILE object 
+//   file: ${file ? 'FILE OBJECT' : "empty"} // File Object. Remove this param if you are putting in a base64 string.
+// });
+// `.trim();
+
+const codePollName = useMemo(()=> {
+  return `
+  await qortalRequest({
+    action: "PUBLISH_QDN_RESOURCE",
+    service: "${requestData?.service}",
+    identifier: "${requestData?.identifier}", // optional 
+    data64: ${requestData?.data64 ? `"${requestData?.data64}"` : "empty"}, // base64 string. Remove this param if you are putting in a FILE object 
+    file: ${file ? 'FILE OBJECT' : "empty"}, // File Object. Remove this param if you are putting in a base64 string.
+    encrypted: ${isEncrypted === true ? true : 'empty' }
+  });
+  `.trim();
+}, [requestData, file, isEncrypted])
 
   const executeQortalRequest = async () => {
     try {
@@ -101,7 +115,7 @@ await qortalRequest({
         padding: "10px",
       }}
     >
-      <div className="card">
+      <Card>
         <div className="message-row">
           <Label>Service</Label>
           <Select
@@ -161,13 +175,45 @@ await qortalRequest({
           value={requestData?.data64}
           onChange={handleChange}
         />
+        <Box
+              sx={{
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+              }}
+            >
+        <Checkbox
+                onChange={(e) => {
+                  setIsEncrypted(e.target.checked);
+                }}
+                value={isEncrypted}
+                edge="start"
+                tabIndex={-1}
+                disableRipple
+                sx={{
+                  "&.Mui-checked": {
+                    color: "black", // Customize the color when checked
+                  },
+                  "& .MuiSvgIcon-root": {
+                    color: "black",
+                  },
+                }}
+              />
+               <Typography
+                sx={{
+                  fontSize: "14px",
+                }}
+              >
+                Encrypt data
+              </Typography>
+              </Box>
           <Button
             name="Publish"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
         </div>
-      </div>
+      </Card>
       <Box
         sx={{
           display: "flex",

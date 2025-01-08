@@ -1,34 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import { MenuItem, Select, Tooltip } from "@mui/material";
+import { MenuItem, Select, Tooltip, useTheme } from "@mui/material";
 import "./App.css";
-import Container from "./components/Container";
 import QSandboxLogo from "./assets/images/QSandboxLogo.png";
 import InfoIcon from "@mui/icons-material/Info";
 import { categories } from "./constants";
 import { ShowCategories } from "./ShowCategories";
 import { ShowAction } from "./ShowAction";
+import { DarkModeIcon, LightModeIcon, LogoContainer, ThemeSelectRow } from "./components/Common-styles";
+import { themeAtom } from "./atoms/global";
+import { useRecoilState } from "recoil";
 
 function App() {
-  const [destinationAddress, setDestinationAddress] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [selectedCoin, setSelectedCoin] = useState("QORT");
-  const [selectedCoinWallet, setSelectedCoinWallet] = useState("QORT");
-  const [selectedCoinWalletInfo, setSelectedCoinWalletInfo] = useState("BTC");
-  const [messageReceiver, setMessageReceiver] = useState("");
-  const [message, setMessage] = useState("");
-  const [name, setName] = useState('')
-  const [userName, setUserName] = useState('')
-  const [service, setService] = useState('')
-  const [base64, setBase64] = useState('')
-  const [identifier, setIdentifier] = useState('')
-  const [groupId, setGroupId] = useState('')
-  const [getProfileProperty, setGetProfileProperty] = useState('')
-  const [setProfilePropertyName, setSetProfilePropertyName] = useState('')
-  const [setProfilePropertyObjectKey, setSetProfilePropertyObjectKey] = useState('')
-  const [setProfilePropertyObjectValue, setSetProfilePropertyObjectValue] = useState('')
   const [selectedCategory, setSelectedCategory] = useState(0)
   const [selectedAction , setSelectedAction] = useState(null)
   const [myAddress, setMyaddress] = useState('')
+    const [_, setTheme] = useRecoilState(themeAtom)
+    const theme = useTheme();
 
   const askForAccountInformation = useCallback(async () => {
     try {
@@ -56,6 +43,24 @@ function App() {
         <Tooltip className="tooltip" title="Thanks for using Q-Sandbox! Please contact A-Test or Bester by Q-Mail if something does not seem to not work as expected. Thanks and happy coding!" arrow placement="bottom">
           <InfoIcon className="info-icon" />
         </Tooltip>
+        <ThemeSelectRow>
+        {theme.palette.mode === "dark" ? (
+          <LightModeIcon
+            onClickFunc={() => setTheme("light")}
+            color={theme.palette.text.primary}
+            height="22"
+            width="22"
+          />
+        ) : (
+          <DarkModeIcon
+            onClickFunc={() => setTheme("dark")}
+            color={theme.palette.text.primary}
+            height="22"
+            width="22"
+          />
+        )}
+        
+      </ThemeSelectRow>
         <div className="logo-container">
           <img className="logo" src={QSandboxLogo} alt="q-sandbox-logo" />
         </div>

@@ -46,7 +46,7 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative", bgcolor: "white", color: "black" }}>
+        <AppBar sx={{ position: "relative" }}>
           <Toolbar>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               {selectedAction?.action}

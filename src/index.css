@@ -29,6 +29,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --color3: #535bf2;
 }
 
 a {
@@ -47,7 +48,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #ebebf1;
+
 }
 
 body::-webkit-scrollbar-track {

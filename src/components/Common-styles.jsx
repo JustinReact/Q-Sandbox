@@ -2,6 +2,8 @@ import { styled } from "@mui/system";
 import { Box, Typography } from "@mui/material";
 import { QortalSVG } from "./QortalSVG";
 import ContentPasteTwoToneIcon from "@mui/icons-material/ContentPasteTwoTone";
+import {LightModeSVG} from '../assets/images/LightModeSVG'
+import {DarkModeSVG} from '../assets/images/DarkModeSVG'
 
 export const MainBox = styled(Box)(({ theme }) => ({
   position: "relative",
@@ -212,3 +214,70 @@ export const DisplayCodeResponsePre = styled("pre")(({ theme }) => ({
     backgroundColor: theme.palette.mode === "light" ? "#b7bcc4" : "#40455f"
   }
 }));
+
+export const ThemeSelectRow = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  flexBasis: 0,
+  height: '100%',
+});
+
+export const LightModeIcon = styled(LightModeSVG)(({ theme }) => ({
+  transition: 'all 0.1s ease-in-out',
+  '&:hover': {
+    cursor: 'pointer',
+    filter:
+      theme.palette.mode === 'dark'
+        ? 'drop-shadow(0px 4px 6px rgba(255, 255, 255, 0.6))'
+        : 'drop-shadow(0px 4px 6px rgba(99, 88, 88, 0.1))',
+  },
+}));
+
+export const DarkModeIcon = styled(DarkModeSVG)(({ theme }) => ({
+  transition: 'all 0.1s ease-in-out',
+  '&:hover': {
+    cursor: 'pointer',
+    filter:
+      theme.palette.mode === 'dark'
+        ? 'drop-shadow(0px 4px 6px rgba(255, 255, 255, 0.6))'
+        : 'drop-shadow(0px 4px 6px rgba(99, 88, 88, 0.1))',
+  },
+}));
+
+export const LogoContainer = styled('img')({
+  width: '12%',
+  minWidth: '52px',
+  height: 'auto',
+  padding: '2px 0',
+  userSelect: 'none',
+  objectFit: 'contain',
+  cursor: 'pointer',
+});
+
+export const StyledIcon = styled("svg")(({ theme }) => ({
+  transition: "all 0.1s ease-in-out",
+  "&:hover": {
+    cursor: "pointer",
+    filter: theme.palette.mode === "dark" ? "drop-shadow(0px 4px 6px rgba(255, 255, 255, 0.6))" : "drop-shadow(0px 4px 6px rgba(99, 88, 88, 0.1))"
+  }
+}));
+
+export const CustomInput = styled("input")(({ theme }) => {
+  return `
+  width: 320px;
+  outline: 0;
+  border-width: 0 0 2px;
+  border-color: #5a71b1;
+  padding: 10px;
+  color: ${theme.palette.mode === "dark" ? 'white !important' : 'black' };
+  background-color: ${theme.palette.mode === "dark" ? 'unset' : 'white' };
+  font-family: Raleway, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.3px;
+  font-size: 16px;
+  color: black;
+  border-radius: 3px;
+  
+  `
+})
