@@ -251,3 +251,28 @@ export const services = [
   { name: "MAIL", sizeInBytes: 1 * 1024 * 1024, sizeLabel: "1 MB" },
   { name: "MESSAGE", sizeInBytes: 1 * 1024 * 1024, sizeLabel: "1 MB" }
 ];
+
+
+export const coins = [
+  {
+    name: "QORT"
+  },
+  {
+    name: "BTC"
+  },
+  {
+    name: "LTC"
+  },
+  {
+    name: "DOGE"
+  },
+  {
+    name: "DGB"
+  },
+  {
+    name: "RVN"
+  },
+  {
+    name: "ARRR"
+  }
+]

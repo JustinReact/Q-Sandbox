@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import { Box, CircularProgress, styled } from "@mui/material";
+import { Box, Card, CircularProgress, styled, Typography } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
 import beautify from "js-beautify";
 import Button from "../components/Button";
+import { Spacer } from "../components/Spacer";
+import { CustomInput } from "../components/Common-styles";
+import { FieldExplanation, GeneralExplanation } from "../components/QRComponents";
 
 export const Label = styled("label")(
   ({ theme }) => `
@@ -24,7 +27,7 @@ export const formatResponse = (code) => {
 };
 export const OPEN_NEW_TAB = () => {
   const [requestData, setRequestData] = useState({
-    qortalLink: 'qortal://APP/Q-Tube'
+    qortalLink: "qortal://APP/Q-Tube",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -44,7 +47,6 @@ export const OPEN_NEW_TAB = () => {
   }`)
   );
 
-
   const codePollName = `
 await qortalRequest({
   action: "OPEN_NEW_TAB",
@@ -52,9 +54,16 @@ await qortalRequest({
 });
 `.trim();
 
+  const tsInterface = `
+interface OpenNewTabRequest {
+  action: string;
+  qortalLink: string;
+}
+`.trim();
+
   const executeQortalRequest = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       let account = await qortalRequest({
         action: "OPEN_NEW_TAB",
         qortalLink: requestData?.qortalLink,
@@ -65,7 +74,7 @@ await qortalRequest({
       setResponseData(formatResponse(JSON.stringify(error)));
       console.error(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
   const handleChange = (e) => {
@@ -82,25 +91,50 @@ await qortalRequest({
         padding: "10px",
       }}
     >
-      <div className="card">
+      <GeneralExplanation>
+        <Typography variant="body1">
+        Opens a new tab with the specified URL inside the Qortal UIs
+
+        </Typography>
+      </GeneralExplanation>
+
+      <Spacer height="20px" />
+
+      <Card>
+        <Typography variant="h5">Fields</Typography>
+        <Spacer height="5px" />
+
         <div className="message-row">
-          <Label>Qortal Link</Label>
-          <input
-            type="text"
-            className="custom-input"
-            placeholder="Qortal Link"
-            value={requestData.qortalLink}
-            name="qortalLink"
-            onChange={handleChange}
-          />
-         
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">Qortal Link</Typography>
+            <CustomInput
+              type="text"
+              placeholder="Qortal Link"
+              value={requestData.qortalLink}
+              name="qortalLink"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Required field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>Enter the existing name of the poll</Typography>
+          </Box>
+            <Spacer height="20px" />
           <Button
             name="Open tab"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
         </div>
-      </div>
+      </Card>
       <Box
         sx={{
           display: "flex",
@@ -114,6 +148,9 @@ await qortalRequest({
         >
           <h3>Request</h3>
           <DisplayCode codeBlock={codePollName} language="javascript" />
+          <Spacer height="10px" />
+          <h3>TS interface</h3>
+          <DisplayCode codeBlock={tsInterface} language="javascript" />
         </Box>
         <Box
           sx={{
@@ -132,7 +169,10 @@ await qortalRequest({
               <CircularProgress />
             </Box>
           ) : (
-          <DisplayCodeResponse codeBlock={responseData} language="javascript" />
+            <DisplayCodeResponse
+              codeBlock={responseData}
+              language="javascript"
+            />
           )}
         </Box>
       </Box>

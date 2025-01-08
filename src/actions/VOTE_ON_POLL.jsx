@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Box, Card, CircularProgress, styled, Typography } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
-import InfoIcon from "@mui/icons-material/Info";
 import beautify from "js-beautify";
 import Button from "../components/Button";
 import { Spacer } from "../components/Spacer";

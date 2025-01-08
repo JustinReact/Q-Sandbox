@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Card, CircularProgress, styled, Typography } from "@mui/material";
+import { Box, Card, CircularProgress, MenuItem, Select, styled, Typography } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
@@ -12,6 +12,7 @@ import {
 } from "../components/QRComponents";
 import { Spacer } from "../components/Spacer";
 import { Code, CustomInput } from "../components/Common-styles";
+import { coins } from "../constants";
 
 export const Label = styled("label")(
   ({ theme }) => `
@@ -29,59 +30,45 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const CREATE_POLL = ({ myAddress }) => {
+export const SEND_COIN = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    pollName: "A test poll 3",
-    pollDescription: "Test description",
-    pollOptions: ["option1", "option2", "option3"],
-    pollOwnerAddress: myAddress,
+    coin: "QORT",
+    destinationAddress: "enter here qortal address",
+    amount: 1,
   });
   const [responseData, setResponseData] = useState(
     formatResponse(`{
-      "type": "CREATE_POLL",
-      "timestamp": 1697285826221,
-      "reference": "3Svgda6JMSoKW8xQreHRWwXfzWUqCG7NXae5bJDcezbGgK2km8VVbRGZXdEA3Q6LSDvG6hfk1xjXBawpBgxSAa2B",
-      "fee": "0.01000000",
-      "signature": "3jU9WpEPAvu9iL3cMfVd2AUmn9AijJRzkGCxVtXfpuUFZubM8AFDcbk5XA9m5AhPfsbMDFkSDzPJnkjeLA5GA59E",
-      "txGroupId": 0,
-      "approvalStatus": "NOT_REQUIRED",
-      "creatorAddress": "Qhxphh7g5iNtxAyLLpPMZzp4X85yf2tVam",
-      "owner": "QbpZL12Lh7K2y6xPZure4pix5jH6ViVrF2",
-      "pollName": "A test poll 3",
-      "description": "test description",
-      "pollOptions": [
-          {
-              "optionName": "option1"
-          },
-          {
-              "optionName": "option2"
-          },
-          {
-              "optionName": "option3"
-          }
-      ]
-    }`)
+       amount: '1.00000000'
+  approvalStatus: 'NOT_REQUIRED'
+  creatorAddress: 'QMjCNsctvWLoDdPSRpHn6TF2j96iDr9YWm'
+  fee: '0.00100000'
+  recipient: 'Qi3x7zVhN17mcYm9JTrEYaFihmETSZTzPD'
+  reference: '26xJXTxcdXhFUYFkyZ7qKkj94RtaLBevcyQgCwK3W5xt7JkGPrCbvNgdC46CmJA65cjTCXMykwiyYJfVsPdsU1fS'
+  senderPublicKey: 'Bjo1iUHJXbCb4LKabmE6KWNL5jSgCK36ypasoDgJG53U'
+  signature: '4j2iPN5Xwgocs8Z32JB4UB63G87qS43kPyEwFmQMLvWBXtrSQwAfyx8S9CqQvbregnstXFKqXpkPT2dNdAscriT4'
+  timestamp: 1684321310522
+  txGroupId: 0
+  type: 'PAYMENT'
+  `)
   );
 
   const codePollName = `
 await qortalRequest({
-  action: "CREATE_POLL",
-  pollName: "${requestData?.pollName}",
-  pollDescription: "${requestData?.pollDescription}",
-  pollOptions: ${JSON.stringify(requestData.pollOptions)},
-  pollOwnerAddress: "${requestData?.pollOwnerAddress}"
+  action: "SEND_COIN",
+  coin: "${requestData?.coin}",
+  destinationAddress: "${requestData?.destinationAddress}",
+  amount: ${JSON.stringify(requestData.amount)},
 });
 `.trim();
 
   const tsInterface = `
-interface CreatePollRequest {
+interface SendCoinRequest {
   action: string;
-  pollName: string;
-  pollDescription: string;
-  pollOptions: string[];
-  pollOwnerAddress: string;
+  coin: string;
+  destinationAddress: string;
+  amount: number;
 }
 `.trim();
 
@@ -89,11 +76,10 @@ interface CreatePollRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "CREATE_POLL",
-        pollName: requestData?.pollName,
-        pollDescription: requestData?.pollDescription,
-        pollOptions: requestData.pollOptions,
-        pollOwnerAddress: requestData?.pollOwnerAddress,
+        action: "SEND_COIN",
+        coin: requestData?.coin,
+        destinationAddress: requestData?.destinationAddress,
+        amount: requestData.amount,
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -120,7 +106,7 @@ interface CreatePollRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-        Create a poll inside your Q-App. To get results of this poll, you would subsequently make a fetch call to <Code>{"/polls​/votes​/${pollName}"}</Code> to get the voting results. The poll name must be unique or else it will throw an error.
+        Send QORT to address
         </Typography>
       </GeneralExplanation>
 
@@ -136,20 +122,41 @@ interface CreatePollRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">pollName</Typography>
-            <CustomInput
-              type="text"
-              placeholder="pollName"
-              value={requestData.pollName}
-              name="pollName"
-              onChange={handleChange}
-            />
+            <Typography variant="h6">coin</Typography>
+            <Spacer height="10px" />
+            <Select
+            size="small"
+            labelId="label-select-category"
+            id="id-select-category"
+            value={requestData?.coin}
+            displayEmpty
+            onChange={(e) => setRequestData((prev)=> {
+              return {
+                ...prev,
+                coin: e.target.value
+              }
+            })}
+            sx={{
+              width: '300px'
+            }}
+          >
+            <MenuItem value={0}>
+              <em>No coin selected</em>
+            </MenuItem>
+            {coins?.map((coin) => {
+              return (
+                <MenuItem key={coin.name} value={coin.name}>
+                  {`${coin.name}`} 
+                </MenuItem>
+              );
+            })}
+          </Select>
             <Spacer height="10px" />
             <FieldExplanation>
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the name of the poll. Names are unique, therefore an existing pollName on the Qortal blockchain cannot be used.</Typography>
+            <Typography>Enter one of the supported Qortal coin ID.</Typography>
           </Box>
           <Spacer height="5px" />
           <Box
@@ -159,20 +166,20 @@ interface CreatePollRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">pollDescription</Typography>
+            <Typography variant="h6">destinationAddress</Typography>
             <CustomInput
               type="text"
-              placeholder="pollDescription"
-              value={requestData.pollDescription}
-              name="pollDescription"
+              placeholder="destinationAddress"
+              value={requestData.destinationAddress}
+              name="destinationAddress"
               onChange={handleChange}
             />
             <Spacer height="10px" />
             <FieldExplanation>
-              <Typography>Optional field</Typography>
+              <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Give users information about the poll by adding a description</Typography>
+            <Typography>Enter the Qortal address of the recipient.</Typography>
           </Box>
           <Spacer height="5px" />
           <Box
@@ -182,13 +189,13 @@ interface CreatePollRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">pollOwnerAddress</Typography>
+            <Typography variant="h6">amount</Typography>
 
             <CustomInput
-              type="text"
-              placeholder="pollOwnerAddress"
-              value={requestData.pollOwnerAddress}
-              name="pollOwnerAddress"
+              type="number"
+              placeholder="amount"
+              value={requestData.amount}
+              name="amount"
               onChange={handleChange}
             />
             <Spacer height="10px" />
@@ -196,39 +203,12 @@ interface CreatePollRequest {
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the Qortal address of the user that is creating the poll.</Typography>
+            <Typography>Enter the amount.</Typography>
           </Box>
-          <Box
-            sx={{
-              padding: "10px",
-              outline: "1px solid var(--color3)",
-              borderRadius: "5px",
-            }}
-          >
-            <Typography variant="h6">pollOptions</Typography>
-            <Spacer height="10px" />
-            <OptionsManager
-              items={requestData.pollOptions}
-              setItems={(items) => {
-                setRequestData((prev) => {
-                  return {
-                    ...prev,
-                    pollOptions: items,
-                  };
-                });
-              }}
-            />
-
-            <Spacer height="10px" />
-            <FieldExplanation>
-              <Typography>Required field</Typography>
-            </FieldExplanation>
-            <Spacer height="5px" />
-            <Typography>Enter a list of options. This field should be a list of strings when using the qortalRequest.</Typography>
-          </Box>
+         
           <Spacer height="20px" />
           <Button
-            name="Create poll"
+            name="Send coin"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
