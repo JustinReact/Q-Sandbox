@@ -122,6 +122,9 @@ interface CreatePollRequest {
         <Typography variant="body1">
         Create a poll inside your Q-App. To get results of this poll, you would subsequently make a fetch call to <Code>{"/polls​/votes​/${pollName}"}</Code> to get the voting results. The poll name must be unique or else it will throw an error.
         </Typography>
+        <Typography variant="body1">
+                        Needs user approval
+                        </Typography>
       </GeneralExplanation>
 
       <Spacer height="20px" />

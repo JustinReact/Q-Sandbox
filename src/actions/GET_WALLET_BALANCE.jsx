@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { Box, Card, CircularProgress, styled, Typography } from "@mui/material";
+import { Box, Card, CircularProgress, MenuItem, Select, styled, Typography } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
+
 import beautify from "js-beautify";
 import Button from "../components/Button";
-import { Spacer } from "../components/Spacer";
-import { CustomInput } from "../components/Common-styles";
+import { OptionsManager } from "../components/OptionsManager";
 import {
   FieldExplanation,
   GeneralExplanation,
 } from "../components/QRComponents";
+import { Spacer } from "../components/Spacer";
+import { Code, CustomInput } from "../components/Common-styles";
+import { coins } from "../constants";
 
 export const Label = styled("label")(
   ({ theme }) => `
@@ -27,42 +30,29 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const VOTE_ON_POLL = () => {
-  const [requestData, setRequestData] = useState({
-    pollName: "myPoll",
-    optionIndex: 1,
-  });
+export const GET_WALLET_BALANCE = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
+  const [requestData, setRequestData] = useState({
+    coin: "QORT",
+
+  });
   const [responseData, setResponseData] = useState(
-    formatResponse(`{
-    "type": "VOTE_ON_POLL",
-    "timestamp": 1697286687406,
-    "reference": "3jU9WpEPAvu9iL3cMfVd2AUmn9AijJRzkGCxVtXfpuUFZubM8AFDcbk5XA9m5AhPfsbMDFkSDzPJnkjeLA5GA59E",
-    "fee": "0.01000000",
-    "signature": "3QJ1EUvX3rskVNaP3RWvJwb9DsGgHPvneWqBWS62PCcuCj5N4Ei9Tr4nFj4nQeMqMU2qNkVD3Sb59e7iUWkawH3s",
-    "txGroupId": 0,
-    "approvalStatus": "NOT_REQUIRED",
-    "creatorAddress": "Qhxphh7g5iNtxAyLLpPMZzp4X85yf2tVam",
-    "voterPublicKey": "C5spuNU1BAHZDEkxF3wnrAPRDuNrVceaDJ6tDKitenko",
-    "pollName": "A test poll 3",
-    "optionIndex": 1
-  }`)
+    formatResponse(`500
+  `)
   );
 
   const codePollName = `
 await qortalRequest({
-  action: "VOTE_ON_POLL",
-  pollName: "${requestData?.pollName}",
-  optionIndex: ${requestData?.optionIndex},
+  action: "GET_WALLET_BALANCE",
+  coin: "${requestData?.coin}",
 });
 `.trim();
 
   const tsInterface = `
-interface VoteOnPollRequest {
+interface GetWalletBalanceRequest {
   action: string;
-  pollName: string;
-  optionIndex: number;
+  coin: string;
 }
 `.trim();
 
@@ -70,9 +60,8 @@ interface VoteOnPollRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "VOTE_ON_POLL",
-        pollName: requestData?.pollName,
-        optionIndex: requestData?.optionIndex,
+        action: "GET_WALLET_BALANCE",
+        coin: requestData?.coin,
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -99,20 +88,17 @@ interface VoteOnPollRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-          Vote on a previously created poll. If the poll name doesn't exist, it
-          will throw an error.
+        Get the balance of a user's coin
         </Typography>
         <Typography variant="body1">
-                        Needs user approval
-                        </Typography>
+        Needs user approval
+        </Typography>
       </GeneralExplanation>
 
       <Spacer height="20px" />
-
       <Card>
         <Typography variant="h5">Fields</Typography>
         <Spacer height="5px" />
-
         <div className="message-row">
           <Box
             sx={{
@@ -121,51 +107,45 @@ interface VoteOnPollRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">pollName</Typography>
-            <CustomInput
-              type="text"
-              placeholder="pollName"
-              value={requestData.pollName}
-              name="pollName"
-              onChange={handleChange}
-            />
+            <Typography variant="h6">coin</Typography>
             <Spacer height="10px" />
-            <FieldExplanation>
-              <Typography>Required field</Typography>
-            </FieldExplanation>
-            <Spacer height="5px" />
-            <Typography>Enter the existing name of the poll</Typography>
-          </Box>
-          <Spacer height="5px" />
-          <Box
+            <Select
+            size="small"
+            labelId="label-select-category"
+            id="id-select-category"
+            value={requestData?.coin}
+            displayEmpty
+            onChange={(e) => setRequestData((prev)=> {
+              return {
+                ...prev,
+                coin: e.target.value
+              }
+            })}
             sx={{
-              padding: "10px",
-              outline: "1px solid var(--color3)",
-              borderRadius: "5px",
+              width: '300px'
             }}
           >
-            <Typography variant="h6">optionIndex</Typography>
-            <CustomInput
-              type="number"
-              placeholder="optionIndex"
-              value={requestData.optionIndex}
-              name="optionIndex"
-              onChange={handleChange}
-            />
-
+            <MenuItem value={0}>
+              <em>No coin selected</em>
+            </MenuItem>
+            {coins?.map((coin) => {
+              return (
+                <MenuItem key={coin.name} value={coin.name}>
+                  {`${coin.name}`} 
+                </MenuItem>
+              );
+            })}
+          </Select>
             <Spacer height="10px" />
             <FieldExplanation>
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>
-              Enter the index value of the option from the list of options in
-              the created poll.
-            </Typography>
+            <Typography>Enter one of the supported Qortal coin ID.</Typography>
           </Box>
           <Spacer height="20px" />
           <Button
-            name="Vote"
+            name="Get balance"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />

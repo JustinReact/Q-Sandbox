@@ -15,6 +15,7 @@ import { PUBLISH_QDN_RESOURCE } from "./actions/PUBLISH_QDN_RESOURCE";
 import { PUBLISH_MULTIPLE_QDN_RESOURCES } from "./actions/PUBLISH_MULTIPLE_QDN_RESOURCES";
 import { OPEN_NEW_TAB } from "./actions/OPEN_NEW_TAB";
 import { SEND_COIN } from "./actions/SEND_COIN";
+import { GET_WALLET_BALANCE } from "./actions/GET_WALLET_BALANCE";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -33,8 +34,10 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return PUBLISH_MULTIPLE_QDN_RESOURCES;
       case "OPEN_NEW_TAB":
         return OPEN_NEW_TAB;
-        case "SEND_COIN":
-          return SEND_COIN;
+      case "SEND_COIN":
+        return SEND_COIN;
+      case "GET_WALLET_BALANCE":
+        return GET_WALLET_BALANCE;
       default:
         return EmptyActionComponent;
     }

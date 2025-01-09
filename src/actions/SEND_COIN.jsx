@@ -51,7 +51,7 @@ export const SEND_COIN = ({ myAddress }) => {
   timestamp: 1684321310522
   txGroupId: 0
   type: 'PAYMENT'
-  `)
+    }`)
   );
 
   const codePollName = `
@@ -108,6 +108,9 @@ interface SendCoinRequest {
         <Typography variant="body1">
         Send QORT to address
         </Typography>
+         <Typography variant="body1">
+                Needs user approval
+                </Typography>
       </GeneralExplanation>
 
       <Spacer height="20px" />
