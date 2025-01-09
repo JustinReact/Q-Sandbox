@@ -20,6 +20,8 @@ import { GET_USER_ACCOUNT } from "./actions/GET_USER_ACCOUNT";
 import { GET_USER_WALLET } from "./actions/GET_USER_WALLET";
 import { GET_USER_WALLET_INFO } from "./actions/GET_USER_WALLET_INFO";
 import { GET_LIST_ITEMS } from "./actions/GET_LIST_ITEMS";
+import { ADD_LIST_ITEMS } from "./actions/ADD_LIST_ITEMS";
+import { DELETE_LIST_ITEM } from "./actions/DELETE_LIST_ITEM";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -50,6 +52,10 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return GET_USER_WALLET_INFO;
       case "GET_LIST_ITEMS":
         return GET_LIST_ITEMS;
+      case "ADD_LIST_ITEMS":
+        return ADD_LIST_ITEMS;
+      case "DELETE_LIST_ITEM":
+        return DELETE_LIST_ITEM;
       default:
         return EmptyActionComponent;
     }
