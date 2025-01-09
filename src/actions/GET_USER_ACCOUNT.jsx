@@ -30,29 +30,28 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const GET_WALLET_BALANCE = ({ myAddress }) => {
+export const GET_USER_ACCOUNT = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const [requestData, setRequestData] = useState({
-    coin: "QORT",
-
-  });
+ 
   const [responseData, setResponseData] = useState(
-    formatResponse(`500
+    formatResponse(`
+      {
+  "address": "QZLJV7wbaFyxaoZQsjm6rb9MWMiDzWsqM2",
+  "publicKey": "APLQ85zRbgRdrLTU7GgeTt35kvVhxmSjoCB4wX99HjYd",
+}
   `)
   );
 
   const codePollName = `
 await qortalRequest({
-  action: "GET_WALLET_BALANCE",
-  coin: "${requestData?.coin}",
+  action: "GET_USER_ACCOUNT",
 });
 `.trim();
 
   const tsInterface = `
-interface GetWalletBalanceRequest {
+interface GetUserAccountRequest {
   action: string;
-  coin: string;
 }
 `.trim();
 
@@ -60,8 +59,7 @@ interface GetWalletBalanceRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "GET_WALLET_BALANCE",
-        coin: requestData?.coin,
+        action: "GET_USER_ACCOUNT",
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -72,14 +70,7 @@ interface GetWalletBalanceRequest {
       setIsLoading(false);
     }
   };
-  const handleChange = (e) => {
-    setRequestData((prev) => {
-      return {
-        ...prev,
-        [e.target.name]: e.target.value,
-      };
-    });
-  };
+
   return (
     <div
       style={{
@@ -88,79 +79,24 @@ interface GetWalletBalanceRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-        Get the balance of a user's coin
+        Get the user's Qortal address and public key.
         </Typography>
         <Typography variant="body1">
         Needs user approval
         </Typography>
-        <Spacer height="20px" />
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px'
-        }}>
-          <WarningIcon sx={{
-            color: 'gold'
-          }} />
-          <Typography>The coin ARRR cannot be used through the gateway.</Typography>
-        </Box>
       </GeneralExplanation>
 
       <Spacer height="20px" />
       <Card>
         <Typography variant="h5">Fields</Typography>
         <Spacer height="5px" />
-        <div className="message-row">
-          <Box
-            sx={{
-              padding: "10px",
-              outline: "1px solid var(--color3)",
-              borderRadius: "5px",
-            }}
-          >
-            <Typography variant="h6">coin</Typography>
-            <Spacer height="10px" />
-            <Select
-            size="small"
-            labelId="label-select-category"
-            id="id-select-category"
-            value={requestData?.coin}
-            displayEmpty
-            onChange={(e) => setRequestData((prev)=> {
-              return {
-                ...prev,
-                coin: e.target.value
-              }
-            })}
-            sx={{
-              width: '300px'
-            }}
-          >
-            <MenuItem value={0}>
-              <em>No coin selected</em>
-            </MenuItem>
-            {coins?.map((coin) => {
-              return (
-                <MenuItem key={coin.name} value={coin.name}>
-                  {`${coin.name}`} 
-                </MenuItem>
-              );
-            })}
-          </Select>
-            <Spacer height="10px" />
-            <FieldExplanation>
-              <Typography>Required field</Typography>
-            </FieldExplanation>
-            <Spacer height="5px" />
-            <Typography>Enter one of the supported Qortal coin ID.</Typography>
-          </Box>
-          <Spacer height="20px" />
+        <Typography variant="h6">Apart from the action type, no other field required.</Typography>
+        <Spacer height="20px" />
           <Button
-            name="Get balance"
+            name="Get user account"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
-        </div>
       </Card>
       <Box
         sx={{

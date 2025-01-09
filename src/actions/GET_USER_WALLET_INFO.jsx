@@ -30,27 +30,50 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const GET_WALLET_BALANCE = ({ myAddress }) => {
+export const GET_USER_WALLET_INFO = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    coin: "QORT",
+    coin: "LTC",
 
   });
   const [responseData, setResponseData] = useState(
-    formatResponse(`500
+    formatResponse(`
+     [
+  {
+      "address": "1KyDZurCr2S15N2j1s4pUeH8fAQVT7VfdB",
+      "path": [
+          0,
+          0
+      ],
+      "value": 0,
+      "pathAsString": "M/0/0",
+      "transactionCount": 0
+  },
+  {
+      "address": "1DYn4oyypvyFCFL7Y5oDoAfmem88SucxEJ",
+      "path": [
+          0,
+          1
+      ],
+      "value": 0,
+      "pathAsString": "M/0/1",
+      "transactionCount": 0
+  },
+  // Additional addresses omitted for brevity
+]
   `)
   );
 
   const codePollName = `
-await qortalRequest({
-  action: "GET_WALLET_BALANCE",
+await qortalRequestWithTimeout({
+  action: "GET_USER_WALLET_INFO",
   coin: "${requestData?.coin}",
-});
+}, 120000);
 `.trim();
 
   const tsInterface = `
-interface GetWalletBalanceRequest {
+interface GetUserWalletInfoRequest {
   action: string;
   coin: string;
 }
@@ -59,10 +82,10 @@ interface GetWalletBalanceRequest {
   const executeQortalRequest = async () => {
     try {
       setIsLoading(true);
-      let account = await qortalRequest({
-        action: "GET_WALLET_BALANCE",
+      let account = await qortalRequestWithTimeout({
+        action: "GET_USER_WALLET_INFO",
         coin: requestData?.coin,
-      });
+      }, 120000);
 
       setResponseData(formatResponse(JSON.stringify(account)));
     } catch (error) {
@@ -88,7 +111,10 @@ interface GetWalletBalanceRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-        Get the balance of a user's coin
+        The GET_USER_WALLET_INFO endpoint retrieves detailed information for each address associated with a user's Hierarchical Deterministic (HD) BIP32 wallet. It provides a structured overview of wallet addresses, allowing users to manage and organize their cryptocurrency transactions efficiently.
+        </Typography>
+        <Typography variant="body1">
+        This call may take some time. In this example we have used the qortalRequestWithTimeout in order to put a custom timeout in miliseconds. The default timeout provided by the regular qortalRequest may not be enough.
         </Typography>
         <Typography variant="body1">
         Needs user approval
@@ -102,7 +128,7 @@ interface GetWalletBalanceRequest {
           <WarningIcon sx={{
             color: 'gold'
           }} />
-          <Typography>The coin ARRR cannot be used through the gateway.</Typography>
+          <Typography>The coin ARRR is not support in this call.</Typography>
         </Box>
       </GeneralExplanation>
 
@@ -139,7 +165,7 @@ interface GetWalletBalanceRequest {
             <MenuItem value={0}>
               <em>No coin selected</em>
             </MenuItem>
-            {coins?.map((coin) => {
+            {coins?.filter((item)=> item?.name !== 'ARRR')?.map((coin) => {
               return (
                 <MenuItem key={coin.name} value={coin.name}>
                   {`${coin.name}`} 
@@ -156,7 +182,7 @@ interface GetWalletBalanceRequest {
           </Box>
           <Spacer height="20px" />
           <Button
-            name="Get balance"
+            name="Get wallet info"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />

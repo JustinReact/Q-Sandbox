@@ -16,6 +16,10 @@ import { PUBLISH_MULTIPLE_QDN_RESOURCES } from "./actions/PUBLISH_MULTIPLE_QDN_R
 import { OPEN_NEW_TAB } from "./actions/OPEN_NEW_TAB";
 import { SEND_COIN } from "./actions/SEND_COIN";
 import { GET_WALLET_BALANCE } from "./actions/GET_WALLET_BALANCE";
+import { GET_USER_ACCOUNT } from "./actions/GET_USER_ACCOUNT";
+import { GET_USER_WALLET } from "./actions/GET_USER_WALLET";
+import { GET_USER_WALLET_INFO } from "./actions/GET_USER_WALLET_INFO";
+import { GET_LIST_ITEMS } from "./actions/GET_LIST_ITEMS";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -38,6 +42,14 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return SEND_COIN;
       case "GET_WALLET_BALANCE":
         return GET_WALLET_BALANCE;
+      case "GET_USER_ACCOUNT":
+        return GET_USER_ACCOUNT;
+      case "GET_USER_WALLET":
+        return GET_USER_WALLET;
+      case "GET_USER_WALLET_INFO":
+        return GET_USER_WALLET_INFO;
+      case "GET_LIST_ITEMS":
+        return GET_LIST_ITEMS;
       default:
         return EmptyActionComponent;
     }

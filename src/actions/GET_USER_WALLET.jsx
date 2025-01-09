@@ -30,27 +30,31 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const GET_WALLET_BALANCE = ({ myAddress }) => {
+export const GET_USER_WALLET = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    coin: "QORT",
+    coin: "LTC",
 
   });
   const [responseData, setResponseData] = useState(
-    formatResponse(`500
+    formatResponse(`
+      {
+  "address": "LN9CrdJGSzADwUoS6jq9mCtCPvFNZc4wNY",
+  "publickey": "xpub661MyMwAqRbcGqnzUgEJ23weSVSd77uggk7YrNQGapsoYymCfr1kCvzR1eddQNdU9pYshKgkBrSUG4AkYpRLsN1ogDkv6LzD4Uyvg94JJyj"
+}
   `)
   );
 
   const codePollName = `
 await qortalRequest({
-  action: "GET_WALLET_BALANCE",
+  action: "GET_USER_WALLET",
   coin: "${requestData?.coin}",
 });
 `.trim();
 
   const tsInterface = `
-interface GetWalletBalanceRequest {
+interface GetUserWalletRequest {
   action: string;
   coin: string;
 }
@@ -60,7 +64,7 @@ interface GetWalletBalanceRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "GET_WALLET_BALANCE",
+        action: "GET_USER_WALLET",
         coin: requestData?.coin,
       });
 
@@ -88,7 +92,7 @@ interface GetWalletBalanceRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-        Get the balance of a user's coin
+        Get the address and public key of a user's coin
         </Typography>
         <Typography variant="body1">
         Needs user approval
@@ -102,7 +106,7 @@ interface GetWalletBalanceRequest {
           <WarningIcon sx={{
             color: 'gold'
           }} />
-          <Typography>The coin ARRR cannot be used through the gateway.</Typography>
+          <Typography>The coin ARRR cannot be used through the gateway. When using a local node, for ARRR only the address will be returned.</Typography>
         </Box>
       </GeneralExplanation>
 
@@ -156,7 +160,7 @@ interface GetWalletBalanceRequest {
           </Box>
           <Spacer height="20px" />
           <Button
-            name="Get balance"
+            name="Get user wallet"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />

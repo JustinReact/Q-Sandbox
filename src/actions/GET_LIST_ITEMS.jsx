@@ -30,29 +30,30 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const GET_WALLET_BALANCE = ({ myAddress }) => {
+export const GET_LIST_ITEMS = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    coin: "QORT",
+    list_name: "blockedNames",
 
   });
   const [responseData, setResponseData] = useState(
-    formatResponse(`500
+    formatResponse(`
+ [ 'john', 'steve']
   `)
   );
 
   const codePollName = `
-await qortalRequest({
-  action: "GET_WALLET_BALANCE",
-  coin: "${requestData?.coin}",
+const response = await qortalRequest({
+  action: "GET_LIST_ITEMS",
+  list_name: "${requestData?.list_name}"
 });
 `.trim();
 
   const tsInterface = `
-interface GetWalletBalanceRequest {
+interface GetListItemsRequest {
   action: string;
-  coin: string;
+  list_name: string;
 }
 `.trim();
 
@@ -60,8 +61,8 @@ interface GetWalletBalanceRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "GET_WALLET_BALANCE",
-        coin: requestData?.coin,
+        action: "GET_LIST_ITEMS",
+        list_name: requestData?.list_name,
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -88,7 +89,10 @@ interface GetWalletBalanceRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-        Get the balance of a user's coin
+        The GET_LIST_ITEMS endpoint retrieves the named list that is stored on the user's node.
+        </Typography>
+        <Typography variant="body1">
+        Any list that begins with "blocked" will block the data hosting of a Qortal name that is listed in it.
         </Typography>
         <Typography variant="body1">
         Needs user approval
@@ -102,7 +106,7 @@ interface GetWalletBalanceRequest {
           <WarningIcon sx={{
             color: 'gold'
           }} />
-          <Typography>The coin ARRR cannot be used through the gateway.</Typography>
+          <Typography>This qortalRequest will not work on the gateway.</Typography>
         </Box>
       </GeneralExplanation>
 
@@ -112,51 +116,30 @@ interface GetWalletBalanceRequest {
         <Spacer height="5px" />
         <div className="message-row">
           <Box
-            sx={{
-              padding: "10px",
-              outline: "1px solid var(--color3)",
-              borderRadius: "5px",
-            }}
-          >
-            <Typography variant="h6">coin</Typography>
-            <Spacer height="10px" />
-            <Select
-            size="small"
-            labelId="label-select-category"
-            id="id-select-category"
-            value={requestData?.coin}
-            displayEmpty
-            onChange={(e) => setRequestData((prev)=> {
-              return {
-                ...prev,
-                coin: e.target.value
-              }
-            })}
-            sx={{
-              width: '300px'
-            }}
-          >
-            <MenuItem value={0}>
-              <em>No coin selected</em>
-            </MenuItem>
-            {coins?.map((coin) => {
-              return (
-                <MenuItem key={coin.name} value={coin.name}>
-                  {`${coin.name}`} 
-                </MenuItem>
-              );
-            })}
-          </Select>
-            <Spacer height="10px" />
-            <FieldExplanation>
-              <Typography>Required field</Typography>
-            </FieldExplanation>
-            <Spacer height="5px" />
-            <Typography>Enter one of the supported Qortal coin ID.</Typography>
-          </Box>
+                      sx={{
+                        padding: "10px",
+                        outline: "1px solid var(--color3)",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      <Typography variant="h6">list_name</Typography>
+                      <CustomInput
+                        type="text"
+                        placeholder="list_name"
+                        value={requestData.list_name}
+                        name="list_name"
+                        onChange={handleChange}
+                      />
+                      <Spacer height="10px" />
+                      <FieldExplanation>
+                        <Typography>Required field</Typography>
+                      </FieldExplanation>
+                      <Spacer height="5px" />
+                      <Typography>Enter the name of the list</Typography>
+                    </Box>
           <Spacer height="20px" />
           <Button
-            name="Get balance"
+            name="Get list"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
