@@ -26,6 +26,7 @@ import { IS_USING_GATEWAY } from "./actions/IS_USING_GATEWAY";
 import { ADMIN_ACTION } from "./actions/ADMIN_ACTION";
 import { SIGN_TRANSACTION } from "./actions/SIGN_TRANSACTION";
 import { DEPLOY_AT } from "./actions/DEPLOY_AT";
+import { JOIN_GROUP } from "./actions/JOIN_GROUP";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -68,6 +69,8 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return SIGN_TRANSACTION;
       case "DEPLOY_AT":
         return DEPLOY_AT;
+      case "JOIN_GROUP":
+        return JOIN_GROUP;
       default:
         return EmptyActionComponent;
     }
