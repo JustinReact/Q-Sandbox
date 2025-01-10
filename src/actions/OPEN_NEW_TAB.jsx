@@ -32,19 +32,7 @@ export const OPEN_NEW_TAB = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [responseData, setResponseData] = useState(
-    formatResponse(`{
-    "type": "OPEN_NEW_TAB",
-    "timestamp": 1697286687406,
-    "reference": "3jU9WpEPAvu9iL3cMfVd2AUmn9AijJRzkGCxVtXfpuUFZubM8AFDcbk5XA9m5AhPfsbMDFkSDzPJnkjeLA5GA59E",
-    "fee": "0.01000000",
-    "signature": "3QJ1EUvX3rskVNaP3RWvJwb9DsGgHPvneWqBWS62PCcuCj5N4Ei9Tr4nFj4nQeMqMU2qNkVD3Sb59e7iUWkawH3s",
-    "txGroupId": 0,
-    "approvalStatus": "NOT_REQUIRED",
-    "creatorAddress": "Qhxphh7g5iNtxAyLLpPMZzp4X85yf2tVam",
-    "voterPublicKey": "C5spuNU1BAHZDEkxF3wnrAPRDuNrVceaDJ6tDKitenko",
-    "pollName": "A test poll 3",
-    "optionIndex": 1
-  }`)
+    formatResponse(`true`)
   );
 
   const codePollName = `

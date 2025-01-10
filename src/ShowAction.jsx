@@ -22,6 +22,7 @@ import { GET_USER_WALLET_INFO } from "./actions/GET_USER_WALLET_INFO";
 import { GET_LIST_ITEMS } from "./actions/GET_LIST_ITEMS";
 import { ADD_LIST_ITEMS } from "./actions/ADD_LIST_ITEMS";
 import { DELETE_LIST_ITEM } from "./actions/DELETE_LIST_ITEM";
+import { IS_USING_GATEWAY } from "./actions/IS_USING_GATEWAY";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -56,6 +57,8 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return ADD_LIST_ITEMS;
       case "DELETE_LIST_ITEM":
         return DELETE_LIST_ITEM;
+        case "IS_USING_GATEWAY":
+          return IS_USING_GATEWAY;
       default:
         return EmptyActionComponent;
     }

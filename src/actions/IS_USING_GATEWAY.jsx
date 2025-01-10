@@ -1,19 +1,14 @@
 import React, { useState } from "react";
-import { Box, Card, CircularProgress, MenuItem, Select, styled, Typography } from "@mui/material";
+import { Box, Card, CircularProgress, styled, Typography } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
 import beautify from "js-beautify";
 import Button from "../components/Button";
-import { OptionsManager } from "../components/OptionsManager";
-import {
-  FieldExplanation,
-  GeneralExplanation,
-} from "../components/QRComponents";
 import { Spacer } from "../components/Spacer";
-import { Code, CustomInput } from "../components/Common-styles";
-import { coins } from "../constants";
-import WarningIcon from '@mui/icons-material/Warning';
+import { CustomInput } from "../components/Common-styles";
+import { FieldExplanation, GeneralExplanation } from "../components/QRComponents";
+
 export const Label = styled("label")(
   ({ theme }) => `
     font-family: 'IBM Plex Sans', sans-serif;
@@ -30,27 +25,26 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const GET_USER_ACCOUNT = ({ myAddress }) => {
+export const IS_USING_GATEWAY = () => {
+
   const [isLoading, setIsLoading] = useState(false);
 
- 
   const [responseData, setResponseData] = useState(
     formatResponse(`
       {
-  "address": "QZLJV7wbaFyxaoZQsjm6rb9MWMiDzWsqM2",
-  "publicKey": "APLQ85zRbgRdrLTU7GgeTt35kvVhxmSjoCB4wX99HjYd",
+  "isGateway": false
 }
-  `)
+      `)
   );
 
   const codePollName = `
 await qortalRequest({
-  action: "GET_USER_ACCOUNT",
+  action: "IS_USING_GATEWAY",
 });
 `.trim();
 
   const tsInterface = `
-interface GetUserAccountRequest {
+interface IsUsingGatewayRequest {
   action: string;
 }
 `.trim();
@@ -59,7 +53,7 @@ interface GetUserAccountRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "GET_USER_ACCOUNT",
+        action: "IS_USING_GATEWAY",
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -70,7 +64,14 @@ interface GetUserAccountRequest {
       setIsLoading(false);
     }
   };
-
+  const handleChange = (e) => {
+    setRequestData((prev) => {
+      return {
+        ...prev,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
   return (
     <div
       style={{
@@ -79,24 +80,24 @@ interface GetUserAccountRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-        Get the user's Qortal address and public key.
-        </Typography>
-        <Typography variant="body1">
-        Needs user approval
+        Use this qortalRequest if you need to know if the user is using the gateway. Returns a boolean.
         </Typography>
       </GeneralExplanation>
 
       <Spacer height="20px" />
+
       <Card>
         <Typography variant="h5">Fields</Typography>
         <Spacer height="5px" />
         <Typography variant="h6">Apart from the action type, no other field is required.</Typography>
-        <Spacer height="20px" />
+        <div className="message-row">
+            <Spacer height="20px" />
           <Button
-            name="Get user account"
+            name="Execute"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
+        </div>
       </Card>
       <Box
         sx={{
