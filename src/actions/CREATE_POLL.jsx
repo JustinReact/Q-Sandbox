@@ -153,6 +153,9 @@ interface CreatePollRequest {
             </FieldExplanation>
             <Spacer height="5px" />
             <Typography>Enter the name of the poll. Names are unique, therefore an existing pollName on the Qortal blockchain cannot be used.</Typography>
+            <Spacer height="5px" />
+            <Typography>Max characters: 400</Typography>
+            <Typography>min characters: 3</Typography>
           </Box>
           <Spacer height="5px" />
           <Box
@@ -173,9 +176,12 @@ interface CreatePollRequest {
             <Spacer height="10px" />
             <FieldExplanation>
               <Typography>Optional field</Typography>
+             
             </FieldExplanation>
             <Spacer height="5px" />
             <Typography>Give users information about the poll by adding a description</Typography>
+            <Spacer height="5px" />
+            <Typography>Max characters: 4000</Typography>
           </Box>
           <Spacer height="5px" />
           <Box
@@ -228,6 +234,8 @@ interface CreatePollRequest {
             </FieldExplanation>
             <Spacer height="5px" />
             <Typography>Enter a list of options. This field should be a list of strings when using the qortalRequest.</Typography>
+            <Spacer height="5px" />
+            <Typography>Max number of options: 100</Typography>
           </Box>
           <Spacer height="20px" />
           <Button

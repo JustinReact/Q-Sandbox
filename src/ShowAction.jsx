@@ -23,6 +23,9 @@ import { GET_LIST_ITEMS } from "./actions/GET_LIST_ITEMS";
 import { ADD_LIST_ITEMS } from "./actions/ADD_LIST_ITEMS";
 import { DELETE_LIST_ITEM } from "./actions/DELETE_LIST_ITEM";
 import { IS_USING_GATEWAY } from "./actions/IS_USING_GATEWAY";
+import { ADMIN_ACTION } from "./actions/ADMIN_ACTION";
+import { SIGN_TRANSACTION } from "./actions/SIGN_TRANSACTION";
+import { DEPLOY_AT } from "./actions/DEPLOY_AT";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -57,8 +60,14 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return ADD_LIST_ITEMS;
       case "DELETE_LIST_ITEM":
         return DELETE_LIST_ITEM;
-        case "IS_USING_GATEWAY":
-          return IS_USING_GATEWAY;
+      case "IS_USING_GATEWAY":
+        return IS_USING_GATEWAY;
+      case "ADMIN_ACTION":
+        return ADMIN_ACTION;
+      case "SIGN_TRANSACTION":
+        return SIGN_TRANSACTION;
+      case "DEPLOY_AT":
+        return DEPLOY_AT;
       default:
         return EmptyActionComponent;
     }
