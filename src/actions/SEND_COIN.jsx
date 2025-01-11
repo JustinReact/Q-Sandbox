@@ -35,7 +35,7 @@ export const SEND_COIN = ({ myAddress }) => {
 
   const [requestData, setRequestData] = useState({
     coin: "QORT",
-    destinationAddress: "enter here qortal address",
+    recipient: "enter recipient address",
     amount: 1,
   });
   const [responseData, setResponseData] = useState(
@@ -58,7 +58,7 @@ export const SEND_COIN = ({ myAddress }) => {
 await qortalRequest({
   action: "SEND_COIN",
   coin: "${requestData?.coin}",
-  destinationAddress: "${requestData?.destinationAddress}",
+  recipient: "${requestData?.recipient}",
   amount: ${JSON.stringify(requestData.amount)},
 });
 `.trim();
@@ -67,7 +67,7 @@ await qortalRequest({
 interface SendCoinRequest {
   action: string;
   coin: string;
-  destinationAddress: string;
+  recipient: string;
   amount: number;
 }
 `.trim();
@@ -78,7 +78,7 @@ interface SendCoinRequest {
       let account = await qortalRequest({
         action: "SEND_COIN",
         coin: requestData?.coin,
-        destinationAddress: requestData?.destinationAddress,
+        recipient: requestData?.recipient,
         amount: requestData.amount,
       });
 
@@ -169,12 +169,12 @@ interface SendCoinRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">destinationAddress</Typography>
+            <Typography variant="h6">recipient</Typography>
             <CustomInput
               type="text"
-              placeholder="destinationAddress"
-              value={requestData.destinationAddress}
-              name="destinationAddress"
+              placeholder="recipient"
+              value={requestData.recipient}
+              name="recipient"
               onChange={handleChange}
             />
             <Spacer height="10px" />
@@ -182,7 +182,8 @@ interface SendCoinRequest {
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the Qortal address of the recipient.</Typography>
+            <Typography>Enter the wallet address of the recipient.</Typography>
+            <Typography>For QORT, you can enter the Qortal Name instead of the address.</Typography>
           </Box>
           <Spacer height="5px" />
           <Box
