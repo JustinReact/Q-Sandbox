@@ -27,6 +27,7 @@ import { ADMIN_ACTION } from "./actions/ADMIN_ACTION";
 import { SIGN_TRANSACTION } from "./actions/SIGN_TRANSACTION";
 import { DEPLOY_AT } from "./actions/DEPLOY_AT";
 import { JOIN_GROUP } from "./actions/JOIN_GROUP";
+import { SEND_CHAT_MESSAGE } from "./actions/SEND_CHAT_MESSAGE";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -71,6 +72,8 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return DEPLOY_AT;
       case "JOIN_GROUP":
         return JOIN_GROUP;
+      case "SEND_CHAT_MESSAGE":
+        return SEND_CHAT_MESSAGE;
       default:
         return EmptyActionComponent;
     }
