@@ -28,6 +28,8 @@ import { SIGN_TRANSACTION } from "./actions/SIGN_TRANSACTION";
 import { DEPLOY_AT } from "./actions/DEPLOY_AT";
 import { JOIN_GROUP } from "./actions/JOIN_GROUP";
 import { SEND_CHAT_MESSAGE } from "./actions/SEND_CHAT_MESSAGE";
+import { ENCRYPT_DATA } from "./actions/ENCRYPT_DATA";
+import { DECRYPT_DATA } from "./actions/DECRYPT_DATA";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -74,6 +76,10 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return JOIN_GROUP;
       case "SEND_CHAT_MESSAGE":
         return SEND_CHAT_MESSAGE;
+      case "ENCRYPT_DATA":
+        return ENCRYPT_DATA;
+      case "DECRYPT_DATA":
+        return DECRYPT_DATA;
       default:
         return EmptyActionComponent;
     }

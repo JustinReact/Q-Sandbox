@@ -1,5 +1,15 @@
-import React, { useMemo, useState } from "react";
-import { Box, ButtonBase, Card, Checkbox, CircularProgress, MenuItem, Select, Typography, styled } from "@mui/material";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  Box,
+  ButtonBase,
+  Card,
+  Checkbox,
+  CircularProgress,
+  MenuItem,
+  Select,
+  Typography,
+  styled,
+} from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
@@ -7,6 +17,13 @@ import beautify from "js-beautify";
 import Button from "../components/Button";
 import { useDropzone } from "react-dropzone";
 import { services } from "../constants";
+import {
+  FieldExplanation,
+  GeneralExplanation,
+} from "../components/QRComponents";
+import { Spacer } from "../components/Spacer";
+import { CustomInput } from "../components/Common-styles";
+import { OptionsManager } from "../components/OptionsManager";
 
 export const Label = styled("label")(
   ({ theme }) => `
@@ -28,7 +45,14 @@ export const PUBLISH_QDN_RESOURCE = () => {
   const [requestData, setRequestData] = useState({
     service: "DOCUMENT",
     identifier: "test-identifier",
+    base64: "",
+    publicKeys: [],
+    category: "",
+    title: "",
+    description: "",
+    tags: [],
   });
+  const [dataType, setDataType] = useState("file");
 
   const { getRootProps, getInputProps } = useDropzone({
     maxFiles: 1,
@@ -41,7 +65,8 @@ export const PUBLISH_QDN_RESOURCE = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);
-  const [isEncrypted, setIsEncrypted] = useState(false)
+  const [isEncrypted, setIsEncrypted] = useState(false);
+  const [categories, setCategories] = useState([]);
   const [responseData, setResponseData] = useState(
     formatResponse(`{
     "type": "PUBLISH_QDN_RESOURCE",
@@ -58,38 +83,136 @@ export const PUBLISH_QDN_RESOURCE = () => {
   }`)
   );
 
-//   const codePollName = `
-// await qortalRequest({
-//   action: "PUBLISH_QDN_RESOURCE",
-//   service: "${requestData?.service}",
-//   identifier: "${requestData?.identifier}", // optional 
-//   data64: ${requestData?.data64 ? `"${requestData?.data64}"` : "empty"}, // base64 string. Remove this param if you are putting in a FILE object 
-//   file: ${file ? 'FILE OBJECT' : "empty"} // File Object. Remove this param if you are putting in a base64 string.
-// });
-// `.trim();
+  //   const codePollName = `
+  // await qortalRequest({
+  //   action: "PUBLISH_QDN_RESOURCE",
+  //   service: "${requestData?.service}",
+  //   identifier: "${requestData?.identifier}", // optional
+  //   data64: ${requestData?.data64 ? `"${requestData?.data64}"` : "empty"}, // base64 string. Remove this param if you are putting in a FILE object
+  //   file: ${file ? 'FILE OBJECT' : "empty"} // File Object. Remove this param if you are putting in a base64 string.
+  // });
+  // `.trim();
 
-const codePollName = useMemo(()=> {
-  return `
+  const codePollName = useMemo(() => {
+    const handleAppFee = requestData?.appFee
+      ? `appFee: ${requestData.appFee},`
+      : "";
+    const handleAppFeeRecipient = requestData?.appFeeRecipient
+      ? `appFeeRecipient: ${requestData.appFeeRecipient},`
+      : "";
+
+        const handlePublicKeys  = !isEncrypted ? '' :  `publicKeys: ${JSON.stringify(requestData.publicKeys)},`
+    
+
+    if (dataType === "file") {
+      return `
   await qortalRequest({
     action: "PUBLISH_QDN_RESOURCE",
     service: "${requestData?.service}",
-    identifier: "${requestData?.identifier}", // optional 
-    data64: ${requestData?.data64 ? `"${requestData?.data64}"` : "empty"}, // base64 string. Remove this param if you are putting in a FILE object 
-    file: ${file ? 'FILE OBJECT' : "empty"}, // File Object. Remove this param if you are putting in a base64 string.
-    encrypted: ${isEncrypted === true ? true : 'empty' }
+    identifier: "${requestData?.identifier}", 
+    file: ${file ? "FILE OBJECT" : "empty"}, 
+    encrypt: ${isEncrypted},
+    title: "${requestData?.title}", 
+    description: "${requestData?.description}", 
+    category: "${requestData?.category}", 
+    tags: ${JSON.stringify(requestData?.tags)}, 
+    ${handleAppFee}
+    ${handleAppFeeRecipient}
+    ${handlePublicKeys}
   });
   `.trim();
-}, [requestData, file, isEncrypted])
+    } else {
+      return `
+  await qortalRequest({
+    action: "PUBLISH_QDN_RESOURCE",
+    service: "${requestData?.service}",
+    identifier: "${requestData?.identifier}", 
+    base64: ${requestData?.base64 ? `"${requestData?.base64}"` : ""}, 
+    encrypt: ${isEncrypted},
+    title: "${requestData?.title}", 
+    description: "${requestData?.description}", 
+    category: "${requestData?.category}", 
+    tags: ${JSON.stringify(requestData?.tags)}, 
+    ${handleAppFee}
+    ${handleAppFeeRecipient}
+    ${handlePublicKeys}
+  });
+  `.trim();
+    }
+  }, [requestData, file, isEncrypted, dataType]);
+
+  const tsInterface = useMemo(() => {
+    const handleAppFee = requestData?.appFee ? `appFee?: number;` : "";
+    const handleAppFeeRecipient = requestData?.appFeeRecipient
+      ? `appFeeRecipient?: string;`
+      : "";
+      const handlePublicKeys  = !isEncrypted ? '' :  `publicKeys: string[];`
+
+    if (dataType === "file") {
+      return `
+ interface PublishQdnResourceRequest {
+   action: string;
+   service: string;
+   identifier: string; 
+   file: FILE;
+   encrypt?: boolean;
+   title?: string;
+   description?: string;
+   category?: string;
+   tags?: string[];
+   ${handleAppFee}
+   ${handleAppFeeRecipient}
+   ${handlePublicKeys}
+ }
+ `.trim();
+    } else {
+      return `
+ interface PublishQdnResourceRequest {
+   action: string;
+   service: string;
+   identifier: string; 
+   base64: string;
+   encrypt?: boolean;
+   title?: string;
+   description?: string;
+   category?: string;
+   tags?: string[];
+   ${handleAppFee}
+   ${handleAppFeeRecipient}
+   ${handlePublicKeys}
+ };
+ `.trim();
+    }
+  }, [requestData, file, isEncrypted, dataType]);
 
   const executeQortalRequest = async () => {
     try {
       setIsLoading(true);
+      const dynamicFields = {};
+      if (dataType === "file") {
+        dynamicFields["file"] = file;
+      }
+      if (dataType === "base64") {
+        dynamicFields["base64"] = requestData.base64;
+      }
+      if (requestData?.appFee && requestData?.appFeeRecipient) {
+        dynamicFields["appFee"] = requestData.appFee;
+        dynamicFields["appFeeRecipient"] = requestData.appFeeRecipient;
+      }
+      if (isEncrypted) {
+        dynamicFields["publicKeys"] = requestData.publicKeys;
+      }
+
       let account = await qortalRequest({
         action: "PUBLISH_QDN_RESOURCE",
         service: requestData?.service,
         identifier: requestData?.identifier,
-        file,
-        data64: requestData?.data64
+        encrypt: isEncrypted,
+        title: requestData?.title,
+        description: requestData?.description,
+        category: requestData?.category,
+        tags: requestData?.tags,
+        ...dynamicFields,
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -109,104 +232,503 @@ const codePollName = useMemo(()=> {
     });
   };
 
+  const getCategories = React.useCallback(async () => {
+    try {
+      const url = `/arbitrary/categories`;
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response?.ok) return;
+      const responseData = await response.json();
+
+      setCategories(responseData);
+    } catch (error) {
+    } finally {
+      // dispatch(setIsLoadingGlobal(false))
+    }
+  }, []);
+
+  useEffect(() => {
+    getCategories();
+  }, [getCategories]);
+
   return (
     <div
       style={{
         padding: "10px",
       }}
     >
+      <GeneralExplanation>
+        <Typography variant="body1">
+                 Use this qortalRequest if you need to publish a resource.
+               </Typography>
+                <Typography variant="body1">Needs user approval</Typography>
+      </GeneralExplanation>
+
+      <Spacer height="20px" />
       <Card>
-        <div className="message-row">
-          <Label>Service</Label>
+        <Typography variant="h5">Modes</Typography>
+        <Spacer height="10px" />
+        <Box
+          sx={{
+            padding: "10px",
+            outline: "1px solid var(--color3)",
+            borderRadius: "5px",
+          }}
+        >
+          <Typography variant="h6">Data type</Typography>
+          <Spacer height="10px" />
           <Select
             size="small"
             labelId="label-select-category"
             id="id-select-category"
-            value={requestData?.service}
+            value={dataType}
             displayEmpty
-            onChange={(e) => setRequestData((prev)=> {
-              return {
-                ...prev,
-                service: e.target.value
-              }
-            })}
+            onChange={(e) => setDataType(e.target.value)}
             sx={{
-              width: '300px'
+              width: "300px",
             }}
           >
-            <MenuItem value={0}>
-              <em>No service selected</em>
-            </MenuItem>
-            {services?.map((service) => {
-              return (
-                <MenuItem key={service.name} value={service.name}>
-                  {`${service.name} - max ${service.sizeLabel}`} 
-                </MenuItem>
-              );
-            })}
+            <MenuItem value={"file"}>file</MenuItem>
+
+            <MenuItem value={"base64"}>base64</MenuItem>
           </Select>
-          <Label>Identifier</Label>
-          <input
-            type="text"
-            className="custom-input"
-            placeholder="identifier"
-            value={requestData.identifier}
-            name="identifier"
-            onChange={handleChange}
-          />
-          <button {...getRootProps()} style={{
-            width: '150px'
-          }}>
-            <input {...getInputProps()} />
-            Select file
-          </button>
-          {file && (
-            <ButtonBase sx={{
-              width: '150px'
-            }} onClick={()=> {
-              setFile(null)
-            }}>Remove file</ButtonBase>
+          <Spacer height="5px" />
+          <Typography>Mode file let's you publish a FILE object.</Typography>
+          <Spacer height="5px" />
+          <Typography>
+            Mode base64 let's you pass in a base64 string to publish.
+          </Typography>
+        </Box>
+      </Card>
+      <Spacer height="20px" />
+
+      <Card>
+        <Typography variant="h5">Fields</Typography>
+        <Spacer height="5px" />
+        <div className="message-row">
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">service</Typography>
+            <Spacer height="10px" />
+            <Select
+              size="small"
+              labelId="label-select-category"
+              id="id-select-category"
+              value={requestData?.service}
+              displayEmpty
+              onChange={(e) =>
+                setRequestData((prev) => {
+                  return {
+                    ...prev,
+                    service: e.target.value,
+                  };
+                })
+              }
+              sx={{
+                width: "300px",
+              }}
+            >
+              <MenuItem value={0}>
+                <em>No service selected</em>
+              </MenuItem>
+              {services?.map((service) => {
+                return (
+                  <MenuItem key={service.name} value={service.name}>
+                    {`${service.name} - max ${service.sizeLabel}`}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </Box>
+          <Spacer height="10px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">identifier</Typography>
+            <Spacer height="10px" />
+            <CustomInput
+              type="text"
+              placeholder="identifier"
+              value={requestData.identifier}
+              name="identifier"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>
+                Optional field but only in rare cases will this not be used.
+              </Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>Enter an identifier</Typography>
+          </Box>
+          <Spacer height="10px" />
+          {dataType === "file" && (
+            <Box
+              sx={{
+                padding: "10px",
+                outline: "1px solid var(--color3)",
+                borderRadius: "5px",
+              }}
+            >
+              <Typography variant="h6">file</Typography>
+              <Spacer height="10px" />
+              <button
+                {...getRootProps()}
+                style={{
+                  width: "150px",
+                }}
+              >
+                <input {...getInputProps()} />
+                Select file
+              </button>
+              {file && (
+                <ButtonBase
+                  sx={{
+                    width: "150px",
+                  }}
+                  onClick={() => {
+                    setFile(null);
+                  }}
+                >
+                  Remove file
+                </ButtonBase>
+              )}
+              <Spacer height="5px" />
+              <Typography>
+                {file ? `Selected file: ${file?.name}` : ""}
+              </Typography>
+              <Spacer height="10px" />
+              <FieldExplanation>
+                <Typography>Required field</Typography>
+              </FieldExplanation>
+              <Spacer height="5px" />
+              <Typography>Upload a file to be encrypted</Typography>
+              <Spacer height="5px" />
+            </Box>
           )}
-          <Label>Base64 string</Label>
-          <input
-            type="text"
-            className="custom-input"
-            name="data64"
-          value={requestData?.data64}
-          onChange={handleChange}
-        />
-        <Box
+          {dataType === "base64" && (
+            <Box
+              sx={{
+                padding: "10px",
+                outline: "1px solid var(--color3)",
+                borderRadius: "5px",
+              }}
+            >
+              <Typography variant="h6">base64</Typography>
+              <CustomInput
+                type="text"
+                placeholder="base64"
+                value={requestData.base64}
+                name="base64"
+                onChange={handleChange}
+              />
+              <Spacer height="10px" />
+              <FieldExplanation>
+                <Typography>Required field</Typography>
+              </FieldExplanation>
+              <Spacer height="5px" />
+              <Typography>Enter base64 data to be encrypted.</Typography>
+            </Box>
+          )}
+          <Spacer height="10px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">encrypt</Typography>
+            <Spacer height="10px" />
+            <Box
               sx={{
                 display: "flex",
-                gap: "10px",
                 alignItems: "center",
               }}
             >
-        <Checkbox
+              <Checkbox
                 onChange={(e) => {
                   setIsEncrypted(e.target.checked);
                 }}
-                value={isEncrypted}
+                checked={isEncrypted}
                 edge="start"
                 tabIndex={-1}
                 disableRipple
-                sx={{
-                  "&.Mui-checked": {
-                    color: "black", // Customize the color when checked
-                  },
-                  "& .MuiSvgIcon-root": {
-                    color: "black",
-                  },
-                }}
               />
-               <Typography
+              <Typography
                 sx={{
                   fontSize: "14px",
                 }}
               >
-                Encrypt data
+                encrypt
               </Typography>
-              </Box>
+            </Box>
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Optional field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>
+              Mark this if you want your data to be auto-encrypted. Unmark this
+              if you are passing in already encrypted data or if you do not want
+              the data to be encrypted.
+            </Typography>
+          </Box>
+          <Spacer height="10px" />
+          {isEncrypted && (
+            <Box
+              sx={{
+                padding: "10px",
+                outline: "1px solid var(--color3)",
+                borderRadius: "5px",
+              }}
+            >
+              <Typography variant="h6">publicKeys</Typography>
+              <Spacer height="10px" />
+              <OptionsManager
+                items={requestData.publicKeys}
+                setItems={(items) => {
+                  setRequestData((prev) => {
+                    return {
+                      ...prev,
+                      publicKeys: items,
+                    };
+                  });
+                }}
+              />
+
+              <Spacer height="10px" />
+              <FieldExplanation>
+                <Typography>Optional field</Typography>
+              </FieldExplanation>
+              <Spacer height="5px" />
+              <Typography>
+                You've marked this publish as 'encrypt'. Enter a list of public
+                keys.
+              </Typography>
+            </Box>
+          )}
+          <Spacer height="10px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">appFee</Typography>
+            <Spacer height="10px" />
+            <CustomInput
+              type="number"
+              placeholder="appFee"
+              value={requestData.appFee}
+              name="appFee"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>
+                Optional field that allows developers to monetize the publishes
+                on their apps.
+              </Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>Enter an appFee</Typography>
+          </Box>
+          <Spacer height="10px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">appFeeRecipient</Typography>
+            <Spacer height="10px" />
+            <CustomInput
+              type="text"
+              placeholder="appFeeRecipient"
+              value={requestData.appFeeRecipient}
+              name="appFeeRecipient"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>
+                Required field if you have entered an appFee
+              </Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>Enter a Qortal address or Qortal name</Typography>
+          </Box>
+
+          <Spacer height="10px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">filename</Typography>
+            <Spacer height="10px" />
+            <CustomInput
+              type="text"
+              placeholder="filename"
+              value={requestData.filename}
+              name="filename"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Optional field.</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>
+              Providing a filename with the file's extension is recommended. For
+              example, picture.png.
+            </Typography>
+          </Box>
+          <Spacer height="10px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">title</Typography>
+            <Spacer height="10px" />
+            <CustomInput
+              type="text"
+              placeholder="title"
+              value={requestData.title}
+              name="title"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Optional field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>
+              Title metadata. Can be used to search for the publish.
+            </Typography>
+          </Box>
+          <Spacer height="10px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">description</Typography>
+            <Spacer height="10px" />
+            <CustomInput
+              type="text"
+              placeholder="description"
+              value={requestData.description}
+              name="description"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Optional field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>
+              Description metadata. Can be used to search for the publish.
+            </Typography>
+          </Box>
+          <Spacer height="10px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">category</Typography>
+            <Spacer height="10px" />
+            <Select
+              displayEmpty
+              placeholder="Select Category"
+              value={requestData?.category}
+              onChange={(event) =>
+                setRequestData((prev) => {
+                  return {
+                    ...prev,
+                    category: event?.target.value,
+                  };
+                })
+              }
+            >
+              <MenuItem value={""}>
+                <em>Select Category</em>
+              </MenuItem>
+              {categories?.map((category) => {
+                return (
+                  <MenuItem value={category?.id}>{category?.name}</MenuItem>
+                );
+              })}
+            </Select>
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Optional field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>
+              Optional field that allows you to attach a publish to a Qortal
+              category.
+            </Typography>
+          </Box>
+          <Spacer height="10px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">tags</Typography>
+            <Spacer height="10px" />
+            <OptionsManager
+              maxLength={5}
+              items={requestData.tags}
+              setItems={(tags) => {
+                setRequestData((prev) => {
+                  return {
+                    ...prev,
+                    tags: tags,
+                  };
+                });
+              }}
+            />
+
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Optional field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>Optionally put up to 5 tags.</Typography>
+          </Box>
+          <Spacer height="20px" />
           <Button
             name="Publish"
             bgColor="#309ed1"
@@ -227,6 +749,9 @@ const codePollName = useMemo(()=> {
         >
           <h3>Request</h3>
           <DisplayCode codeBlock={codePollName} language="javascript" />
+          <Spacer height="10px" />
+          <h3>TS interface</h3>
+          <DisplayCode codeBlock={tsInterface} language="javascript" />
         </Box>
         <Box
           sx={{

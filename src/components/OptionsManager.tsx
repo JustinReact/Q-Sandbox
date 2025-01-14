@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextField, Button, Chip, Box, Stack, IconButton } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
 
-export function OptionsManager({ items, setItems, label = "Item" }) {
+export function OptionsManager({ items, setItems, label = "Item" , maxLength}) {
   const [inputValue, setInputValue] = useState("");
   const [editIndex, setEditIndex] = useState(null);
 
@@ -16,6 +16,7 @@ export function OptionsManager({ items, setItems, label = "Item" }) {
       setItems(updatedItems);
       setEditIndex(null);
     } else {
+      if(maxLength && items.length >= maxLength) return
       // Add new item
       if (!items.includes(inputValue)) {
         setItems([...items, inputValue]);
