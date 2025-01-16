@@ -30,11 +30,12 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const GET_TX_ACTIVITY_SUMMARY = ({ myAddress }) => {
+export const CREATE_TRADE_BUY_ORDER = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    coin: "LITECOIN",
+    foreignBlockchain: "LITECOIN",
+    crosschainAtInfo: []
 
   });
   const [responseData, setResponseData] = useState(
@@ -45,15 +46,20 @@ export const GET_TX_ACTIVITY_SUMMARY = ({ myAddress }) => {
 
   const codePollName = `
 await qortalRequest({
-  action: "GET_TX_ACTIVITY_SUMMARY",
-  coin: "${requestData?.coin}",
+  action: "CREATE_TRADE_BUY_ORDER",
+  foreignBlockchain: "${requestData?.foreignBlockchain}",
+  crosschainAtInfo: ${JSON.stringify(requestData.crosschainAtInfo)}
 });
 `.trim();
 
   const tsInterface = `
-interface GetTxActivitySummaryRequest {
+interface CrosschainAtInfo {
+  qortalAtAddress: string;
+}
+interface CreateTradeBuyOrderRequest {
   action: string;
-  coin: string;
+  foreignBlockchain: string;
+  crosschainAtInfo: CrosschainAtInfo[];
 }
 `.trim();
 
@@ -61,8 +67,9 @@ interface GetTxActivitySummaryRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "GET_TX_ACTIVITY_SUMMARY",
-        coin: requestData?.coin,
+        action: "CREATE_TRADE_BUY_ORDER",
+        foreignBlockchain: requestData?.foreignBlockchain,
+        crosschainAtInfo: requestData?.crosschainAtInfo
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -89,8 +96,9 @@ interface GetTxActivitySummaryRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-        Get the activity related to foreign coin trading
+          Creates a buy order.
         </Typography>
+         <Typography variant="body1">Needs user approval</Typography>
       </GeneralExplanation>
 
       <Spacer height="20px" />
@@ -105,18 +113,18 @@ interface GetTxActivitySummaryRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">coin</Typography>
+            <Typography variant="h6">foreignBlockchain</Typography>
             <Spacer height="10px" />
             <Select
             size="small"
             labelId="label-select-category"
             id="id-select-category"
-            value={requestData?.coin}
+            value={requestData?.foreignBlockchain}
             displayEmpty
             onChange={(e) => setRequestData((prev)=> {
               return {
                 ...prev,
-                coin: e.target.value
+                foreignBlockchain: e.target.value
               }
             })}
             sx={{
@@ -139,11 +147,45 @@ interface GetTxActivitySummaryRequest {
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter one of the supported Qortal foreign coins.</Typography>
+            <Typography>Select a supported foreign blockchain.</Typography>
           </Box>
+              <Box
+                      sx={{
+                        padding: "10px",
+                        outline: "1px solid var(--color3)",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      <Typography variant="h6">items</Typography>
+                      <Spacer height="10px" />
+                      <OptionsManager
+                        items={requestData.crosschainAtInfo?.map((item)=> item?.qortalAtAddress)}
+                        setItems={(items) => {
+                          setRequestData((prev) => {
+                            return {
+                              ...prev,
+                              crosschainAtInfo: items?.map((item)=> {
+                                return {
+                                  qortalAtAddress: item
+                                }
+                              }),
+                            };
+                          });
+                        }}
+                      />
+          
+                      <Spacer height="10px" />
+                      <FieldExplanation>
+                        <Typography>Required field</Typography>
+                      </FieldExplanation>
+                      <Spacer height="5px" />
+                      <Typography>
+                        Enter a list of crosschain ATs. All the ATs need to be of the same foreignBlockchain as the value selected in the field "foreignBlockchain"
+                      </Typography>
+                    </Box>
           <Spacer height="20px" />
           <Button
-            name="Get info"
+            name="Create buy order"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />

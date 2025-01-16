@@ -277,7 +277,7 @@ export const coins = [
   }
 ]
 
-export const foreignBlockcains = [
+export const foreignBlockchains = [
   {
     name: "LITECOIN"
   },

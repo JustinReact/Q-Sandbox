@@ -12,7 +12,7 @@ import {
 } from "../components/QRComponents";
 import { Spacer } from "../components/Spacer";
 import { Code, CustomInput } from "../components/Common-styles";
-import { coins, foreignBlockcains } from "../constants";
+import { coins, foreignBlockchains } from "../constants";
 import WarningIcon from '@mui/icons-material/Warning';
 export const Label = styled("label")(
   ({ theme }) => `
