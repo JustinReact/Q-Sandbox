@@ -30,6 +30,15 @@ import { JOIN_GROUP } from "./actions/JOIN_GROUP";
 import { SEND_CHAT_MESSAGE } from "./actions/SEND_CHAT_MESSAGE";
 import { ENCRYPT_DATA } from "./actions/ENCRYPT_DATA";
 import { DECRYPT_DATA } from "./actions/DECRYPT_DATA";
+import { GET_CROSSCHAIN_SERVER_INFO } from "./actions/GET_CROSSCHAIN_SERVER_INFO";
+import { GET_TX_ACTIVITY_SUMMARY } from "./actions/GET_TX_ACTIVITY_SUMMARY";
+import { GET_FOREIGN_FEE } from "./actions/GET_FOREIGN_FEE";
+import { GET_SERVER_CONNECTION_HISTORY } from "./actions/GET_SERVER_CONNECTION_HISTORY";
+import { GET_DAY_SUMMARY } from "./actions/GET_DAY_SUMMARY";
+import { UPDATE_FOREIGN_FEE } from "./actions/UPDATE_FOREIGN_FEE";
+import { SET_CURRENT_FOREIGN_SERVER } from "./actions/SET_CURRENT_FOREIGN_SERVER";
+import { ADD_FOREIGN_SERVER } from "./actions/ADD_FOREIGN_SERVER";
+import { REMOVE_FOREIGN_SERVER } from "./actions/REMOVE_FOREIGN_SERVER";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -80,6 +89,24 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return ENCRYPT_DATA;
       case "DECRYPT_DATA":
         return DECRYPT_DATA;
+      case "GET_CROSSCHAIN_SERVER_INFO":
+        return GET_CROSSCHAIN_SERVER_INFO
+      case "GET_TX_ACTIVITY_SUMMARY":
+        return GET_TX_ACTIVITY_SUMMARY;
+      case "GET_FOREIGN_FEE":
+        return GET_FOREIGN_FEE;
+      case "GET_SERVER_CONNECTION_HISTORY":
+        return GET_SERVER_CONNECTION_HISTORY
+      case "GET_DAY_SUMMARY":
+        return GET_DAY_SUMMARY;
+      case "UPDATE_FOREIGN_FEE":
+        return UPDATE_FOREIGN_FEE
+      case "SET_CURRENT_FOREIGN_SERVER":
+        return SET_CURRENT_FOREIGN_SERVER;
+      case "ADD_FOREIGN_SERVER": 
+        return ADD_FOREIGN_SERVER;
+      case "REMOVE_FOREIGN_SERVER":
+        return REMOVE_FOREIGN_SERVER;
       default:
         return EmptyActionComponent;
     }

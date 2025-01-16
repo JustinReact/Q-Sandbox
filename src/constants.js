@@ -276,3 +276,24 @@ export const coins = [
     name: "ARRR"
   }
 ]
+
+export const foreignBlockcains = [
+  {
+    name: "LITECOIN"
+  },
+  {
+    name: "BITCOIN"
+  },
+  {
+    name: "DOGECOIN"
+  },
+  {
+    name: "DIGIBYTE"
+  },
+  {
+    name: "RAVENCOIN"
+  },
+  {
+    name: "PIRATECHAIN"
+  }
+]
