@@ -40,6 +40,8 @@ import { SET_CURRENT_FOREIGN_SERVER } from "./actions/SET_CURRENT_FOREIGN_SERVER
 import { ADD_FOREIGN_SERVER } from "./actions/ADD_FOREIGN_SERVER";
 import { REMOVE_FOREIGN_SERVER } from "./actions/REMOVE_FOREIGN_SERVER";
 import { CREATE_TRADE_BUY_ORDER } from "./actions/CREATE_TRADE_BUY_ORDER";
+import { CREATE_TRADE_SELL_ORDER } from "./actions/CREATE_TRADE_SELL_ORDER";
+import { CANCEL_TRADE_SELL_ORDER } from "./actions/CANCEL_TRADE_SELL_ORDER";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -110,6 +112,10 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return REMOVE_FOREIGN_SERVER;
       case "CREATE_TRADE_BUY_ORDER":
         return CREATE_TRADE_BUY_ORDER;
+      case "CREATE_TRADE_SELL_ORDER":
+        return CREATE_TRADE_SELL_ORDER
+      case "CANCEL_TRADE_SELL_ORDER":
+        return CANCEL_TRADE_SELL_ORDER
       default:
         return EmptyActionComponent;
     }

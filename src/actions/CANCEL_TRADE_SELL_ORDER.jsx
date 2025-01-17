@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Box, Card, CircularProgress, MenuItem, Select, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CircularProgress,
+  MenuItem,
+  Select,
+  styled,
+  Typography,
+} from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
@@ -13,7 +21,7 @@ import {
 import { Spacer } from "../components/Spacer";
 import { Code, CustomInput } from "../components/Common-styles";
 import { coins, foreignBlockchains } from "../constants";
-import WarningIcon from '@mui/icons-material/Warning';
+import WarningIcon from "@mui/icons-material/Warning";
 export const Label = styled("label")(
   ({ theme }) => `
     font-family: 'IBM Plex Sans', sans-serif;
@@ -30,13 +38,11 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const CREATE_TRADE_BUY_ORDER = ({ myAddress }) => {
+export const CANCEL_TRADE_SELL_ORDER = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    foreignBlockchain: "LITECOIN",
-    crosschainAtInfo: []
-
+    atAddress: "",
   });
   const [responseData, setResponseData] = useState(
     formatResponse(`
@@ -46,20 +52,15 @@ export const CREATE_TRADE_BUY_ORDER = ({ myAddress }) => {
 
   const codePollName = `
 await qortalRequest({
-  action: "CREATE_TRADE_BUY_ORDER",
-  foreignBlockchain: "${requestData?.foreignBlockchain}",
-  crosschainAtInfo: ${JSON.stringify(requestData.crosschainAtInfo)}
+  action: "CANCEL_TRADE_SELL_ORDER",
+  atAddress: "${requestData?.atAddress}",
 });
 `.trim();
 
   const tsInterface = `
-interface CrosschainAtInfo {
-  qortalAtAddress: string;
-}
-interface CreateTradeBuyOrderRequest {
+interface CancelTradeSellOrderRequest {
   action: string;
-  foreignBlockchain: string;
-  crosschainAtInfo: CrosschainAtInfo[];
+  atAddress: string;
 }
 `.trim();
 
@@ -67,9 +68,8 @@ interface CreateTradeBuyOrderRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "CREATE_TRADE_BUY_ORDER",
-        foreignBlockchain: requestData?.foreignBlockchain,
-        crosschainAtInfo: requestData?.crosschainAtInfo
+        action: "CANCEL_TRADE_SELL_ORDER",
+        atAddress: requestData?.atAddress,
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -95,10 +95,24 @@ interface CreateTradeBuyOrderRequest {
       }}
     >
       <GeneralExplanation>
-        <Typography variant="body1">
-          Creates a buy order.
-        </Typography>
-         <Typography variant="body1">Needs user approval</Typography>
+        <Typography variant="body1">Cancels a sell order.</Typography>
+        <Typography variant="body1">Needs user approval</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <WarningIcon
+            sx={{
+              color: "gold",
+            }}
+          />
+          <Typography>
+            This qortalRequest cannot be used through the gateway.
+          </Typography>
+        </Box>
       </GeneralExplanation>
 
       <Spacer height="20px" />
@@ -113,79 +127,27 @@ interface CreateTradeBuyOrderRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">foreignBlockchain</Typography>
-            <Spacer height="10px" />
-            <Select
-            size="small"
-            labelId="label-select-category"
-            id="id-select-category"
-            value={requestData?.foreignBlockchain}
-            displayEmpty
-            onChange={(e) => setRequestData((prev)=> {
-              return {
-                ...prev,
-                foreignBlockchain: e.target.value
-              }
-            })}
-            sx={{
-              width: '300px'
-            }}
-          >
-            <MenuItem value={0}>
-              <em>No coin selected</em>
-            </MenuItem>
-            {foreignBlockchains?.map((coin) => {
-              return (
-                <MenuItem key={coin.name} value={coin.name}>
-                  {`${coin.name}`} 
-                </MenuItem>
-              );
-            })}
-          </Select>
+            <Typography variant="h6">atAddress</Typography>
+            <CustomInput
+              type="text"
+              placeholder="atAddress"
+              value={requestData.atAddress}
+              name="atAddress"
+              onChange={handleChange}
+            />
             <Spacer height="10px" />
             <FieldExplanation>
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Select a supported foreign blockchain.</Typography>
+            <Typography>
+              Enter the AT address of the sell order.
+            </Typography>
+            <Spacer height="5px" />
           </Box>
-              <Box
-                      sx={{
-                        padding: "10px",
-                        outline: "1px solid var(--color3)",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      <Typography variant="h6">crosschainAtInfo</Typography>
-                      <Spacer height="10px" />
-                      <OptionsManager
-                        items={requestData.crosschainAtInfo?.map((item)=> item?.qortalAtAddress)}
-                        setItems={(items) => {
-                          setRequestData((prev) => {
-                            return {
-                              ...prev,
-                              crosschainAtInfo: items?.map((item)=> {
-                                return {
-                                  qortalAtAddress: item
-                                }
-                              }),
-                            };
-                          });
-                        }}
-                      />
-          
-                      <Spacer height="10px" />
-                      <FieldExplanation>
-                        <Typography>Required field</Typography>
-                      </FieldExplanation>
-                      <Spacer height="5px" />
-                      <Typography>
-                        Enter a list of crosschain ATs. All the ATs need to be of the same foreignBlockchain as the value selected in the field "foreignBlockchain"
-                      </Typography>
-                    </Box>
           <Spacer height="20px" />
           <Button
-            name="Create buy order"
+            name="Cancel sell order"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
