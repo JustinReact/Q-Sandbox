@@ -204,6 +204,49 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
+
+  CREATE_AND_COPY_EMBED_LINK: {
+    category: "Other",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  DECRYPT_QORTAL_GROUP_DATA: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  ENCRYPT_QORTAL_GROUP_DATA: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  DECRYPT_DATA_WITH_SHARING_KEY: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  ENCRYPT_DATA_WITH_SHARING_KEY: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  GET_HOSTED_DATA: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: true,
+    isGatewayDisabled: false,
+  },
+  DELETE_HOSTED_DATA: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: true,
+    isGatewayDisabled: false,
+  },
 };
 
 

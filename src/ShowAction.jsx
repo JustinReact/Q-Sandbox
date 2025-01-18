@@ -42,6 +42,10 @@ import { REMOVE_FOREIGN_SERVER } from "./actions/REMOVE_FOREIGN_SERVER";
 import { CREATE_TRADE_BUY_ORDER } from "./actions/CREATE_TRADE_BUY_ORDER";
 import { CREATE_TRADE_SELL_ORDER } from "./actions/CREATE_TRADE_SELL_ORDER";
 import { CANCEL_TRADE_SELL_ORDER } from "./actions/CANCEL_TRADE_SELL_ORDER";
+import { ENCRYPT_QORTAL_GROUP_DATA } from "./actions/ENCRYPT_QORTAL_GROUP_DATA";
+import { DECRYPT_QORTAL_GROUP_DATA } from "./actions/DECRYPT_QORTAL_GROUP_DATA";
+import { ENCRYPT_DATA_WITH_SHARING_KEY } from "./actions/ENCRYPT_DATA_WITH_SHARING_KEY";
+import { DECRYPT_DATA_WITH_SHARING_KEY } from "./actions/DECRYPT_DATA_WITH_SHARING_KEY";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -115,7 +119,15 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
       case "CREATE_TRADE_SELL_ORDER":
         return CREATE_TRADE_SELL_ORDER
       case "CANCEL_TRADE_SELL_ORDER":
-        return CANCEL_TRADE_SELL_ORDER
+        return CANCEL_TRADE_SELL_ORDER;
+      case "ENCRYPT_QORTAL_GROUP_DATA":
+        return ENCRYPT_QORTAL_GROUP_DATA;
+      case "DECRYPT_QORTAL_GROUP_DATA":
+        return DECRYPT_QORTAL_GROUP_DATA;
+      case "ENCRYPT_DATA_WITH_SHARING_KEY":
+        return ENCRYPT_DATA_WITH_SHARING_KEY;
+      case "DECRYPT_DATA_WITH_SHARING_KEY":
+        return DECRYPT_DATA_WITH_SHARING_KEY
       default:
         return EmptyActionComponent;
     }

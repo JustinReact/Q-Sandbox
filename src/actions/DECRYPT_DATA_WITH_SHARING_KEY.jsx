@@ -38,12 +38,13 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const DECRYPT_DATA = ({ myAddress }) => {
+export const DECRYPT_DATA_WITH_SHARING_KEY = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
     file: null,
     encryptedData: "",
+    key: ""
   });
 
   const [responseData, setResponseData] = useState(formatResponse(``));
@@ -51,17 +52,19 @@ export const DECRYPT_DATA = ({ myAddress }) => {
   const codePollName = useMemo(() => {
     return `
     await qortalRequest({
-      action: "DECRYPT_DATA",
+      action: "DECRYPT_DATA_WITH_SHARING_KEY",
       encryptedData: ${requestData?.encryptedData},
+      key: "${requestData?.key}",
     });
     `.trim();
   }, [requestData]);
 
   const tsInterface = useMemo(() => {
     return `
-    interface DecryptDataRequest {
+    interface DecryptDataWithSharingKeyRequest {
       action: string;
       encryptedData: string;
+      key: string;
     }
     `.trim();
   }, []);
@@ -70,8 +73,9 @@ export const DECRYPT_DATA = ({ myAddress }) => {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "DECRYPT_DATA",
-        encryptedData: requestData.encryptedData
+        action: "DECRYPT_DATA_WITH_SHARING_KEY",
+        encryptedData: requestData.encryptedData,
+        key: requestData?.key
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -98,7 +102,7 @@ export const DECRYPT_DATA = ({ myAddress }) => {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-          Decrypts data that was encrypted with the ENCRYPT_DATA qortalRequest. If the user's public key was part of the encryption process, then it will be able to decrypt the data. Returns the decrypted data in base64.
+          Decrypts data that was encrypted with the ENCRYPT_DATA_WITH_SHARING_KEY qortalRequest. Use the qortalRequest "CREATE_AND_COPY_EMBED_LINK" to retrieve the sharing key.
         </Typography>
       </GeneralExplanation>
 
@@ -129,7 +133,28 @@ export const DECRYPT_DATA = ({ myAddress }) => {
               <Spacer height="5px" />
               <Typography>Enter base64 encrypted data that you want to be decrypted.</Typography>
             </Box>
-        
+            <Box
+              sx={{
+                padding: "10px",
+                outline: "1px solid var(--color3)",
+                borderRadius: "5px",
+              }}
+            >
+              <Typography variant="h6">key</Typography>
+              <CustomInput
+                type="text"
+                placeholder="key"
+                value={requestData.key}
+                name="key"
+                onChange={handleChange}
+              />
+              <Spacer height="10px" />
+              <FieldExplanation>
+                <Typography>Required field</Typography>
+              </FieldExplanation>
+              <Spacer height="5px" />
+              <Typography>Enter here the sharing key to decrypt the data.</Typography>
+            </Box>
           <Spacer height="20px" />
           <Button
             name="Decrypt data"
