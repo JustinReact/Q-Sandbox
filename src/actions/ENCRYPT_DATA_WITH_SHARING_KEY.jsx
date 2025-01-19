@@ -139,7 +139,7 @@ interface EncryptDataRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-          Encrypts data provided by the user which can later be decrypted by anyone who has the sharing key. At the moment this is used in combination with the "CREATE_AND_COPY_EMBED_LINK" qortalRequest. The publicKeys is optional in this case. Add other publicKeys if you want other users that you trust to also be able to share the sharing key.
+          Encrypts data provided by the user which can later be decrypted by anyone who has the sharing key. The user that encrypted the data with this qortalRequest will be able to use the "DECRYPT_DATA" qortalRequest to retrieve the key. The recipient of the key will be able to also decrypt the data using "DECRYPT_DATA_WITH_SHARING_KEY" The publicKeys is optional in this case. Add other publicKeys if you want other users that you trust to also be able to share the sharing key.
         </Typography>
         <Typography variant="body1">
           If you plan on publishing the returned encrypted data, it needs to be published to a SERVICE with _PRIVATE

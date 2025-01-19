@@ -102,7 +102,7 @@ export const DECRYPT_DATA_WITH_SHARING_KEY = ({ myAddress }) => {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-          Decrypts data that was encrypted with the ENCRYPT_DATA_WITH_SHARING_KEY qortalRequest. Use the qortalRequest "CREATE_AND_COPY_EMBED_LINK" to retrieve the sharing key.
+          Decrypts data that was encrypted with the ENCRYPT_DATA_WITH_SHARING_KEY qortalRequest. Use the qortalRequest "DECRYPT_DATA" to retrieve the sharing key.
         </Typography>
       </GeneralExplanation>
 

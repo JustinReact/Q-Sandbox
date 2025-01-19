@@ -247,6 +247,12 @@ export const actions = {
     requiresApproval: true,
     isGatewayDisabled: false,
   },
+  SHOW_ACTIONS: {
+    category: 'System',
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false
+  }
 };
 
 

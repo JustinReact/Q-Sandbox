@@ -46,6 +46,8 @@ import { ENCRYPT_QORTAL_GROUP_DATA } from "./actions/ENCRYPT_QORTAL_GROUP_DATA";
 import { DECRYPT_QORTAL_GROUP_DATA } from "./actions/DECRYPT_QORTAL_GROUP_DATA";
 import { ENCRYPT_DATA_WITH_SHARING_KEY } from "./actions/ENCRYPT_DATA_WITH_SHARING_KEY";
 import { DECRYPT_DATA_WITH_SHARING_KEY } from "./actions/DECRYPT_DATA_WITH_SHARING_KEY";
+import { CREATE_AND_COPY_EMBED_LINK } from "./actions/CREATE_AND_COPY_EMBED_LINK";
+import { SHOW_ACTIONS } from "./actions/SHOW_ACTIONS";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -128,6 +130,10 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return ENCRYPT_DATA_WITH_SHARING_KEY;
       case "DECRYPT_DATA_WITH_SHARING_KEY":
         return DECRYPT_DATA_WITH_SHARING_KEY
+      case "CREATE_AND_COPY_EMBED_LINK":
+        return CREATE_AND_COPY_EMBED_LINK;
+        case "SHOW_ACTIONS":
+          return SHOW_ACTIONS;
       default:
         return EmptyActionComponent;
     }
