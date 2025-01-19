@@ -76,19 +76,7 @@ export const PUBLISH_MULTIPLE_QDN_RESOURCES = () => {
   const [isOpenAddResource, setIsOpenAddResource] = useState(false);
   const [categories, setCategories] = useState([]);
   const [responseData, setResponseData] = useState(
-    formatResponse(`{
-    "type": "PUBLISH_QDN_RESOURCE",
-    "timestamp": 1697286687406,
-    "reference": "3jU9WpEPAvu9iL3cMfVd2AUmn9AijJRzkGCxVtXfpuUFZubM8AFDcbk5XA9m5AhPfsbMDFkSDzPJnkjeLA5GA59E",
-    "fee": "0.01000000",
-    "signature": "3QJ1EUvX3rskVNaP3RWvJwb9DsGgHPvneWqBWS62PCcuCj5N4Ei9Tr4nFj4nQeMqMU2qNkVD3Sb59e7iUWkawH3s",
-    "txGroupId": 0,
-    "approvalStatus": "NOT_REQUIRED",
-    "creatorAddress": "Qhxphh7g5iNtxAyLLpPMZzp4X85yf2tVam",
-    "voterPublicKey": "C5spuNU1BAHZDEkxF3wnrAPRDuNrVceaDJ6tDKitenko",
-    "pollName": "A test poll 3",
-    "optionIndex": 1
-  }`)
+    formatResponse(``)
   );
 
   //   const codePollName = `
@@ -889,12 +877,6 @@ export const PUBLISH_MULTIPLE_QDN_RESOURCES = () => {
                   <Spacer height="5px" />
                   <Typography>Optionally put up to 5 tags.</Typography>
                 </Box>
-                <Spacer height="20px" />
-                <Button
-                  name="Publish"
-                  bgColor="#309ed1"
-                  onClick={executeQortalRequest}
-                />
               </div>
             </Card>
           </Box>

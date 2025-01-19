@@ -48,6 +48,8 @@ import { ENCRYPT_DATA_WITH_SHARING_KEY } from "./actions/ENCRYPT_DATA_WITH_SHARI
 import { DECRYPT_DATA_WITH_SHARING_KEY } from "./actions/DECRYPT_DATA_WITH_SHARING_KEY";
 import { CREATE_AND_COPY_EMBED_LINK } from "./actions/CREATE_AND_COPY_EMBED_LINK";
 import { SHOW_ACTIONS } from "./actions/SHOW_ACTIONS";
+import { GET_HOSTED_DATA } from "./actions/GET_HOSTED_DATA";
+import { DELETE_HOSTED_DATA } from "./actions/DELETE_HOSTED_DATA";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -134,6 +136,10 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return CREATE_AND_COPY_EMBED_LINK;
         case "SHOW_ACTIONS":
           return SHOW_ACTIONS;
+      case "GET_HOSTED_DATA":
+        return GET_HOSTED_DATA;
+      case "DELETE_HOSTED_DATA":
+        return DELETE_HOSTED_DATA;
       default:
         return EmptyActionComponent;
     }
