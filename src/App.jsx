@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { MenuItem, Select, Tooltip, useTheme } from "@mui/material";
 import "./App.css";
-import QSandboxLogo from "./assets/images/QSandboxLogo.png";
+import QSandboxLogoLight from "./assets/images/q-sandbox-dark.png";
+import QSandboxLogoDark from "./assets/images/q-sandbox-light.png";
+
 import InfoIcon from "@mui/icons-material/Info";
 import { categories } from "./constants";
 import { ShowCategories } from "./ShowCategories";
@@ -62,7 +64,7 @@ function App() {
         
       </ThemeSelectRow>
         <div className="logo-container">
-          <img className="logo" src={QSandboxLogo} alt="q-sandbox-logo" />
+          <img className="logo" src={theme.palette.mode === "dark" ? QSandboxLogoDark : QSandboxLogoLight} alt="q-sandbox-logo" />
         </div>
       </div>
       <Select
