@@ -50,6 +50,10 @@ import { CREATE_AND_COPY_EMBED_LINK } from "./actions/CREATE_AND_COPY_EMBED_LINK
 import { SHOW_ACTIONS } from "./actions/SHOW_ACTIONS";
 import { GET_HOSTED_DATA } from "./actions/GET_HOSTED_DATA";
 import { DELETE_HOSTED_DATA } from "./actions/DELETE_HOSTED_DATA";
+import { GET_ACCOUNT_DATA } from "./actions/GET_ACCOUNT_DATA";
+import { GET_ACCOUNT_NAMES } from "./actions/GET_ACCOUNT_NAMES";
+import { SEARCH_NAMES } from "./actions/SEARCH_NAMES";
+import { GET_NAME_DATA } from "./actions/GET_NAME_DATA";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -101,27 +105,27 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
       case "DECRYPT_DATA":
         return DECRYPT_DATA;
       case "GET_CROSSCHAIN_SERVER_INFO":
-        return GET_CROSSCHAIN_SERVER_INFO
+        return GET_CROSSCHAIN_SERVER_INFO;
       case "GET_TX_ACTIVITY_SUMMARY":
         return GET_TX_ACTIVITY_SUMMARY;
       case "GET_FOREIGN_FEE":
         return GET_FOREIGN_FEE;
       case "GET_SERVER_CONNECTION_HISTORY":
-        return GET_SERVER_CONNECTION_HISTORY
+        return GET_SERVER_CONNECTION_HISTORY;
       case "GET_DAY_SUMMARY":
         return GET_DAY_SUMMARY;
       case "UPDATE_FOREIGN_FEE":
-        return UPDATE_FOREIGN_FEE
+        return UPDATE_FOREIGN_FEE;
       case "SET_CURRENT_FOREIGN_SERVER":
         return SET_CURRENT_FOREIGN_SERVER;
-      case "ADD_FOREIGN_SERVER": 
+      case "ADD_FOREIGN_SERVER":
         return ADD_FOREIGN_SERVER;
       case "REMOVE_FOREIGN_SERVER":
         return REMOVE_FOREIGN_SERVER;
       case "CREATE_TRADE_BUY_ORDER":
         return CREATE_TRADE_BUY_ORDER;
       case "CREATE_TRADE_SELL_ORDER":
-        return CREATE_TRADE_SELL_ORDER
+        return CREATE_TRADE_SELL_ORDER;
       case "CANCEL_TRADE_SELL_ORDER":
         return CANCEL_TRADE_SELL_ORDER;
       case "ENCRYPT_QORTAL_GROUP_DATA":
@@ -131,15 +135,23 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
       case "ENCRYPT_DATA_WITH_SHARING_KEY":
         return ENCRYPT_DATA_WITH_SHARING_KEY;
       case "DECRYPT_DATA_WITH_SHARING_KEY":
-        return DECRYPT_DATA_WITH_SHARING_KEY
+        return DECRYPT_DATA_WITH_SHARING_KEY;
       case "CREATE_AND_COPY_EMBED_LINK":
         return CREATE_AND_COPY_EMBED_LINK;
-        case "SHOW_ACTIONS":
-          return SHOW_ACTIONS;
+      case "SHOW_ACTIONS":
+        return SHOW_ACTIONS;
       case "GET_HOSTED_DATA":
         return GET_HOSTED_DATA;
       case "DELETE_HOSTED_DATA":
         return DELETE_HOSTED_DATA;
+      case "GET_ACCOUNT_DATA":
+        return GET_ACCOUNT_DATA;
+      case "GET_ACCOUNT_NAMES":
+        return GET_ACCOUNT_NAMES;
+        case "SEARCH_NAMES":
+        return SEARCH_NAMES;
+        case "GET_NAME_DATA":
+          return GET_NAME_DATA;
       default:
         return EmptyActionComponent;
     }

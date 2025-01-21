@@ -252,7 +252,141 @@ export const actions = {
     isTx: false,
     requiresApproval: false,
     isGatewayDisabled: false
-  }
+  },
+  GET_ACCOUNT_DATA: {
+    category: "Account",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  GET_ACCOUNT_NAMES: {
+    category: "Account",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  SEARCH_NAMES: {
+    category: "Account",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  GET_NAME_DATA: {
+    category: "Account",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  // GET_QDN_RESOURCE_URL: {
+  //   category: "QDN",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // LINK_TO_QDN_RESOURCE: {
+  //   category: "QDN",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // LIST_QDN_RESOURCES: {
+  //   category: "QDN",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // SEARCH_QDN_RESOURCES: {
+  //   category: "QDN",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // FETCH_QDN_RESOURCE: {
+  //   category: "QDN",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // GET_QDN_RESOURCE_STATUS: {
+  //   category: "QDN",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // GET_QDN_RESOURCE_PROPERTIES: {
+  //   category: "QDN",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // GET_QDN_RESOURCE_METADATA: {
+  //   category: "QDN",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // SEARCH_CHAT_MESSAGES: {
+  //   category: "Chat",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // LIST_GROUPS: {
+  //   category: "Groups",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // GET_BALANCE: {
+  //   category: "Wallet",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // GET_AT: {
+  //   category: "Smart Contracts",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // GET_AT_DATA: {
+  //   category: "Smart Contracts",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // LIST_ATS: {
+  //   category: "Smart Contracts",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // FETCH_BLOCK: {
+  //   category: "Blockchain",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // FETCH_BLOCK_RANGE: {
+  //   category: "Blockchain",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // SEARCH_TRANSACTIONS: {
+  //   category: "Blockchain",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // GET_PRICE: {
+  //   category: "Crosschain",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+
+  
 };
 
 

@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Box, Card, CircularProgress, MenuItem, Select, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CircularProgress,
+  MenuItem,
+  Select,
+  styled,
+  Typography,
+} from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
@@ -13,7 +21,7 @@ import {
 import { Spacer } from "../components/Spacer";
 import { Code, CustomInput } from "../components/Common-styles";
 import { coins } from "../constants";
-
+import WarningIcon from "@mui/icons-material/Warning";
 export const Label = styled("label")(
   ({ theme }) => `
     font-family: 'IBM Plex Sans', sans-serif;
@@ -30,45 +38,37 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const SEND_COIN = ({ myAddress }) => {
+export const SEARCH_NAMES = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    coin: "QORT",
-    recipient: "",
-    amount: 1,
+    query: "",
+    limit: 20,
+    offset: 0,
+    reverse: false,
+    prefix: false
   });
-  const [responseData, setResponseData] = useState(
-    formatResponse(`{
-       amount: '1.00000000'
-  approvalStatus: 'NOT_REQUIRED'
-  creatorAddress: 'QMjCNsctvWLoDdPSRpHn6TF2j96iDr9YWm'
-  fee: '0.00100000'
-  recipient: 'Qi3x7zVhN17mcYm9JTrEYaFihmETSZTzPD'
-  reference: '26xJXTxcdXhFUYFkyZ7qKkj94RtaLBevcyQgCwK3W5xt7JkGPrCbvNgdC46CmJA65cjTCXMykwiyYJfVsPdsU1fS'
-  senderPublicKey: 'Bjo1iUHJXbCb4LKabmE6KWNL5jSgCK36ypasoDgJG53U'
-  signature: '4j2iPN5Xwgocs8Z32JB4UB63G87qS43kPyEwFmQMLvWBXtrSQwAfyx8S9CqQvbregnstXFKqXpkPT2dNdAscriT4'
-  timestamp: 1684321310522
-  txGroupId: 0
-  type: 'PAYMENT'
-    }`)
-  );
+  const [responseData, setResponseData] = useState(formatResponse(``));
 
   const codePollName = `
 await qortalRequest({
-  action: "SEND_COIN",
-  coin: "${requestData?.coin}",
-  recipient: "${requestData?.recipient}",
-  amount: ${JSON.stringify(requestData.amount)},
+  action: "SEARCH_NAMES",
+  query: "${requestData?.query}",
+  limit: ${requestData?.limit},
+  offset: ${requestData?.offset},
+  reverse: ${requestData?.reverse},
+  prefix: ${requestData?.prefix}
 });
 `.trim();
 
   const tsInterface = `
-interface SendCoinRequest {
+interface SearchNamesRequest {
   action: string;
-  coin: string;
-  recipient: string;
-  amount: number;
+  query: string;
+  offset: number;
+  limit: number;
+  reverse: boolean;
+  prefix: boolean;
 }
 `.trim();
 
@@ -76,10 +76,12 @@ interface SendCoinRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "SEND_COIN",
-        coin: requestData?.coin,
-        recipient: requestData?.recipient,
-        amount: requestData.amount,
+        action: "SEARCH_NAMES",
+        query: requestData?.query,
+        offset: requestData?.offset,
+        limit: requestData?.limit,
+        reverse: requestData?.reverse,
+        prefix: requestData?.prefix
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -106,11 +108,8 @@ interface SendCoinRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-        Send QORT to address
+          The SEARCH_NAMES endpoint allows you to search for registered Qortal names.
         </Typography>
-         <Typography variant="body1">
-                Needs user approval
-                </Typography>
       </GeneralExplanation>
 
       <Spacer height="20px" />
@@ -125,67 +124,23 @@ interface SendCoinRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">coin</Typography>
-            <Spacer height="10px" />
-            <Select
-            size="small"
-            labelId="label-select-category"
-            id="id-select-category"
-            value={requestData?.coin}
-            displayEmpty
-            onChange={(e) => setRequestData((prev)=> {
-              return {
-                ...prev,
-                coin: e.target.value
-              }
-            })}
-            sx={{
-              width: '300px'
-            }}
-          >
-            <MenuItem value={0}>
-              <em>No coin selected</em>
-            </MenuItem>
-            {coins?.map((coin) => {
-              return (
-                <MenuItem key={coin.name} value={coin.name}>
-                  {`${coin.name}`} 
-                </MenuItem>
-              );
-            })}
-          </Select>
-            <Spacer height="10px" />
-            <FieldExplanation>
-              <Typography>Required field</Typography>
-            </FieldExplanation>
-            <Spacer height="5px" />
-            <Typography>Enter one of the supported Qortal coin ID.</Typography>
-          </Box>
-          <Spacer height="5px" />
-          <Box
-            sx={{
-              padding: "10px",
-              outline: "1px solid var(--color3)",
-              borderRadius: "5px",
-            }}
-          >
-            <Typography variant="h6">recipient</Typography>
+            <Typography variant="h6">query</Typography>
             <CustomInput
               type="text"
-              placeholder="recipient"
-              value={requestData.recipient}
-              name="recipient"
+              placeholder="query"
+              value={requestData.query}
+              name="query"
               onChange={handleChange}
             />
             <Spacer height="10px" />
             <FieldExplanation>
-              <Typography>Required field</Typography>
+              <Typography>Optional field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the wallet address of the recipient.</Typography>
-            <Typography>For QORT, you can enter the Qortal Name instead of the address.</Typography>
+            <Typography>Enter a query</Typography>
+            <Spacer height="5px" />
           </Box>
-          <Spacer height="5px" />
+          <Spacer height="20px" />
           <Box
             sx={{
               padding: "10px",
@@ -193,13 +148,12 @@ interface SendCoinRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">amount</Typography>
-
+            <Typography variant="h6">limit</Typography>
             <CustomInput
               type="number"
-              placeholder="amount"
-              value={requestData.amount}
-              name="amount"
+              placeholder="limit"
+              value={requestData.limit}
+              name="limit"
               onChange={handleChange}
             />
             <Spacer height="10px" />
@@ -207,12 +161,115 @@ interface SendCoinRequest {
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the amount.</Typography>
           </Box>
-         
+
+          <Spacer height="20px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">offset</Typography>
+            <CustomInput
+              type="number"
+              placeholder="offset"
+              value={requestData.offset}
+              name="offset"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Required field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+          </Box>
+          <Spacer height="20px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">reverse</Typography>
+            <Spacer height="10px" />
+            <Select
+              size="small"
+              labelId="label-select-category"
+              id="id-select-category"
+              value={requestData?.reverse}
+              displayEmpty
+              onChange={(e) =>
+                setRequestData((prev) => {
+                  return {
+                    ...prev,
+                    reverse: e.target.value,
+                  };
+                })
+              }
+              sx={{
+                width: "300px",
+              }}
+            >
+              <MenuItem value={false}>false</MenuItem>
+
+              <MenuItem value={true}>true</MenuItem>
+            </Select>
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Optional field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>
+              Reverse true will list the results by latest of creation.
+            </Typography>
+          </Box>
+          <Spacer height="20px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">prefix</Typography>
+            <Spacer height="10px" />
+            <Select
+              size="small"
+              labelId="label-select-category"
+              id="id-select-category"
+              value={requestData?.prefix}
+              displayEmpty
+              onChange={(e) =>
+                setRequestData((prev) => {
+                  return {
+                    ...prev,
+                    prefix: e.target.value,
+                  };
+                })
+              }
+              sx={{
+                width: "300px",
+              }}
+            >
+              <MenuItem value={false}>false</MenuItem>
+
+              <MenuItem value={true}>true</MenuItem>
+            </Select>
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Optional field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>
+              If true, only the beginning of the name is matched
+            </Typography>
+          </Box>
           <Spacer height="20px" />
           <Button
-            name="Send coin"
+            name="Search names"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />

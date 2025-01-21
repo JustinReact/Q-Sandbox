@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Box, Card, CircularProgress, MenuItem, Select, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CircularProgress,
+  MenuItem,
+  Select,
+  styled,
+  Typography,
+} from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
 
@@ -13,7 +21,7 @@ import {
 import { Spacer } from "../components/Spacer";
 import { Code, CustomInput } from "../components/Common-styles";
 import { coins } from "../constants";
-
+import WarningIcon from "@mui/icons-material/Warning";
 export const Label = styled("label")(
   ({ theme }) => `
     font-family: 'IBM Plex Sans', sans-serif;
@@ -30,45 +38,34 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const SEND_COIN = ({ myAddress }) => {
+export const GET_ACCOUNT_NAMES = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    coin: "QORT",
-    recipient: "",
-    amount: 1,
+    address: "",
+    limit: 20,
+    offset: 0,
+    reverse: false,
   });
-  const [responseData, setResponseData] = useState(
-    formatResponse(`{
-       amount: '1.00000000'
-  approvalStatus: 'NOT_REQUIRED'
-  creatorAddress: 'QMjCNsctvWLoDdPSRpHn6TF2j96iDr9YWm'
-  fee: '0.00100000'
-  recipient: 'Qi3x7zVhN17mcYm9JTrEYaFihmETSZTzPD'
-  reference: '26xJXTxcdXhFUYFkyZ7qKkj94RtaLBevcyQgCwK3W5xt7JkGPrCbvNgdC46CmJA65cjTCXMykwiyYJfVsPdsU1fS'
-  senderPublicKey: 'Bjo1iUHJXbCb4LKabmE6KWNL5jSgCK36ypasoDgJG53U'
-  signature: '4j2iPN5Xwgocs8Z32JB4UB63G87qS43kPyEwFmQMLvWBXtrSQwAfyx8S9CqQvbregnstXFKqXpkPT2dNdAscriT4'
-  timestamp: 1684321310522
-  txGroupId: 0
-  type: 'PAYMENT'
-    }`)
-  );
+  const [responseData, setResponseData] = useState(formatResponse(``));
 
   const codePollName = `
 await qortalRequest({
-  action: "SEND_COIN",
-  coin: "${requestData?.coin}",
-  recipient: "${requestData?.recipient}",
-  amount: ${JSON.stringify(requestData.amount)},
+  action: "GET_ACCOUNT_NAMES",
+  address: "${requestData?.address}",
+  limit: ${requestData?.limit},
+  offset: ${requestData?.offset},
+  reverse: ${requestData?.reverse}
 });
 `.trim();
 
   const tsInterface = `
-interface SendCoinRequest {
+interface GetAccountNamesRequest {
   action: string;
-  coin: string;
-  recipient: string;
-  amount: number;
+  address: string;
+  offset: number;
+  limit: number;
+  reverse: boolean;
 }
 `.trim();
 
@@ -76,10 +73,11 @@ interface SendCoinRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "SEND_COIN",
-        coin: requestData?.coin,
-        recipient: requestData?.recipient,
-        amount: requestData.amount,
+        action: "GET_ACCOUNT_NAMES",
+        address: requestData?.address,
+        offset: requestData?.offset,
+        limit: requestData?.limit,
+        reverse: requestData?.reverse
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -106,11 +104,9 @@ interface SendCoinRequest {
     >
       <GeneralExplanation>
         <Typography variant="body1">
-        Send QORT to address
+          The GET_ACCOUNT_NAMES endpoint retrieves a list of names associated
+          with a Qortal address. Currently there is only one name per address.
         </Typography>
-         <Typography variant="body1">
-                Needs user approval
-                </Typography>
       </GeneralExplanation>
 
       <Spacer height="20px" />
@@ -125,56 +121,12 @@ interface SendCoinRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">coin</Typography>
-            <Spacer height="10px" />
-            <Select
-            size="small"
-            labelId="label-select-category"
-            id="id-select-category"
-            value={requestData?.coin}
-            displayEmpty
-            onChange={(e) => setRequestData((prev)=> {
-              return {
-                ...prev,
-                coin: e.target.value
-              }
-            })}
-            sx={{
-              width: '300px'
-            }}
-          >
-            <MenuItem value={0}>
-              <em>No coin selected</em>
-            </MenuItem>
-            {coins?.map((coin) => {
-              return (
-                <MenuItem key={coin.name} value={coin.name}>
-                  {`${coin.name}`} 
-                </MenuItem>
-              );
-            })}
-          </Select>
-            <Spacer height="10px" />
-            <FieldExplanation>
-              <Typography>Required field</Typography>
-            </FieldExplanation>
-            <Spacer height="5px" />
-            <Typography>Enter one of the supported Qortal coin ID.</Typography>
-          </Box>
-          <Spacer height="5px" />
-          <Box
-            sx={{
-              padding: "10px",
-              outline: "1px solid var(--color3)",
-              borderRadius: "5px",
-            }}
-          >
-            <Typography variant="h6">recipient</Typography>
+            <Typography variant="h6">address</Typography>
             <CustomInput
               type="text"
-              placeholder="recipient"
-              value={requestData.recipient}
-              name="recipient"
+              placeholder="address"
+              value={requestData.address}
+              name="address"
               onChange={handleChange}
             />
             <Spacer height="10px" />
@@ -182,9 +134,55 @@ interface SendCoinRequest {
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the wallet address of the recipient.</Typography>
-            <Typography>For QORT, you can enter the Qortal Name instead of the address.</Typography>
+            <Typography>Enter a Qortal address</Typography>
+            <Spacer height="5px" />
           </Box>
+          <Spacer height="20px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">limit</Typography>
+            <CustomInput
+              type="number"
+              placeholder="limit"
+              value={requestData.limit}
+              name="limit"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Required field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+          </Box>
+
+          <Spacer height="20px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">offset</Typography>
+            <CustomInput
+              type="number"
+              placeholder="offset"
+              value={requestData.offset}
+              name="offset"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Required field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+          </Box>
+          <Spacer height="20px" />
           <Spacer height="5px" />
           <Box
             sx={{
@@ -193,26 +191,42 @@ interface SendCoinRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">amount</Typography>
+            <Typography variant="h6">reverse</Typography>
+            <Spacer height="10px" />
+            <Select
+              size="small"
+              labelId="label-select-category"
+              id="id-select-category"
+              value={requestData?.reverse}
+              displayEmpty
+              onChange={(e) =>
+                setRequestData((prev) => {
+                  return {
+                    ...prev,
+                    reverse: e.target.value,
+                  };
+                })
+              }
+              sx={{
+                width: "300px",
+              }}
+            >
+              <MenuItem value={false}>false</MenuItem>
 
-            <CustomInput
-              type="number"
-              placeholder="amount"
-              value={requestData.amount}
-              name="amount"
-              onChange={handleChange}
-            />
+              <MenuItem value={true}>true</MenuItem>
+            </Select>
             <Spacer height="10px" />
             <FieldExplanation>
-              <Typography>Required field</Typography>
+              <Typography>Optional field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the amount.</Typography>
+            <Typography>
+              Reverse true will list the results by latest of registration.
+            </Typography>
           </Box>
-         
           <Spacer height="20px" />
           <Button
-            name="Send coin"
+            name="Get account names"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />
