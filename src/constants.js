@@ -277,18 +277,18 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // GET_QDN_RESOURCE_URL: {
-  //   category: "QDN",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
-  // LINK_TO_QDN_RESOURCE: {
-  //   category: "QDN",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  GET_QDN_RESOURCE_URL: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  LINK_TO_QDN_RESOURCE: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   // LIST_QDN_RESOURCES: {
   //   category: "QDN",
   //   isTx: false,

@@ -54,6 +54,8 @@ import { GET_ACCOUNT_DATA } from "./actions/GET_ACCOUNT_DATA";
 import { GET_ACCOUNT_NAMES } from "./actions/GET_ACCOUNT_NAMES";
 import { SEARCH_NAMES } from "./actions/SEARCH_NAMES";
 import { GET_NAME_DATA } from "./actions/GET_NAME_DATA";
+import { GET_QDN_RESOURCE_URL } from "./actions/GET_QDN_RESOURCE_URL";
+import { LINK_TO_QDN_RESOURCE } from "./actions/LINK_TO_QDN_RESOURCE";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -148,10 +150,14 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return GET_ACCOUNT_DATA;
       case "GET_ACCOUNT_NAMES":
         return GET_ACCOUNT_NAMES;
-        case "SEARCH_NAMES":
+      case "SEARCH_NAMES":
         return SEARCH_NAMES;
-        case "GET_NAME_DATA":
-          return GET_NAME_DATA;
+      case "GET_NAME_DATA":
+        return GET_NAME_DATA;
+      case "GET_QDN_RESOURCE_URL":
+        return GET_QDN_RESOURCE_URL;
+      case "LINK_TO_QDN_RESOURCE": 
+        return LINK_TO_QDN_RESOURCE
       default:
         return EmptyActionComponent;
     }
