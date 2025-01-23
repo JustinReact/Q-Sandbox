@@ -56,6 +56,8 @@ import { SEARCH_NAMES } from "./actions/SEARCH_NAMES";
 import { GET_NAME_DATA } from "./actions/GET_NAME_DATA";
 import { GET_QDN_RESOURCE_URL } from "./actions/GET_QDN_RESOURCE_URL";
 import { LINK_TO_QDN_RESOURCE } from "./actions/LINK_TO_QDN_RESOURCE";
+import { LIST_QDN_RESOURCES } from "./actions/LIST_QDN_RESOURCES";
+import { SEARCH_QDN_RESOURCES } from "./actions/SEARCH_QDN_RESOURCES";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -158,6 +160,10 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return GET_QDN_RESOURCE_URL;
       case "LINK_TO_QDN_RESOURCE": 
         return LINK_TO_QDN_RESOURCE
+      case "LIST_QDN_RESOURCES":
+        return LIST_QDN_RESOURCES;
+      case "SEARCH_QDN_RESOURCES":
+        return SEARCH_QDN_RESOURCES
       default:
         return EmptyActionComponent;
     }
