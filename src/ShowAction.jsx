@@ -60,6 +60,10 @@ import { LIST_QDN_RESOURCES } from "./actions/LIST_QDN_RESOURCES";
 import { SEARCH_QDN_RESOURCES } from "./actions/SEARCH_QDN_RESOURCES";
 import { FETCH_QDN_RESOURCE } from "./actions/FETCH_QDN_RESOURCE";
 import { GET_QDN_RESOURCE_STATUS } from "./actions/GET_QDN_RESOURCE_STATUS";
+import { GET_QDN_RESOURCE_PROPERTIES } from "./actions/GET_QDN_RESOURCE_PROPERTIES";
+import { GET_QDN_RESOURCE_METADATA } from "./actions/GET_QDN_RESOURCE_METADATA";
+import { GET_BALANCE } from "./actions/GET_BALANCE";
+import { GET_PRICE } from "./actions/GET_PRICE";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -169,7 +173,15 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
       case "FETCH_QDN_RESOURCE":
         return FETCH_QDN_RESOURCE;
       case "GET_QDN_RESOURCE_STATUS":
-        return GET_QDN_RESOURCE_STATUS
+        return GET_QDN_RESOURCE_STATUS;
+      case "GET_QDN_RESOURCE_PROPERTIES":
+        return GET_QDN_RESOURCE_PROPERTIES;
+      case "GET_QDN_RESOURCE_METADATA":
+        return GET_QDN_RESOURCE_METADATA;
+        case "GET_BALANCE":
+          return GET_BALANCE;
+          case "GET_PRICE":
+            return GET_PRICE;
       default:
         return EmptyActionComponent;
     }

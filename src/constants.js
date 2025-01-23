@@ -313,18 +313,18 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // GET_QDN_RESOURCE_PROPERTIES: {
-  //   category: "QDN",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
-  // GET_QDN_RESOURCE_METADATA: {
-  //   category: "QDN",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  GET_QDN_RESOURCE_PROPERTIES: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  GET_QDN_RESOURCE_METADATA: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   // SEARCH_CHAT_MESSAGES: {
   //   category: "Chat",
   //   isTx: false,
@@ -337,12 +337,12 @@ export const actions = {
   //   requiresApproval: false,
   //   isGatewayDisabled: false,
   // },
-  // GET_BALANCE: {
-  //   category: "Wallet",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  GET_BALANCE: {
+    category: "Account",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   // GET_AT: {
   //   category: "Smart Contracts",
   //   isTx: false,
@@ -379,12 +379,12 @@ export const actions = {
   //   requiresApproval: false,
   //   isGatewayDisabled: false,
   // },
-  // GET_PRICE: {
-  //   category: "Crosschain",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  GET_PRICE: {
+    category: "Payment",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
 
   
 };
