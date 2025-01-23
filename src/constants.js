@@ -301,18 +301,18 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // FETCH_QDN_RESOURCE: {
-  //   category: "QDN",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
-  // GET_QDN_RESOURCE_STATUS: {
-  //   category: "QDN",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  FETCH_QDN_RESOURCE: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  GET_QDN_RESOURCE_STATUS: {
+    category: "Data",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   // GET_QDN_RESOURCE_PROPERTIES: {
   //   category: "QDN",
   //   isTx: false,

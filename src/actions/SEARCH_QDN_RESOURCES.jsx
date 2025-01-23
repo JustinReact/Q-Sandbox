@@ -92,7 +92,7 @@ export const SEARCH_QDN_RESOURCES = () => {
 
   const tsInterface = useMemo(() => {
     return `
-        interface ListQdnResourcesRequest {
+        interface SearchQdnResourcesRequest {
           action: string;
            service?: string;
            name?: string;
@@ -747,7 +747,7 @@ export const SEARCH_QDN_RESOURCES = () => {
         <Spacer height="10px" />
 
         <Button
-          name="List Resources"
+          name="Search"
           bgColor="#309ed1"
           onClick={executeQortalRequest}
         />
