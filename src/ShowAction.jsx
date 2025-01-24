@@ -64,6 +64,10 @@ import { GET_QDN_RESOURCE_PROPERTIES } from "./actions/GET_QDN_RESOURCE_PROPERTI
 import { GET_QDN_RESOURCE_METADATA } from "./actions/GET_QDN_RESOURCE_METADATA";
 import { GET_BALANCE } from "./actions/GET_BALANCE";
 import { GET_PRICE } from "./actions/GET_PRICE";
+import { LIST_GROUPS } from "./actions/LIST_GROUPS";
+import { GET_AT } from "./actions/GET_AT";
+import { GET_AT_DATA } from "./actions/GET_AT_DATA";
+import { LIST_ATS } from "./actions/LIST_ATS";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -164,8 +168,8 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return GET_NAME_DATA;
       case "GET_QDN_RESOURCE_URL":
         return GET_QDN_RESOURCE_URL;
-      case "LINK_TO_QDN_RESOURCE": 
-        return LINK_TO_QDN_RESOURCE
+      case "LINK_TO_QDN_RESOURCE":
+        return LINK_TO_QDN_RESOURCE;
       case "LIST_QDN_RESOURCES":
         return LIST_QDN_RESOURCES;
       case "SEARCH_QDN_RESOURCES":
@@ -178,10 +182,18 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return GET_QDN_RESOURCE_PROPERTIES;
       case "GET_QDN_RESOURCE_METADATA":
         return GET_QDN_RESOURCE_METADATA;
-        case "GET_BALANCE":
-          return GET_BALANCE;
-          case "GET_PRICE":
-            return GET_PRICE;
+      case "GET_BALANCE":
+        return GET_BALANCE;
+      case "GET_PRICE":
+        return GET_PRICE;
+      case "LIST_GROUPS":
+        return LIST_GROUPS;
+      case "GET_AT":
+        return GET_AT;
+      case "GET_AT_DATA":
+        return GET_AT_DATA;
+      case "LIST_ATS":
+        return LIST_ATS
       default:
         return EmptyActionComponent;
     }
