@@ -68,6 +68,8 @@ import { LIST_GROUPS } from "./actions/LIST_GROUPS";
 import { GET_AT } from "./actions/GET_AT";
 import { GET_AT_DATA } from "./actions/GET_AT_DATA";
 import { LIST_ATS } from "./actions/LIST_ATS";
+import { FETCH_BLOCK } from "./actions/FETCH_BLOCK";
+import { FETCH_BLOCK_RANGE } from "./actions/FETCH_BLOCK_RANGE";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -193,7 +195,11 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
       case "GET_AT_DATA":
         return GET_AT_DATA;
       case "LIST_ATS":
-        return LIST_ATS
+        return LIST_ATS;
+      case "FETCH_BLOCK":
+        return FETCH_BLOCK;
+      case "FETCH_BLOCK_RANGE":
+        return FETCH_BLOCK_RANGE;
       default:
         return EmptyActionComponent;
     }

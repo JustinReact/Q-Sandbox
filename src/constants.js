@@ -1,5 +1,5 @@
 
-export const categories = ['Payment', 'Account', 'Poll', 'List', 'Data', 'Chat', 'Group', 'AT', 'System', 'Other']
+export const categories = ['Payment', 'Account', 'Poll', 'List', 'Data', 'Chat', 'Group', 'AT', 'Blocks', 'System', 'Other']
 
 export const actions = {
   GET_USER_ACCOUNT: {
@@ -361,18 +361,18 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // FETCH_BLOCK: {
-  //   category: "Blockchain",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
-  // FETCH_BLOCK_RANGE: {
-  //   category: "Blockchain",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  FETCH_BLOCK: {
+    category: "Blocks",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  FETCH_BLOCK_RANGE: {
+    category: "Blocks",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   // SEARCH_TRANSACTIONS: {
   //   category: "Blockchain",
   //   isTx: false,
@@ -385,8 +385,97 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
+  // REGISTER_NAME: {
+  //   category: "Account",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // SELL_NAME: {
+  //   category: "Account",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // CANCEL_SELL_NAME: {
+  //   category: "Account",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // UPDATE_NAME: {
+  //   category: "Account",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
 
-  
+  // MESSAGE_TX: {
+  //   category: "Other",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // CREATE_GROUP: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // UPDATE_GROUP: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // ADD_GROUP_ADMIN: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // REMOVE_GROUP_ADMIN: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // BAN_FROM_GROUP: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // CANCEL_GROUP_BAN: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // KICK_FROM_GROUP: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // INVITE_TO_GROUP: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // CANCEL_GROUP_INVITE: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+  // LEAVE_GROUP: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
 };
 
 
