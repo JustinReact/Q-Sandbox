@@ -70,6 +70,8 @@ import { GET_AT_DATA } from "./actions/GET_AT_DATA";
 import { LIST_ATS } from "./actions/LIST_ATS";
 import { FETCH_BLOCK } from "./actions/FETCH_BLOCK";
 import { FETCH_BLOCK_RANGE } from "./actions/FETCH_BLOCK_RANGE";
+import { SEARCH_TRANSACTIONS } from "./actions/SEARCH_TRANSACTIONS";
+import { SEARCH_CHAT_MESSAGES } from "./actions/SEARCH_CHAT_MESSAGES";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -200,6 +202,10 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return FETCH_BLOCK;
       case "FETCH_BLOCK_RANGE":
         return FETCH_BLOCK_RANGE;
+      case "SEARCH_TRANSACTIONS":
+        return SEARCH_TRANSACTIONS;
+      case "SEARCH_CHAT_MESSAGES":
+        return SEARCH_CHAT_MESSAGES
       default:
         return EmptyActionComponent;
     }

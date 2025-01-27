@@ -231,7 +231,7 @@ export const SEARCH_QDN_RESOURCES = () => {
           <CustomInput
             type="text"
             placeholder="query"
-            name="name"
+            name="query"
             value={requestData.query}
             onChange={handleChange}
           />

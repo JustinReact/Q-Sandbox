@@ -1,5 +1,5 @@
 
-export const categories = ['Payment', 'Account', 'Poll', 'List', 'Data', 'Chat', 'Group', 'AT', 'Blocks', 'System', 'Other']
+export const categories = ['Payment', 'Account', 'Poll', 'List', 'Data', 'Chat', 'Group', 'AT', 'Blocks', 'Transactions', 'System', 'Other']
 
 export const actions = {
   GET_USER_ACCOUNT: {
@@ -325,12 +325,12 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // SEARCH_CHAT_MESSAGES: {
-  //   category: "Chat",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  SEARCH_CHAT_MESSAGES: {
+    category: "Chat",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   LIST_GROUPS: {
     category: "Group",
     isTx: false,
@@ -373,12 +373,12 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // SEARCH_TRANSACTIONS: {
-  //   category: "Blockchain",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  SEARCH_TRANSACTIONS: {
+    category: "Transactions",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   GET_PRICE: {
     category: "Payment",
     isTx: false,
@@ -569,3 +569,47 @@ export const foreignBlockchains = [
     name: "PIRATECHAIN"
   }
 ]
+
+export const txTypes = [
+  { name: 'GENESIS' },
+  { name: 'PAYMENT' },
+  { name: 'REGISTER_NAME' },
+  { name: 'UPDATE_NAME' },
+  { name: 'SELL_NAME' },
+  { name: 'CANCEL_SELL_NAME' },
+  { name: 'BUY_NAME' },
+  { name: 'CREATE_POLL' },
+  { name: 'VOTE_ON_POLL' },
+  { name: 'ARBITRARY' },
+  { name: 'ISSUE_ASSET' },
+  { name: 'TRANSFER_ASSET' },
+  { name: 'CREATE_ASSET_ORDER' },
+  { name: 'CANCEL_ASSET_ORDER' },
+  { name: 'MULTI_PAYMENT' },
+  { name: 'DEPLOY_AT' },
+  { name: 'MESSAGE' },
+  { name: 'CHAT' },
+  { name: 'PUBLICIZE' },
+  { name: 'AIRDROP' },
+  { name: 'AT' },
+  { name: 'CREATE_GROUP' },
+  { name: 'UPDATE_GROUP' },
+  { name: 'ADD_GROUP_ADMIN' },
+  { name: 'REMOVE_GROUP_ADMIN' },
+  { name: 'GROUP_BAN' },
+  { name: 'CANCEL_GROUP_BAN' },
+  { name: 'GROUP_KICK' },
+  { name: 'GROUP_INVITE' },
+  { name: 'CANCEL_GROUP_INVITE' },
+  { name: 'JOIN_GROUP' },
+  { name: 'LEAVE_GROUP' },
+  { name: 'GROUP_APPROVAL' },
+  { name: 'SET_GROUP' },
+  { name: 'UPDATE_ASSET' },
+  { name: 'ACCOUNT_FLAGS' },
+  { name: 'ENABLE_FORGING' },
+  { name: 'REWARD_SHARE' },
+  { name: 'ACCOUNT_LEVEL' },
+  { name: 'TRANSFER_PRIVS' },
+  { name: 'PRESENCE' }
+];
