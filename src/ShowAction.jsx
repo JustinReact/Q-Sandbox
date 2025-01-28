@@ -72,6 +72,9 @@ import { FETCH_BLOCK } from "./actions/FETCH_BLOCK";
 import { FETCH_BLOCK_RANGE } from "./actions/FETCH_BLOCK_RANGE";
 import { SEARCH_TRANSACTIONS } from "./actions/SEARCH_TRANSACTIONS";
 import { SEARCH_CHAT_MESSAGES } from "./actions/SEARCH_CHAT_MESSAGES";
+import { TEST } from "./actions/TEST";
+import { REGISTER_NAME } from "./actions/REGISTER_NAME";
+import { UPDATE_NAME } from "./actions/UPDATE_NAME";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -205,7 +208,13 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
       case "SEARCH_TRANSACTIONS":
         return SEARCH_TRANSACTIONS;
       case "SEARCH_CHAT_MESSAGES":
-        return SEARCH_CHAT_MESSAGES
+        return SEARCH_CHAT_MESSAGES;
+        case "REGISTER_NAME":
+          return REGISTER_NAME;
+          case "UPDATE_NAME":
+            return UPDATE_NAME;
+        case "TEST":
+          return TEST
       default:
         return EmptyActionComponent;
     }
