@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { DisplayCode } from "../components/DisplayCode";
 import { DisplayCodeResponse } from "../components/DisplayCodeResponse";
+import baseX from 'base-x';
 
 import beautify from "js-beautify";
 import Button from "../components/Button";
@@ -22,6 +23,9 @@ import { Spacer } from "../components/Spacer";
 import { Code, CustomInput } from "../components/Common-styles";
 import { coins } from "../constants";
 import WarningIcon from "@mui/icons-material/Warning";
+
+const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const base58 = baseX(BASE58_ALPHABET);
 export const Label = styled("label")(
   ({ theme }) => `
     font-family: 'IBM Plex Sans', sans-serif;
@@ -122,18 +126,24 @@ interface AddForeignServerRequest {
     const algorithm = { name: "AES-GCM", iv: iv };
     const cryptoKey = await crypto.subtle.importKey("raw", key, algorithm, false, ["decrypt"]);
   
-    return crypto.subtle.decrypt(algorithm, cryptoKey, ciphertext);
+    const decryptedArrayBuffer = await crypto.subtle.decrypt(algorithm, cryptoKey, ciphertext);
+    
+    // Convert ArrayBuffer to string
+    const decoder = new TextDecoder();
+    return decoder.decode(decryptedArrayBuffer);
   }
   
   
 
   async function testDecrypt() {
-    const reference = "BtHaLK9LLqWqVioEgBxnBSZ8zimuD27vxuu9E9VGx2423yHUzwJcqtesycBFxf9ZdBhM7Hh4EKU364HqGLMFvXv";
+    const reference = "2t56iupyqQye5xHeuCN7A8cB1u3zizvHJWLhiksfLEG2PG5Ey1eqhkoRysxewShZyxNHSKNCp7fj4MJfYtUjAos7";
     const keyB64 = "23B7s1wmBwTKhgEOxTsuZGisYv42zZwJIfBOjNiekhE=";
-    const ciphertextB64 = "0aRYOBRaRNRN2sFuSBOlv1K1WyVQ0iNApAHz148d";
-  
+    const ciphertextB64 = "I6f1NXGyuZXGVvWzWqKNDw5W075LhDXq3g9ueEJ1";
+    const referenceBytes = base58.decode(reference);
+    const referenceB64 = btoa(String.fromCharCode(...referenceBytes));
+
+    console.log('base64', referenceB64)
     // Decode reference and extract first 12 bytes for nonce
-    const referenceBytes = Uint8Array.from(atob(reference), c => c.charCodeAt(0));
     const iv = referenceBytes.slice(0, 12);
     const ivB64 = btoa(String.fromCharCode(...iv));
   

@@ -75,6 +75,8 @@ import { SEARCH_CHAT_MESSAGES } from "./actions/SEARCH_CHAT_MESSAGES";
 import { TEST } from "./actions/TEST";
 import { REGISTER_NAME } from "./actions/REGISTER_NAME";
 import { UPDATE_NAME } from "./actions/UPDATE_NAME";
+import { LEAVE_GROUP } from "./actions/LEAVE_GROUP";
+import { INVITE_TO_GROUP } from "./actions/INVITE_TO_GROUP";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -209,12 +211,16 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return SEARCH_TRANSACTIONS;
       case "SEARCH_CHAT_MESSAGES":
         return SEARCH_CHAT_MESSAGES;
-        case "REGISTER_NAME":
-          return REGISTER_NAME;
-          case "UPDATE_NAME":
-            return UPDATE_NAME;
-        case "TEST":
-          return TEST
+      case "REGISTER_NAME":
+        return REGISTER_NAME;
+      case "UPDATE_NAME":
+        return UPDATE_NAME;
+      case "LEAVE_GROUP":
+        return LEAVE_GROUP;
+      case "INVITE_TO_GROUP":
+        return INVITE_TO_GROUP;
+      case "TEST":
+        return TEST;
       default:
         return EmptyActionComponent;
     }

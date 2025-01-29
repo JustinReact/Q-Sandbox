@@ -464,24 +464,24 @@ export const actions = {
   //   requiresApproval: false,
   //   isGatewayDisabled: false,
   // },
-  // INVITE_TO_GROUP: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  INVITE_TO_GROUP: {
+    category: "Group",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   // CANCEL_GROUP_INVITE: {
   //   category: "Group",
   //   isTx: false,
   //   requiresApproval: false,
   //   isGatewayDisabled: false,
   // },
-  // LEAVE_GROUP: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  LEAVE_GROUP: {
+    category: "Group",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
 };
 
 
