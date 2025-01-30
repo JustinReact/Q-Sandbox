@@ -446,24 +446,24 @@ export const actions = {
   //   requiresApproval: false,
   //   isGatewayDisabled: false,
   // },
-  // BAN_FROM_GROUP: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  BAN_FROM_GROUP: {
+    category: "Group",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   // CANCEL_GROUP_BAN: {
   //   category: "Group",
   //   isTx: false,
   //   requiresApproval: false,
   //   isGatewayDisabled: false,
   // },
-  // KICK_FROM_GROUP: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  KICK_FROM_GROUP: {
+    category: "Group",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   INVITE_TO_GROUP: {
     category: "Group",
     isTx: false,
