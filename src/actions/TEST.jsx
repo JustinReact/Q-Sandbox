@@ -53,7 +53,8 @@ const connectionTypes = [
 ];
 export const TEST = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const [products, setProducts] = useState([])
+  const [image, setImage] = useState(null)
   const [requestData, setRequestData] = useState({
     coin: "LTC",
     type: "SSL",
@@ -65,6 +66,23 @@ export const TEST = ({ myAddress }) => {
   
   `)
   );
+
+  const getImage = async ()=> {
+    try {
+     const data = await qortalRequest({
+        action: "FETCH_QDN_RESOURCE",
+          identifier: "p-q-manager-858-eyGP4uvSL0",
+  encoding: "base64",
+
+        name: "a-test",
+        service: "DOCUMENT_PRIVATE",
+        rebuild: false,
+      });
+      console.log('data', data)
+    } catch (error) {
+      
+    }
+  }
 
   const codePollName = `
 await qortalRequest({
@@ -135,10 +153,9 @@ interface AddForeignServerRequest {
   
   
 
-  async function testDecrypt() {
-    const reference = "2t56iupyqQye5xHeuCN7A8cB1u3zizvHJWLhiksfLEG2PG5Ey1eqhkoRysxewShZyxNHSKNCp7fj4MJfYtUjAos7";
+  async function testDecrypt(data, test1, test2, reference) {
     const keyB64 = "23B7s1wmBwTKhgEOxTsuZGisYv42zZwJIfBOjNiekhE=";
-    const ciphertextB64 = "I6f1NXGyuZXGVvWzWqKNDw5W075LhDXq3g9ueEJ1";
+    const ciphertextB64 = data;
     const referenceBytes = base58.decode(reference);
     const referenceB64 = btoa(String.fromCharCode(...referenceBytes));
 
@@ -164,6 +181,118 @@ interface AddForeignServerRequest {
       console.log('ERROR', error)
     }
   }
+
+  const getProducts = async  ()=> {
+    try {
+      const url = `/purchasebot`;
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          'X-API-KEY': 'YP86kBTQxNTydZw8vXomsT'
+        },
+      });
+      if (!response?.ok) return;
+      const responseData = await response.json();
+
+      setProducts(responseData);
+    } catch (error) {
+      console.log('ERROR', error)
+    }
+  }
+
+  async function pollForMessage(purchaseBotAddress) {
+    const apiCall = `/chat/messages?involving=${myAddress}&involving=${purchaseBotAddress}&reverse=true&encoding=BASE64`;
+
+    let retryDelay = 2000; // Start with a 2-second delay
+    const maxDuration = 360000 * 2; // Maximum duration set to 12 minutes
+    const startTime = Date.now(); // Record the start time
+    let triedChatMessage = [];
+    // Promise to handle polling logic
+    // await new Promise((res) => {
+    //   setTimeout(() => {
+    //     res();
+    //   }, 40000);
+    // });
+    return new Promise((resolve, reject) => {
+      const attemptFetch = async () => {
+        if (Date.now() - startTime > maxDuration) {
+          return reject(new Error("Maximum polling time exceeded"));
+        }
+  
+        try {
+          const response = await fetch(apiCall);
+          let data = await response.json();
+  
+        
+          if (data && data.length > 0) {
+            const encodedMessageObj = data[0];
+            // const resKeyPair = await getKeyPair();
+            // const parsedData = resKeyPair;
+            // const uint8PrivateKey = Base58.decode(parsedData.privateKey);
+            // const uint8PublicKey = Base58.decode(parsedData.publicKey);
+            // const keyPair = {
+            //   privateKey: uint8PrivateKey,
+            //   publicKey: uint8PublicKey,
+            // };
+  
+            const decodedMessage = testDecrypt(
+              encodedMessageObj.data,
+              'hello',
+              'hello',
+              encodedMessageObj.reference
+            );
+            resolve(decodedMessage)
+            // const parsedMessage = JSON.parse(decodedMessage);
+            // if (parsedMessage?.extra?.chatRequestSignature === signature) {
+            //   resolve(parsedMessage);
+            // } else {
+            //   triedChatMessage.push(encodedMessageObj.signature);
+            //   setTimeout(attemptFetch, retryDelay);
+            //   retryDelay = Math.min(retryDelay * 2, 360000); // Ensure delay does not exceed 6 minutes
+            // }
+            // Resolve the promise when data is found
+          } else {
+            setTimeout(attemptFetch, retryDelay);
+            retryDelay = Math.min(retryDelay * 2, 360000); // Ensure delay does not exceed 6 minutes
+          }
+        } catch (error) {
+          reject(error); // Reject the promise on error
+        }
+      };
+  
+      attemptFetch(); // Initial call to start the polling
+    });
+  }
+
+  const getAddressFromPublicKey = async (publicKey) => {
+    try {
+      const url = `/addresses/convert/${publicKey}`
+      const res = await fetch(url)
+      return await res.text()
+    } catch (error) {
+      
+    }
+  }
+  const purchaseFunc = async  (product)=> {
+    try {
+    const price = product.price
+    const sellerAddress = product.sellerAddress
+    const purchaseBotAddress = await getAddressFromPublicKey(product?.publicKey)
+    // const response = await qortalRequest({
+    //   action: "SEND_COIN",
+    //   coin: 'QORT',
+    //   recipient: sellerAddress,
+    //   amount: +price,
+    // });
+    // if(response.signature){
+     const key = await pollForMessage(purchaseBotAddress)
+    // }
+    } catch (error) {
+      console.log('ERROR', error)
+    }
+  }
   return (
     <div
       style={{
@@ -171,6 +300,27 @@ interface AddForeignServerRequest {
       }}
     >
      <button onClick={testFunc}>test</button>
+     {/* Seller side */}
+     <button onClick={getProducts}>list products</button>
+      {products?.map((product)=> {
+        return (
+          <Box>
+            <Typography>{product?.productId}</Typography>
+            <Spacer height="20px"/>
+            <Typography>{product?.price}</Typography>
+            <button onClick={()=>purchaseFunc(product)}>purchase</button>
+            
+            <button onClick={()=> {
+              getImage()
+            }}>Get and show Image</button>
+            {image && (
+              <img src={image} />
+            )}
+          </Box>
+        )
+      })}
+
+      {/* Buyer side */}
     </div>
   );
 };

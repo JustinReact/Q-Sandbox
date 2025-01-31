@@ -38,31 +38,30 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const KICK_FROM_GROUP = ({ myAddress }) => {
+export const CANCEL_GROUP_BAN = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
     groupId: 691,
-    qortalAddress: "",
-    reason: "",
+    qortalAddress: ''
   });
-  const [responseData, setResponseData] = useState(formatResponse(``));
+  const [responseData, setResponseData] = useState(
+    formatResponse(``)
+  );
 
   const codePollName = `
 await qortalRequest({
-  action: "KICK_FROM_GROUP",
+  action: "CANCEL_GROUP_BAN",
   groupId: ${requestData?.groupId},
   qortalAddress: "${requestData?.qortalAddress}",
-  reason: "${requestData?.qortalAddress}",
 });
 `.trim();
 
   const tsInterface = `
-interface KickFromGroupRequest {
+interface CancelGroupBanRequest {
   action: string;
   groupId: number;
   qortalAddress: string;
-  reason?: string;
 }
 `.trim();
 
@@ -70,10 +69,9 @@ interface KickFromGroupRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "KICK_FROM_GROUP",
+        action: "CANCEL_GROUP_BAN",
         groupId: requestData?.groupId,
         qortalAddress: requestData?.qortalAddress,
-        reason: requestData?.reason,
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));
@@ -99,7 +97,7 @@ interface KickFromGroupRequest {
       }}
     >
       <GeneralExplanation>
-        <Typography variant="body1">qortalRequest to join a group</Typography>
+        <Typography variant="body1">qortalRequest to cancel a user ban for a group.</Typography>
         <Typography variant="body1">Only the group owner can process this transaction</Typography>
         <Typography variant="body1">Needs user approval</Typography>
       </GeneralExplanation>
@@ -154,37 +152,11 @@ interface KickFromGroupRequest {
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the qortal Address of the user you are trying to kick.</Typography>
+            <Typography>Enter the qortal Address of the user you are trying to unban.</Typography>
           </Box>
-
-          <Spacer height="20px" />
-          <Box
-            sx={{
-              padding: "10px",
-              outline: "1px solid var(--color3)",
-              borderRadius: "5px",
-            }}
-          >
-            <Typography variant="h6">reason</Typography>
-            <CustomInput
-              type="text"
-              placeholder="reason"
-              value={requestData.reason}
-              name="reason"
-              onChange={handleChange}
-            />
-            <Spacer height="10px" />
-            <FieldExplanation>
-              <Typography>Optional field</Typography>
-            </FieldExplanation>
-            <Spacer height="5px" />
-            <Typography>Enter a reason.</Typography>
-            <Typography>Max characters: 128</Typography>
-          </Box>
-
           <Spacer height="20px" />
           <Button
-            name="Kick from group"
+            name="Cancel ban"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />

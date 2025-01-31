@@ -67,6 +67,7 @@ interface BanFromGroupRequest {
   groupId: number;
   qortalAddress: string;
   banTime: number;
+  reason?: string;
 }
 `.trim();
 
@@ -159,7 +160,7 @@ interface BanFromGroupRequest {
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the group identifier.</Typography>
+            <Typography>Enter the qortal Address of the user you are trying to ban.</Typography>
           </Box>
 
           <Spacer height="20px" />
