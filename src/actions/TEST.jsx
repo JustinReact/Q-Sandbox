@@ -24,6 +24,16 @@ import { Code, CustomInput } from "../components/Common-styles";
 import { coins } from "../constants";
 import WarningIcon from "@mui/icons-material/Warning";
 
+export const base64ToBlobUrl = (base64, mimeType = "image/png") => {
+  const binary = atob(base64);
+  const array = [];
+  for (let i = 0; i < binary.length; i++) {
+    array.push(binary.charCodeAt(i));
+  }
+  const blob = new Blob([new Uint8Array(array)], { type: mimeType });
+  return URL.createObjectURL(blob);
+};
+
 const BASE58_ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 const base58 = baseX(BASE58_ALPHABET);
 export const Label = styled("label")(
@@ -67,7 +77,7 @@ export const TEST = ({ myAddress }) => {
   `)
   );
 
-  const getImage = async ()=> {
+  const getImage = async (key)=> {
     try {
      const data = await qortalRequest({
         action: "FETCH_QDN_RESOURCE",
@@ -79,8 +89,17 @@ export const TEST = ({ myAddress }) => {
         rebuild: false,
       });
       console.log('data', data)
+      const imgData = await qortalRequest({
+        action: "DECRYPT_DATA_WITH_SHARING_KEY",
+        encryptedData: data,
+        key,
+      });
+      console.log('imgData', imgData)
+      const imgUrl = base64ToBlobUrl(imgData)
+      console.log('imgUrl', imgUrl)
+      setImage(imgUrl)
     } catch (error) {
-      
+      console.log('error', error)
     }
   }
 
@@ -153,20 +172,27 @@ interface AddForeignServerRequest {
   
   
 
-  async function testDecrypt(data, test1, test2, reference) {
+  async function testDecrypt(data, reference, senderPublicKey) {
     const keyB64 = "23B7s1wmBwTKhgEOxTsuZGisYv42zZwJIfBOjNiekhE=";
     const ciphertextB64 = data;
     const referenceBytes = base58.decode(reference);
     const referenceB64 = btoa(String.fromCharCode(...referenceBytes));
 
-    console.log('base64', referenceB64)
+    console.log('base64', data)
     // Decode reference and extract first 12 bytes for nonce
     const iv = referenceBytes.slice(0, 12);
     const ivB64 = btoa(String.fromCharCode(...iv));
   
     try {
       // Decrypt using AES-GCM
-      const decrypted = await decryptAESGCM(keyB64, ivB64, ciphertextB64);
+      // const decrypted = await decryptAESGCM(keyB64, ivB64, ciphertextB64);
+      const decrypted = await qortalRequest({
+        action: 'DECRYPT_AESGCM',
+        encryptedData: data,
+        iv: ivB64,
+        senderPublicKey
+      })
+      return decrypted
       console.log("Decrypted text:", decrypted);
     } catch (err) {
       console.error("Decryption failed:", err);
@@ -202,19 +228,20 @@ interface AddForeignServerRequest {
     }
   }
 
-  async function pollForMessage(purchaseBotAddress) {
-    const apiCall = `/chat/messages?involving=${myAddress}&involving=${purchaseBotAddress}&reverse=true&encoding=BASE64`;
+  async function pollForMessage(purchaseBotAddress, senderPublicKey) {
+    const apiCall = `/chat/messages?involving=${myAddress}&involving=${purchaseBotAddress}&reverse=true&encoding=BASE64&after=${Date.now()}`;
 
     let retryDelay = 2000; // Start with a 2-second delay
     const maxDuration = 360000 * 2; // Maximum duration set to 12 minutes
     const startTime = Date.now(); // Record the start time
     let triedChatMessage = [];
     // Promise to handle polling logic
-    // await new Promise((res) => {
-    //   setTimeout(() => {
-    //     res();
-    //   }, 40000);
-    // });
+    await new Promise((res) => {
+      setTimeout(() => {
+        res();
+      }, 40000);
+    });
+    console.log('going')
     return new Promise((resolve, reject) => {
       const attemptFetch = async () => {
         if (Date.now() - startTime > maxDuration) {
@@ -237,11 +264,10 @@ interface AddForeignServerRequest {
             //   publicKey: uint8PublicKey,
             // };
   
-            const decodedMessage = testDecrypt(
+            const decodedMessage = await testDecrypt(
               encodedMessageObj.data,
-              'hello',
-              'hello',
-              encodedMessageObj.reference
+              encodedMessageObj.reference,
+              senderPublicKey
             );
             resolve(decodedMessage)
             // const parsedMessage = JSON.parse(decodedMessage);
@@ -280,15 +306,18 @@ interface AddForeignServerRequest {
     const price = product.price
     const sellerAddress = product.sellerAddress
     const purchaseBotAddress = await getAddressFromPublicKey(product?.publicKey)
-    // const response = await qortalRequest({
-    //   action: "SEND_COIN",
-    //   coin: 'QORT',
-    //   recipient: sellerAddress,
-    //   amount: +price,
-    // });
-    // if(response.signature){
-     const key = await pollForMessage(purchaseBotAddress)
-    // }
+    const response = await qortalRequest({
+      action: "SEND_COIN",
+      coin: 'QORT',
+      recipient: sellerAddress,
+      amount: +price,
+    });
+    console.log('response', response)
+    if(response.success){
+     const key = await pollForMessage(product.address, product.publicKey)
+     console.log('key', key)
+     getImage(atob(key))
+     }
     } catch (error) {
       console.log('ERROR', error)
     }
