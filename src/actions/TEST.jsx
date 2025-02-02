@@ -77,8 +77,57 @@ export const TEST = ({ myAddress }) => {
   `)
   );
 
-  const getImage = async (key)=> {
+  async function testDecrypt(data, reference, senderPublicKey) {
+    // const keyB64 = "23B7s1wmBwTKhgEOxTsuZGisYv42zZwJIfBOjNiekhE=";
+    // const ciphertextB64 = data;
     try {
+    console.log('hello', senderPublicKey)
+    const dataDecoded = atob(data);
+    // const referenceB64 = btoa(String.fromCharCode(...referenceBytes));
+
+    console.log('base64', dataDecoded)
+    // Decode reference and extract first 12 bytes for nonce
+    const iv = dataDecoded.slice(0, 12);
+    const slicedData = dataDecoded.slice(12);
+    console.log('slicedDataLength', slicedData?.length)
+    const slicedData64 = btoa(String.fromCharCode(...slicedData));
+    const ivB64 = btoa(String.fromCharCode(...iv));
+  
+  
+      // Decrypt using AES-GCM
+      // const decrypted = await decryptAESGCM(keyB64, ivB64, ciphertextB64);
+      const decrypted = await qortalRequest({
+        action: 'DECRYPT_AESGCM',
+        encryptedData: slicedData64,
+        iv: ivB64,
+        senderPublicKey
+      })
+      console.log("Decrypted text:", decrypted);
+      return decrypted
+    } catch (err) {
+      console.error("Decryption failed:", err);
+    }
+  }
+
+  const getImage = async (key, getKey, productId)=> {
+    try {
+      let keyToDecrypt = key;
+      if(getKey){
+        const apiCall = `/arbitrary/fieldSearch?service=CHAIN_DATA&identifier=${myAddress}&address=${productId}&confirmationStatus=BOTH&limit=1&reverse=true`;
+
+        const response = await fetch(apiCall);
+          let data = await response.json();
+          if (data && data.length > 0) {
+            const encodedMessageObj = data[0];
+            console.log('encodedMessageObj', encodedMessageObj)
+            keyToDecrypt = await testDecrypt(encodedMessageObj.data,
+              encodedMessageObj.reference,
+              encodedMessageObj.senderPublicKey)
+            
+          }
+      }
+      
+      console.log('keyToDecrypt', keyToDecrypt)
      const data = await qortalRequest({
         action: "FETCH_QDN_RESOURCE",
           identifier: "p-q-manager-858-eyGP4uvSL0",
@@ -92,7 +141,7 @@ export const TEST = ({ myAddress }) => {
       const imgData = await qortalRequest({
         action: "DECRYPT_DATA_WITH_SHARING_KEY",
         encryptedData: data,
-        key,
+        key: keyToDecrypt,
       });
       console.log('imgData', imgData)
       const imgUrl = base64ToBlobUrl(imgData)
@@ -172,32 +221,7 @@ interface AddForeignServerRequest {
   
   
 
-  async function testDecrypt(data, reference, senderPublicKey) {
-    const keyB64 = "23B7s1wmBwTKhgEOxTsuZGisYv42zZwJIfBOjNiekhE=";
-    const ciphertextB64 = data;
-    const referenceBytes = base58.decode(reference);
-    const referenceB64 = btoa(String.fromCharCode(...referenceBytes));
 
-    console.log('base64', data)
-    // Decode reference and extract first 12 bytes for nonce
-    const iv = referenceBytes.slice(0, 12);
-    const ivB64 = btoa(String.fromCharCode(...iv));
-  
-    try {
-      // Decrypt using AES-GCM
-      // const decrypted = await decryptAESGCM(keyB64, ivB64, ciphertextB64);
-      const decrypted = await qortalRequest({
-        action: 'DECRYPT_AESGCM',
-        encryptedData: data,
-        iv: ivB64,
-        senderPublicKey
-      })
-      return decrypted
-      console.log("Decrypted text:", decrypted);
-    } catch (err) {
-      console.error("Decryption failed:", err);
-    }
-  }
   
 
   const testFunc = async ()=> {
@@ -229,7 +253,7 @@ interface AddForeignServerRequest {
   }
 
   async function pollForMessage(purchaseBotAddress, senderPublicKey) {
-    const apiCall = `/chat/messages?involving=${myAddress}&involving=${purchaseBotAddress}&reverse=true&encoding=BASE64&after=${Date.now()}`;
+    const apiCall = `/arbitrary/fieldSearch?service=CHAIN_DATA&identifier=${myAddress}&address=${purchaseBotAddress}&confirmationStatus=BOTH&limit=20&reverse=true`;
 
     let retryDelay = 2000; // Start with a 2-second delay
     const maxDuration = 360000 * 2; // Maximum duration set to 12 minutes
@@ -263,11 +287,11 @@ interface AddForeignServerRequest {
             //   privateKey: uint8PrivateKey,
             //   publicKey: uint8PublicKey,
             // };
-  
+            console.log('encodedMessageObj', encodedMessageObj)
             const decodedMessage = await testDecrypt(
               encodedMessageObj.data,
               encodedMessageObj.reference,
-              senderPublicKey
+              encodedMessageObj.senderPublicKey
             );
             resolve(decodedMessage)
             // const parsedMessage = JSON.parse(decodedMessage);
@@ -304,12 +328,12 @@ interface AddForeignServerRequest {
   const purchaseFunc = async  (product)=> {
     try {
     const price = product.price
-    const sellerAddress = product.sellerAddress
+    const address = product.address
     const purchaseBotAddress = await getAddressFromPublicKey(product?.publicKey)
     const response = await qortalRequest({
       action: "SEND_COIN",
       coin: 'QORT',
-      recipient: sellerAddress,
+      recipient: address,
       amount: +price,
     });
     console.log('response', response)
@@ -340,7 +364,7 @@ interface AddForeignServerRequest {
             <button onClick={()=>purchaseFunc(product)}>purchase</button>
             
             <button onClick={()=> {
-              getImage()
+              getImage(undefined, true, product?.address)
             }}>Get and show Image</button>
             {image && (
               <img src={image} />

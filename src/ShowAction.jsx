@@ -81,6 +81,7 @@ import { KICK_FROM_GROUP } from "./actions/KICK_FROM_GROUP";
 import { BAN_FROM_GROUP } from "./actions/BAN_FROM_GROUP";
 import { CANCEL_GROUP_BAN } from "./actions/CANCEL_GROUP_BAN";
 import { ADD_GROUP_ADMIN } from "./actions/ADD_GROUP_ADMIN";
+import { REMOVE_GROUP_ADMIN } from "./actions/REMOVE_GROUP_ADMIN";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -231,6 +232,8 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
           return CANCEL_GROUP_BAN;
       case "ADD_GROUP_ADMIN":
         return ADD_GROUP_ADMIN;
+        case "REMOVE_GROUP_ADMIN":
+          return REMOVE_GROUP_ADMIN;
       case "TEST":
         return TEST;
       default:

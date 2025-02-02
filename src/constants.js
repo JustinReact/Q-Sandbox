@@ -440,12 +440,12 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // REMOVE_GROUP_ADMIN: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  REMOVE_GROUP_ADMIN: {
+    category: "Group",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   BAN_FROM_GROUP: {
     category: "Group",
     isTx: false,
