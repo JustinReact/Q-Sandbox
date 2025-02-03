@@ -23,6 +23,7 @@ import { Spacer } from "../components/Spacer";
 import { Code, CustomInput } from "../components/Common-styles";
 import { coins } from "../constants";
 import WarningIcon from "@mui/icons-material/Warning";
+import { base64ToUint8Array, uint8ArrayToBase64 } from "../utils";
 
 export const base64ToBlobUrl = (base64, mimeType = "image/png") => {
   const binary = atob(base64);
@@ -80,9 +81,10 @@ export const TEST = ({ myAddress }) => {
   async function testDecrypt(data, reference, senderPublicKey) {
     // const keyB64 = "23B7s1wmBwTKhgEOxTsuZGisYv42zZwJIfBOjNiekhE=";
     // const ciphertextB64 = data;
-    try {
-    console.log('hello', senderPublicKey)
-    const dataDecoded = atob(data);
+  
+    console.log('hello', senderPublicKey, data)
+    const dataDecoded = base64ToUint8Array(data);
+    
     // const referenceB64 = btoa(String.fromCharCode(...referenceBytes));
 
     console.log('base64', dataDecoded)
@@ -90,8 +92,8 @@ export const TEST = ({ myAddress }) => {
     const iv = dataDecoded.slice(0, 12);
     const slicedData = dataDecoded.slice(12);
     console.log('slicedDataLength', slicedData?.length)
-    const slicedData64 = btoa(String.fromCharCode(...slicedData));
-    const ivB64 = btoa(String.fromCharCode(...iv));
+    const slicedData64 = uint8ArrayToBase64(slicedData);
+    const ivB64 = uint8ArrayToBase64(iv);
   
   
       // Decrypt using AES-GCM
@@ -103,10 +105,8 @@ export const TEST = ({ myAddress }) => {
         senderPublicKey
       })
       console.log("Decrypted text:", decrypted);
-      return decrypted
-    } catch (err) {
-      console.error("Decryption failed:", err);
-    }
+      return atob(decrypted)
+  
   }
 
   const getImage = async (key, getKey, productId)=> {
@@ -119,8 +119,23 @@ export const TEST = ({ myAddress }) => {
           let data = await response.json();
           if (data && data.length > 0) {
             const encodedMessageObj = data[0];
+            const opts = {
+              data: encodedMessageObj.data,
+              secret: encodedMessageObj.secret,
+            };
+            const url =  `/arbitrary/decrypt`
+      
+            const response = await fetch(url, {
+              method: "POST",
+              headers: {
+                "Accept": "text/plain",
+                "Content-Type": "application/json"
+            },
+              body: JSON.stringify(opts),
+            });
             console.log('encodedMessageObj', encodedMessageObj)
-            keyToDecrypt = await testDecrypt(encodedMessageObj.data,
+            const dataRaw = await response.text()
+            keyToDecrypt = await testDecrypt(dataRaw,
               encodedMessageObj.reference,
               encodedMessageObj.senderPublicKey)
             
@@ -234,7 +249,7 @@ interface AddForeignServerRequest {
 
   const getProducts = async  ()=> {
     try {
-      const url = `/purchasebot`;
+      const url = `/purchasebot/products`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -253,7 +268,7 @@ interface AddForeignServerRequest {
   }
 
   async function pollForMessage(purchaseBotAddress, senderPublicKey) {
-    const apiCall = `/arbitrary/fieldSearch?service=CHAIN_DATA&identifier=${myAddress}&address=${purchaseBotAddress}&confirmationStatus=BOTH&limit=20&reverse=true`;
+    const apiCall = `/arbitrary/fieldSearch?service=CHAIN_DATA&identifier=${myAddress}&address=${purchaseBotAddress}&confirmationStatus=BOTH&limit=1&reverse=true`;
 
     let retryDelay = 2000; // Start with a 2-second delay
     const maxDuration = 360000 * 2; // Maximum duration set to 12 minutes
@@ -288,8 +303,24 @@ interface AddForeignServerRequest {
             //   publicKey: uint8PublicKey,
             // };
             console.log('encodedMessageObj', encodedMessageObj)
+            const opts = {
+              data: encodedMessageObj.data,
+              secret: encodedMessageObj.secret,
+            };
+            const url =  `/arbitrary/decrypt`
+      
+            const response = await fetch(url, {
+              method: "POST",
+              headers: {
+                "Accept": "text/plain",
+                "Content-Type": "application/json"
+            },
+              body: JSON.stringify(opts),
+            });
+            console.log('encodedMessageObj', encodedMessageObj)
+            const dataRaw = await response.text()
             const decodedMessage = await testDecrypt(
-              encodedMessageObj.data,
+              dataRaw,
               encodedMessageObj.reference,
               encodedMessageObj.senderPublicKey
             );
@@ -340,7 +371,7 @@ interface AddForeignServerRequest {
     if(response.success){
      const key = await pollForMessage(product.address, product.publicKey)
      console.log('key', key)
-     getImage(atob(key))
+     getImage(key)
      }
     } catch (error) {
       console.log('ERROR', error)

@@ -416,6 +416,12 @@ export const actions = {
     isGatewayDisabled: false,
   },
 
+  // ALL THE PURCHASEBOT CALLS: {
+  //   category: "Account",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
   // MESSAGE_TX: {
   //   category: "Other",
   //   isTx: false,
@@ -470,20 +476,27 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // CANCEL_GROUP_INVITE: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  CANCEL_GROUP_INVITE: {
+    category: "Group",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   LEAVE_GROUP: {
     category: "Group",
     isTx: false,
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-};
+  // DECRYPT_AESGCM: {
+  //   category: "Group",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
 
+  
+};
 
 export const services = [
   { name: "ARBITRARY_DATA", sizeInBytes: 500 * 1024 * 1024, sizeLabel: "500 MB" },
