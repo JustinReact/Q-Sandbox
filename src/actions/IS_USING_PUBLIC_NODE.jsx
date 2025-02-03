@@ -25,7 +25,7 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const IS_USING_GATEWAY = () => {
+export const IS_USING_PUBLIC_NODE = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,7 +39,7 @@ export const IS_USING_GATEWAY = () => {
 
   const codePollName = `
 await qortalRequest({
-  action: "IS_USING_GATEWAY",
+  action: "IS_USING_PUBLIC_NODE",
 });
 `.trim();
 
@@ -53,7 +53,7 @@ interface IsUsingGatewayRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "IS_USING_GATEWAY",
+        action: "IS_USING_PUBLIC_NODE",
       });
 
       setResponseData(formatResponse(JSON.stringify(account)));

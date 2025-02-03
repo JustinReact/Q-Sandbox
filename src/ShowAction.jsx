@@ -22,7 +22,7 @@ import { GET_USER_WALLET_INFO } from "./actions/GET_USER_WALLET_INFO";
 import { GET_LIST_ITEMS } from "./actions/GET_LIST_ITEMS";
 import { ADD_LIST_ITEMS } from "./actions/ADD_LIST_ITEMS";
 import { DELETE_LIST_ITEM } from "./actions/DELETE_LIST_ITEM";
-import { IS_USING_GATEWAY } from "./actions/IS_USING_GATEWAY";
+import { IS_USING_PUBLIC_NODE } from "./actions/IS_USING_PUBLIC_NODE";
 import { ADMIN_ACTION } from "./actions/ADMIN_ACTION";
 import { SIGN_TRANSACTION } from "./actions/SIGN_TRANSACTION";
 import { DEPLOY_AT } from "./actions/DEPLOY_AT";
@@ -117,8 +117,8 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return ADD_LIST_ITEMS;
       case "DELETE_LIST_ITEM":
         return DELETE_LIST_ITEM;
-      case "IS_USING_GATEWAY":
-        return IS_USING_GATEWAY;
+      case "IS_USING_PUBLIC_NODE":
+        return IS_USING_PUBLIC_NODE;
       case "ADMIN_ACTION":
         return ADMIN_ACTION;
       case "SIGN_TRANSACTION":

@@ -162,7 +162,7 @@ export const actions = {
     requiresApproval: true, 
     isGatewayDisabled: true,
   },
-  IS_USING_GATEWAY: {
+  IS_USING_PUBLIC_NODE: {
     category: "System",
     isTx: false,
     requiresApproval: false,
