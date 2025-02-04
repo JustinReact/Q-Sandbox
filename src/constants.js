@@ -391,6 +391,18 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
+  TEST2: {
+    category: "Payment",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  TEST3: {
+    category: "Payment",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   REGISTER_NAME: {
     category: "Account",
     isTx: false,
@@ -417,6 +429,12 @@ export const actions = {
   },
 
   // ALL THE PURCHASEBOT CALLS: {
+  //   category: "Account",
+  //   isTx: false,
+  //   requiresApproval: false,
+  //   isGatewayDisabled: false,
+  // },
+   // ASSET_TRANSFER: {
   //   category: "Account",
   //   isTx: false,
   //   requiresApproval: false,
