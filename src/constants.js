@@ -385,12 +385,6 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  TEST: {
-    category: "Payment",
-    isTx: false,
-    requiresApproval: false,
-    isGatewayDisabled: false,
-  },
   REGISTER_NAME: {
     category: "Account",
     isTx: false,
@@ -428,12 +422,12 @@ export const actions = {
   //   requiresApproval: false,
   //   isGatewayDisabled: false,
   // },
-  // CREATE_GROUP: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  CREATE_GROUP: {
+    category: "Group",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   // UPDATE_GROUP: {
   //   category: "Group",
   //   isTx: false,
