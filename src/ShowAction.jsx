@@ -86,6 +86,8 @@ import { CANCEL_GROUP_INVITE } from "./actions/CANCEL_GROUP_INVITE";
 import { TEST2 } from "./actions/TEST2";
 import { TEST3 } from "./actions/TEST3.jsx";
 import { CREATE_GROUP } from "./actions/CREATE_GROUP.jsx";
+import { TEST4 } from "./actions/TEST4.jsx";
+import { TEST5 } from "./actions/TEST5.jsx";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -246,6 +248,10 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
               return TEST2;
               case "TEST3":
                 return TEST3;
+                case "TEST4":
+                  return TEST4;
+                  case "TEST5":
+                  return TEST5;
       case "TEST":
         return TEST;
       default:

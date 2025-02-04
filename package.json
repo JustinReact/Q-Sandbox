@@ -14,6 +14,7 @@
     "@mui/material": "^5.14.18",
     "@uiw/react-json-view": "^2.0.0-alpha.30",
     "base-x": "^5.0.0",
+    "buffer": "6.0.3",
     "copy-to-clipboard": "^3.3.3",
     "js-beautify": "^1.15.1",
     "prettier": "^3.3.3",
@@ -22,7 +23,7 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.3.5",
     "recoil": "^0.7.7",
-    "buffer": "6.0.3"
+    "stopword": "^3.1.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

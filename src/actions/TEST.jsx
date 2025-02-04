@@ -145,11 +145,11 @@ export const TEST = ({ myAddress }) => {
       console.log('keyToDecrypt', keyToDecrypt)
      const data = await qortalRequest({
         action: "FETCH_QDN_RESOURCE",
-          identifier: "p-q-manager-858-eyGP4uvSL0",
+          identifier: "p-q-manager-858-BkbI57ImC4",
   encoding: "base64",
 
         name: "a-test",
-        service: "DOCUMENT_PRIVATE",
+        service: "IMAGE_PRIVATE",
         rebuild: false,
       });
       console.log('data', data)

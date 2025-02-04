@@ -403,6 +403,18 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
+  TEST4: {
+    category: "Payment",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
+  TEST5: {
+    category: "Payment",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   REGISTER_NAME: {
     category: "Account",
     isTx: false,
