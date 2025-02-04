@@ -446,12 +446,12 @@ export const actions = {
   //   requiresApproval: false,
   //   isGatewayDisabled: false,
   // },
-  // CREATE_GROUP: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  CREATE_GROUP: {
+    category: "Group",
+    isTx: false,
+    requiresApproval: false,
+    isGatewayDisabled: false,
+  },
   // UPDATE_GROUP: {
   //   category: "Group",
   //   isTx: false,

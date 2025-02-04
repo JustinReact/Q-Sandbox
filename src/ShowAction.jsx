@@ -85,6 +85,7 @@ import { REMOVE_GROUP_ADMIN } from "./actions/REMOVE_GROUP_ADMIN";
 import { CANCEL_GROUP_INVITE } from "./actions/CANCEL_GROUP_INVITE";
 import { TEST2 } from "./actions/TEST2";
 import { TEST3 } from "./actions/TEST3.jsx";
+import { CREATE_GROUP } from "./actions/CREATE_GROUP.jsx";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -239,6 +240,8 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
           return REMOVE_GROUP_ADMIN;
           case "CANCEL_GROUP_INVITE":
             return CANCEL_GROUP_INVITE;
+            case "CREATE_GROUP":
+              return CREATE_GROUP;
             case "TEST2":
               return TEST2;
               case "TEST3":
