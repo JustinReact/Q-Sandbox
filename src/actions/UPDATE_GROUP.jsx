@@ -38,11 +38,12 @@ export const formatResponse = (code) => {
     space_in_empty_paren: true, // Add spaces inside parentheses
   });
 };
-export const CREATE_GROUP = ({ myAddress }) => {
+export const UPDATE_GROUP = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    groupName: "",
+    newOwner: "",
+    groupId: "",
     description: "",
     type: 1,
     approvalThreshold: 40,
@@ -53,8 +54,9 @@ export const CREATE_GROUP = ({ myAddress }) => {
 
   const codePollName = `
 await qortalRequest({
-  action: "CREATE_GROUP",
-  groupName: "${requestData?.groupName}",
+  action: "UPDATE_GROUP",
+  newOwner: "${requestData?.newOwner}",
+  groupId: "${requestData?.groupId}",
   description: "${requestData?.description}",
   type: ${requestData.type},
   approvalThreshold: ${requestData.approvalThreshold},
@@ -66,7 +68,8 @@ await qortalRequest({
   const tsInterface = `
 interface CreateGroupRequest {
   action: string;
-  groupName: string;
+  newOwner: number | string;
+  groupId: number | string;
   description?: string;
   type: number;
   approvalThreshold: number;
@@ -79,8 +82,9 @@ interface CreateGroupRequest {
     try {
       setIsLoading(true);
       let account = await qortalRequest({
-        action: "CREATE_GROUP",
-        groupName: requestData?.groupName,
+        action: "UPDATE_GROUP",
+        newOwner: requestData?.newOwner,
+        groupId: requestData?.groupId,
         description: requestData?.description,
         type: +requestData.type,
         approvalThreshold: +requestData?.approvalThreshold,
@@ -127,12 +131,12 @@ interface CreateGroupRequest {
               borderRadius: "5px",
             }}
           >
-            <Typography variant="h6">groupName</Typography>
+            <Typography variant="h6">newOwner</Typography>
             <CustomInput
               type="text"
-              placeholder="groupName"
-              value={requestData.groupName}
-              name="groupName"
+              placeholder="newOwner"
+              value={requestData.newOwner}
+              name="newOwner"
               onChange={handleChange}
             />
             <Spacer height="10px" />
@@ -140,7 +144,30 @@ interface CreateGroupRequest {
               <Typography>Required field</Typography>
             </FieldExplanation>
             <Spacer height="5px" />
-            <Typography>Enter the name of the group.</Typography>
+            <Typography>Enter the Qortal address of the new owner of the group.</Typography>
+          </Box>
+          <Spacer height="5px" />
+          <Box
+            sx={{
+              padding: "10px",
+              outline: "1px solid var(--color3)",
+              borderRadius: "5px",
+            }}
+          >
+            <Typography variant="h6">groupId</Typography>
+            <CustomInput
+              type="text"
+              placeholder="groupId"
+              value={requestData.groupId}
+              name="groupId"
+              onChange={handleChange}
+            />
+            <Spacer height="10px" />
+            <FieldExplanation>
+              <Typography>Required field</Typography>
+            </FieldExplanation>
+            <Spacer height="5px" />
+            <Typography>Enter the Qortal group Id of the group you wish to update.</Typography>
           </Box>
           <Spacer height="5px" />
           <Box
@@ -349,7 +376,7 @@ interface CreateGroupRequest {
 
           <Spacer height="20px" />
           <Button
-            name="Create group"
+            name="Update group"
             bgColor="#309ed1"
             onClick={executeQortalRequest}
           />

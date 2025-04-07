@@ -406,34 +406,22 @@ export const actions = {
   UPDATE_NAME: {
     category: "Account",
     isTx: false,
-    requiresApproval: false,
+    requiresApproval: true,
     isGatewayDisabled: false,
   },
 
-  // ALL THE PURCHASEBOT CALLS: {
-  //   category: "Account",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
-  // MESSAGE_TX: {
-  //   category: "Other",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
   CREATE_GROUP: {
     category: "Group",
     isTx: false,
-    requiresApproval: false,
+    requiresApproval: true,
     isGatewayDisabled: false,
   },
-  // UPDATE_GROUP: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  UPDATE_GROUP: {
+    category: "Group",
+    isTx: false,
+    requiresApproval: true,
+    isGatewayDisabled: false,
+  },
   ADD_GROUP_ADMIN: {
     category: "Group",
     isTx: false,
@@ -482,14 +470,6 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // DECRYPT_AESGCM: {
-  //   category: "Group",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
-
-  
 };
 
 export const services = [

@@ -55,7 +55,6 @@ export const ShowCategories = ({ selectedCategory, setSelectedAction }) => {
     //     }
     // })
   }, [selectedCategory, actions, categories]);
-  console.log("test", actionsToShow);
   return (
     <Box
       sx={{

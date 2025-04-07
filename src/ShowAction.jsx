@@ -72,7 +72,6 @@ import { FETCH_BLOCK } from "./actions/FETCH_BLOCK";
 import { FETCH_BLOCK_RANGE } from "./actions/FETCH_BLOCK_RANGE";
 import { SEARCH_TRANSACTIONS } from "./actions/SEARCH_TRANSACTIONS";
 import { SEARCH_CHAT_MESSAGES } from "./actions/SEARCH_CHAT_MESSAGES";
-import { TEST } from "./actions/TEST";
 import { REGISTER_NAME } from "./actions/REGISTER_NAME";
 import { UPDATE_NAME } from "./actions/UPDATE_NAME";
 import { LEAVE_GROUP } from "./actions/LEAVE_GROUP";
@@ -85,6 +84,7 @@ import { REMOVE_GROUP_ADMIN } from "./actions/REMOVE_GROUP_ADMIN";
 import { CANCEL_GROUP_INVITE } from "./actions/CANCEL_GROUP_INVITE";
 
 import { CREATE_GROUP } from "./actions/CREATE_GROUP.jsx";
+import { UPDATE_GROUP } from "./actions/UPDATE_GROUP.jsx";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -231,16 +231,18 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return KICK_FROM_GROUP;
       case "BAN_FROM_GROUP":
         return BAN_FROM_GROUP;
-        case "CANCEL_GROUP_BAN":
-          return CANCEL_GROUP_BAN;
+      case "CANCEL_GROUP_BAN":
+        return CANCEL_GROUP_BAN;
       case "ADD_GROUP_ADMIN":
         return ADD_GROUP_ADMIN;
-        case "REMOVE_GROUP_ADMIN":
-          return REMOVE_GROUP_ADMIN;
-          case "CANCEL_GROUP_INVITE":
-            return CANCEL_GROUP_INVITE;
-            case "CREATE_GROUP":
-              return CREATE_GROUP;
+      case "REMOVE_GROUP_ADMIN":
+        return REMOVE_GROUP_ADMIN;
+      case "CANCEL_GROUP_INVITE":
+        return CANCEL_GROUP_INVITE;
+      case "CREATE_GROUP":
+        return CREATE_GROUP;
+      case "UPDATE_GROUP":
+        return UPDATE_GROUP;
       default:
         return EmptyActionComponent;
     }

@@ -56,8 +56,7 @@ export const PUBLISH_MULTIPLE_QDN_RESOURCES = () => {
     category: "",
     title: "",
     description: "",
-    tags: [],
-    disableEncrypt: false
+    tags: []
   });
   const [dataType, setDataType] = useState("file");
 
@@ -93,8 +92,15 @@ export const PUBLISH_MULTIPLE_QDN_RESOURCES = () => {
     const handlePublicKeys  = !isEncrypted ? '' :  `publicKeys: ${JSON.stringify(requestData.publicKeys)},`
 
     return `await qortalRequest({
-    action: "PUBLISH_QDN_RESOURCE",
-    resources: ${JSON.stringify(resources)},
+    action: "PUBLISH_MULTIPLE_QDN_RESOURCES",
+    resources: ${JSON.stringify(resources?.map((item)=> {
+      const hasFile = !!item.file
+      if(!hasFile) return item
+      return {
+        ...item,
+        file: 'FILE OBJECT'
+      }
+    }))},
     encrypt: ${isEncrypted},
     ${handlePublicKeys}
   });
@@ -152,8 +158,7 @@ export const PUBLISH_MULTIPLE_QDN_RESOURCES = () => {
         category: "",
         title: "",
         description: "",
-        tags: [],
-        disableEncrypt: false
+        tags: []
       });
       setFile(null);
     } catch (error) {
@@ -185,6 +190,7 @@ export const PUBLISH_MULTIPLE_QDN_RESOURCES = () => {
 
       setResponseData(formatResponse(JSON.stringify(account)));
     } catch (error) {
+      console.log('error', error)
       setResponseData(formatResponse(JSON.stringify(error)));
       console.error(error);
     } finally {

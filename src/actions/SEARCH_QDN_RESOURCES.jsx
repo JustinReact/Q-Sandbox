@@ -35,12 +35,13 @@ export const SEARCH_QDN_RESOURCES = () => {
     includeMetadata: false,
     followedOnly: false,
     excludeBlocked: false,
-    limit: 100,
+    limit: 20,
     offset: 0,
     reverse: true,
     query: "",
     title: "",
     description: "",
+    keywords: [],
     prefix: false,
     exactMatchNames: true,
     nameListFilter: null,
@@ -83,6 +84,7 @@ export const SEARCH_QDN_RESOURCES = () => {
         offset: ${requestData?.offset},
         reverse: ${requestData?.reverse}
         names: ${JSON.stringify(requestData?.names)},
+        keywords: ${JSON.stringify(requestData?.keywords)}
         exactMatchNames: ${requestData?.exactMatchNames},
         mode: ${requestData?.mode},
         prefix: ${requestData?.prefix},
@@ -108,6 +110,7 @@ export const SEARCH_QDN_RESOURCES = () => {
            reverse?: boolean;
            query?: string;
            title?: string;
+           keywords?: string[];
            description?: string;
            prefix: boolean;
            exactMatchNames: boolean;
@@ -139,6 +142,7 @@ export const SEARCH_QDN_RESOURCES = () => {
         reverse: requestData?.reverse,
         query: requestData?.query || undefined,
         title: requestData?.title || undefined,
+        keywords: requestData?.keywords,
         description: requestData?.description || undefined,
         prefix: requestData?.prefix || undefined,
         exactMatchNames: requestData?.exactMatchNames || undefined,
@@ -265,34 +269,34 @@ export const SEARCH_QDN_RESOURCES = () => {
           </FieldExplanation>
         </Box>
         <Box
-                    sx={{
-                      padding: "10px",
-                      outline: "1px solid var(--color3)",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    <Typography variant="h6">names</Typography>
-                    <Spacer height="10px" />
-                    <OptionsManager
-                      items={requestData.names}
-                      setItems={(items) => {
-                        setRequestData((prev) => {
-                          return {
-                            ...prev,
-                            names: items,
-                          };
-                        });
-                      }}
-                    />
-        
-                    <Spacer height="10px" />
-                    <FieldExplanation>
-                      <Typography>Optional field</Typography>
-                    </FieldExplanation>
-                    <Spacer height="5px" />
-                    <Typography>Enter a list of names</Typography>
-                    <Spacer height="5px" />
-                  </Box>
+          sx={{
+            padding: "10px",
+            outline: "1px solid var(--color3)",
+            borderRadius: "5px",
+          }}
+        >
+          <Typography variant="h6">names</Typography>
+          <Spacer height="10px" />
+          <OptionsManager
+            items={requestData.names}
+            setItems={(items) => {
+              setRequestData((prev) => {
+                return {
+                  ...prev,
+                  names: items,
+                };
+              });
+            }}
+          />
+
+          <Spacer height="10px" />
+          <FieldExplanation>
+            <Typography>Optional field</Typography>
+          </FieldExplanation>
+          <Spacer height="5px" />
+          <Typography>Enter a list of names</Typography>
+          <Spacer height="5px" />
+        </Box>
         <Spacer height="10px" />
 
         <Box
@@ -501,8 +505,8 @@ export const SEARCH_QDN_RESOURCES = () => {
             onChange={handleChange}
             sx={{ width: "300px" }}
           >
-            <MenuItem value={'ALL'}>ALL</MenuItem>
-            <MenuItem value={'LATEST'}>LATEST</MenuItem>
+            <MenuItem value={"ALL"}>ALL</MenuItem>
+            <MenuItem value={"LATEST"}>LATEST</MenuItem>
           </Select>
           <Spacer height="10px" />
           <FieldExplanation>
@@ -510,7 +514,9 @@ export const SEARCH_QDN_RESOURCES = () => {
           </FieldExplanation>
           <Spacer height="5px" />
           <Typography>
-            LATEST only gets results during the within a recent timeframe. Also, it'll only return 1 result per name. For the majority of cases use ALL.
+            LATEST only gets results during the within a recent timeframe. Also,
+            it'll only return 1 result per name. For the majority of cases use
+            ALL.
           </Typography>
         </Box>
         <Spacer height="10px" />
@@ -586,6 +592,36 @@ export const SEARCH_QDN_RESOURCES = () => {
           </FieldExplanation>
         </Box>
 
+        <Spacer height="10px" />
+        <Box
+          sx={{
+            padding: "10px",
+            outline: "1px solid var(--color3)",
+            borderRadius: "5px",
+          }}
+        >
+          <Typography variant="h6">keywords</Typography>
+          <Spacer height="10px" />
+          <OptionsManager
+            items={requestData.keywords}
+            setItems={(items) => {
+              setRequestData((prev) => {
+                return {
+                  ...prev,
+                  keywords: items,
+                };
+              });
+            }}
+          />
+
+          <Spacer height="10px" />
+          <FieldExplanation>
+            <Typography>Optional field</Typography>
+          </FieldExplanation>
+          <Spacer height="5px" />
+          <Typography>Used to query the description field. If any of the keywords exist in description it'll be returned</Typography>
+          <Spacer height="5px" />
+        </Box>
         <Spacer height="10px" />
 
         <Box
