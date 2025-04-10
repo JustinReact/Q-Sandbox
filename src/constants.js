@@ -391,18 +391,24 @@ export const actions = {
     requiresApproval: false,
     isGatewayDisabled: false,
   },
-  // SELL_NAME: {
-  //   category: "Account",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
-  // CANCEL_SELL_NAME: {
-  //   category: "Account",
-  //   isTx: false,
-  //   requiresApproval: false,
-  //   isGatewayDisabled: false,
-  // },
+  SELL_NAME: {
+    category: "Account",
+    isTx: true,
+    requiresApproval: true,
+    isGatewayDisabled: false,
+  },
+  CANCEL_SELL_NAME: {
+    category: "Account",
+    isTx: true,
+    requiresApproval: true,
+    isGatewayDisabled: false,
+  },
+  BUY_NAME: {
+    category: "Account",
+    isTx: true,
+    requiresApproval: true,
+    isGatewayDisabled: false,
+  },
   UPDATE_NAME: {
     category: "Account",
     isTx: false,

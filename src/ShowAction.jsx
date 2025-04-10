@@ -85,6 +85,9 @@ import { CANCEL_GROUP_INVITE } from "./actions/CANCEL_GROUP_INVITE";
 
 import { CREATE_GROUP } from "./actions/CREATE_GROUP.jsx";
 import { UPDATE_GROUP } from "./actions/UPDATE_GROUP.jsx";
+import { SELL_NAME } from "./actions/SELL_NAME.jsx";
+import { CANCEL_SELL_NAME } from "./actions/CANCEL_SELL_NAME.jsx";
+import { BUY_NAME } from "./actions/BUY_NAME.jsx";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -243,6 +246,12 @@ export const ShowAction = ({ selectedAction, handleClose, myAddress }) => {
         return CREATE_GROUP;
       case "UPDATE_GROUP":
         return UPDATE_GROUP;
+      case "SELL_NAME":
+        return SELL_NAME;
+      case "CANCEL_SELL_NAME":
+        return CANCEL_SELL_NAME;
+      case "BUY_NAME":
+        return BUY_NAME;
       default:
         return EmptyActionComponent;
     }

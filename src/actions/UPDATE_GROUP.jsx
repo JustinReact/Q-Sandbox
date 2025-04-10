@@ -66,7 +66,7 @@ await qortalRequest({
 `.trim();
 
   const tsInterface = `
-interface CreateGroupRequest {
+interface UpdateGroupRequest {
   action: string;
   newOwner: number | string;
   groupId: number | string;
@@ -115,7 +115,7 @@ interface CreateGroupRequest {
       }}
     >
       <GeneralExplanation>
-        <Typography variant="body1">Create a Qortal Group</Typography>
+        <Typography variant="body1">Update a Qortal Group</Typography>
         <Typography variant="body1">Needs user approval</Typography>
       </GeneralExplanation>
 
