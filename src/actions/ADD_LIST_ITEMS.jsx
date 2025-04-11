@@ -53,6 +53,7 @@ export const ADD_LIST_ITEMS = ({ myAddress }) => {
 
   const codePollName = `
 const response = await qortalRequest({
+  action: "ADD_LIST_ITEMS"
   list_name: "${requestData?.list_name}"
   items: ${JSON.stringify(requestData.items)}
 });

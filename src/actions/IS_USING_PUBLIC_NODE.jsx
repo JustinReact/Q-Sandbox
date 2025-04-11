@@ -30,11 +30,7 @@ export const IS_USING_PUBLIC_NODE = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [responseData, setResponseData] = useState(
-    formatResponse(`
-      {
-  "isGateway": false
-}
-      `)
+    formatResponse(`false`)
   );
 
   const codePollName = `

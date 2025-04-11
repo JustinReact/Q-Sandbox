@@ -42,7 +42,9 @@ export const UPDATE_NAME = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    name: "",
+    oldName: "",
+    newName: "",
+    description: ""
   });
   const [responseData, setResponseData] = useState(formatResponse(``));
 
@@ -56,7 +58,7 @@ await qortalRequest({
 `.trim();
 
   const tsInterface = `
-interface RegisterNameRequest {
+interface UpdateNameRequest {
   action: string;
   oldName: string;
   newName: string;

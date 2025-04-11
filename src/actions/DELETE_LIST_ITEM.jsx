@@ -53,6 +53,7 @@ export const DELETE_LIST_ITEM = ({ myAddress }) => {
 
   const codePollName = `
 const response = await qortalRequest({
+  action: "DELETE_LIST_ITEM"
   list_name: "${requestData?.list_name}"
   items: ${JSON.stringify(requestData.items)}
 });

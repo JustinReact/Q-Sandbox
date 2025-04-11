@@ -42,7 +42,6 @@ export const DECRYPT_DATA = ({ myAddress }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [requestData, setRequestData] = useState({
-    file: null,
     encryptedData: "",
   });
 
@@ -52,7 +51,7 @@ export const DECRYPT_DATA = ({ myAddress }) => {
     return `
     await qortalRequest({
       action: "DECRYPT_DATA",
-      encryptedData: ${requestData?.encryptedData},
+      encryptedData: "${requestData?.encryptedData}",
     });
     `.trim();
   }, [requestData]);

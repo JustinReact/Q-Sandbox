@@ -146,6 +146,7 @@ export const PUBLISH_MULTIPLE_QDN_RESOURCES = () => {
         category: requestData?.category,
         tags: requestData?.tags,
         disableEncrypt: requestData?.disableEncrypt,
+        filename: requestData?.filename || "",
         ...dynamicFields,
       };
 
