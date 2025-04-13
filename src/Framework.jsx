@@ -24,8 +24,7 @@ const navSections = [
   {
     label: 'User Info',
     items: [
-      'Authentication',
-      'Retrieving user info'
+      'Authentication'
     ],
   },
   {

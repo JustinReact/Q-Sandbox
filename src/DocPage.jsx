@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import { Introduction } from "./docs/default/getting-started/Introduction";
 import { NewProject } from "./docs/default/getting-started/NewProject";
 import { GlobalProvider } from "./docs/default/getting-started/GlobalProvider";
-
+import { Authentication } from "./docs/default/user-info/Authentication";
 
 export function DocPage() {
   const { pageId } = useParams();
@@ -17,6 +17,8 @@ export function DocPage() {
       return <NewProject />;
     case "getting-started-globalprovider-config":
       return <GlobalProvider />;
+    case "user-info-authentication":
+      return <Authentication />;
 
     default:
       return <Typography color="error">Page "{pageId}" not found.</Typography>;
