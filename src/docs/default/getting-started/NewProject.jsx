@@ -3,54 +3,53 @@ import { DocContainer } from '../../components/Containers'
 import { SectionSubTitle, SectionTitle, SingleText } from '../../components/Texts'
 import { Spacer } from '../../../components/Spacer'
 import { FeatureList } from '../../components/FeatureList';
+import { DisplayCode } from '../../../components/DisplayCode';
+import devmode from './devmode.png'
+const codeblock1 = `npm install -g create-qortal`.trim();
+const codeblock2 = `npx create-qortal`.trim();
+const codeblock3 = `
+  npx create-qortal
+? Enter the name of your app: my app
+`.trim();
+const codeblock4 = `
+  npx create-qortal
+✔ Enter the name of your app: my app
 
-const features = [
-    {
-      title: 'Quicker startup: ',
-      description: <>
-        Starting a new project can be burdensome. The <strong>create-qortal</strong> framework helps developers jump-start their app logic in under a minute with just a few simple steps. Building apps that work seamlessly with Qortal's UI has some unique requirements — this framework takes care of those complexities for you.
-      </>,
-    },
-    {
-      title: 'Simplified QDN integration: ',
-      description: <>
-        QDN (Qortal Data Network) is the backbone of app functionality on Qortal. Displaying content like JSON, videos, and images efficiently requires specific logic. This framework handles most of that for you, so you can focus on building features, not infrastructure.
-      </>,
-    },
-    {
-      title: 'Reusable logic: ',
-      description: <>
-        Many Qortal apps share similar logic. This framework centralizes that functionality, reducing code duplication and helping you stay DRY (Don’t Repeat Yourself) across your projects.
-      </>,
-    },
-    {
-      title: 'Built for collaboration: ',
-      description: <>
-        Frameworks like this one are designed to be extended and improved by the community. Other developers can contribute or create new frameworks, accelerating the app development process for everyone. The more we collaborate, the more amazing apps we’ll see on Qortal.
-      </>,
-    },
-  ];
+🔍 Fetching available templates...
 
-  const requirements = [
-    {
-      title: 'Node.js: ',
-      description: <>We recommend using Node.js version 22 or higher.</>,
-    },
-    {
-      title: 'Qortal Hub: ',
-      description: <>Download the Qortal Hub UI and enable Developer Mode.</>,
-    },
-    {
-      title: 'IDE / Code Editor: ',
-      description: <>VS Code is recommended, but other IDEs like IntelliJ will work as well.</>,
-    },
-    {
-      title: 'React & TypeScript knowledge: ',
-      description: <>A moderate understanding of React and TypeScript is helpful.</>,
-    },
-  ];
-  
-  
+? Select a template: (Use arrow keys)
+❯ react-default-template
+`.trim();
+
+  const codeblock5 = `
+// AppWrapper.tsx
+
+import { Routes } from "./Routes";
+import { GlobalProvider } from "qapp-core";
+import { publicSalt } from "./qapp-config.ts";
+
+export const AppWrapper = () => {
+  return (
+    <GlobalProvider
+      config={{
+        auth: {
+          balanceSetting: {
+            interval: 180000,
+            onlyOnMount: false,
+          },
+          authenticateOnMount: true,
+        },
+        publicSalt: publicSalt,
+        appName: "My App Test" // ADD YOUR App's name
+      }}
+    >
+      <Routes />
+    </GlobalProvider>
+  );
+};
+  `
+  const codeblock6 = `npm run dev`.trim();
+
 
 export const NewProject = () => {
   return (
@@ -58,21 +57,77 @@ export const NewProject = () => {
         <SectionTitle variant='h1'>Starting a new project</SectionTitle>
         <Spacer height="10px"/>
         <SingleText>
-            Welcome to the <strong>create-qortal</strong> framework.
-        </SingleText>
-        <Spacer height="10px"/>
-        <SingleText>
-            This documentation will help you on your journey using the <strong>default template</strong> of create-qortal.
-        </SingleText>
-        <Spacer height="10px"/>
-        <SingleText>
-            The default template is a React-Mui typescript framework that will simplify the process of creating Qortal applications.
+            Install <strong>create-qortal</strong> and create a new React Qortal project.
         </SingleText>
         <Spacer height="25px" />
-        <SectionSubTitle variant='h2'>Why a framework?</SectionSubTitle>
-        <FeatureList items={features} />
-        <SectionSubTitle variant='h2'>Requirements?</SectionSubTitle>
-        <FeatureList items={requirements} />
+        <SectionSubTitle variant='h2'>Installation</SectionSubTitle>
+        <Spacer height="10px"/>
+        <SingleText>
+            From your terminal install create-qortal globally
+        </SingleText>
+        <Spacer height="5px" />
+        <DisplayCode hideLines codeBlock={codeblock1} language="bash" />
+        <Spacer height="25px" />
+        <SectionSubTitle variant='h2'>Create a new project</SectionSubTitle>
+        <Spacer height="10px"/>
+        <SingleText>
+            From your terminal run the following
+        </SingleText>
+        <Spacer height="5px" />
+        <DisplayCode hideLines codeBlock={codeblock2} language="bash" />
+        <Spacer height="10px"/>
+        <SingleText>
+           The first thing you will need to do is give your app a name. For this example I'll put the name "my app".
+        </SingleText>
+        <Spacer height="5px" />
+        <DisplayCode hideLines codeBlock={codeblock3} language="bash" />
+        <Spacer height="10px"/>
+        <SingleText>
+           Next, we will choose a template. This tutorial is for the "react-default-template" so we will choose that. Press 'Enter' on your keyword.
+        </SingleText>
+        <Spacer height="5px" />
+        <DisplayCode hideLines codeBlock={codeblock4} language="bash" />
+        <Spacer height="10px"/>
+        <SingleText>
+           After waiting for about a minute, your project will be ready. If you are using vscode, the project's workspace should open up automatically. If not, open your IDE, and open your project's directory.
+        </SingleText>
+        <Spacer height="20px"/>
+        <SingleText>
+          There is one last thing to do before working on your project.
+        </SingleText>
+        <Spacer height="10px"/>
+        <SingleText>
+         In the component "AppWrapper.tsx", provide the config with your app's name. Ideally this will be the App's Qortal name.
+        </SingleText>
+        <Spacer height="10px"/>
+        <SingleText>
+         During development you might want to provide a different "appName" so that when your app's in production it isn't filled with test data. In my case, I've added "Test" at the end of my app's name.
+        </SingleText>
+        <Spacer height="10px"/>
+        <SingleText>
+         Once in production, do not change the "appName" or else all previous data meant for your app will not show up.
+        </SingleText>
+        <Spacer height="5px" />
+        <DisplayCode hideLines codeBlock={codeblock5} language="tsx" />
+        <Spacer height="10px"/>
+        <SingleText>
+         And that's it! You are now ready to start coding.
+        </SingleText>
+        <Spacer height="10px"/>
+        <SingleText>
+         To start the app in dev mode, run in the terminal at the root of your project:
+        </SingleText>
+        <Spacer height="5px" />
+        <DisplayCode hideLines codeBlock={codeblock6} language="bash" />
+        <Spacer height="10px"/>
+        <SingleText>
+         In Qortal Hub's dev mode page, click '+ Server', add the host, port and then enter ''. If you have one React project running in dev mode, the port is usually 5173. You will see the port displayed in the terminal after running 'npm run dev'.
+        </SingleText>
+        <Spacer height="5px" />
+        <img src={devmode} style={{
+          width: '100%'
+        }} />
+        <Spacer height="10px"/>
     </DocContainer>
   )
 }

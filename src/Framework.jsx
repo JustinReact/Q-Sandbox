@@ -19,7 +19,7 @@ const drawerWidth = 260;
 const navSections = [
   {
     label: 'Getting Started',
-    items: ['Introduction', 'Starting a new project'],
+    items: ['Introduction', 'Starting a new project', 'GlobalProvider config'],
   },
   {
     label: 'User Info',

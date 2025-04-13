@@ -5,7 +5,7 @@ import { Tooltip } from "@mui/material";
 import { CodeWrapper, CopyCodeIcon, DisplayCodePre } from "./Common-styles";
 import { useTheme } from "@mui/material";
 
-export const DisplayCode = ({ codeBlock, language = "javascript" }) => {
+export const DisplayCode = ({ codeBlock, language = "javascript", hideLines }) => {
 
   const [copyText, setCopyText] = useState("Copy");
 
@@ -29,7 +29,7 @@ export const DisplayCode = ({ codeBlock, language = "javascript" }) => {
           themes.palenight 
         }
         code={codeBlock}
-        language="javascript"
+        language={language}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <DisplayCodePre
@@ -49,7 +49,8 @@ export const DisplayCode = ({ codeBlock, language = "javascript" }) => {
                     userSelect: "none",
                     opacity: "0.5",
                     marginRight: "8px",
-                    fontSize: "14px"
+                    fontSize: "14px",
+                    visibility: hideLines ? 'hidden' : 'visible'
                   }}
                 >
                   {i + 1}
