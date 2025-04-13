@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { MenuItem, Select, Tooltip, useTheme } from "@mui/material";
+import { AppBar, Box, ButtonBase, MenuItem, Select, Tooltip, Typography, useTheme } from "@mui/material";
 import "./App.css";
 import QSandboxLogoLight from "./assets/images/q-sandbox-dark.png";
 import QSandboxLogoDark from "./assets/images/q-sandbox-light.png";
@@ -9,38 +9,33 @@ import { categories } from "./constants";
 import { ShowCategories } from "./ShowCategories";
 import { ShowAction } from "./ShowAction";
 import { DarkModeIcon, LightModeIcon, LogoContainer, ThemeSelectRow } from "./components/Common-styles";
-import { themeAtom } from "./atoms/global";
-import { useRecoilState } from "recoil";
+import {  useThemeStore } from "./atoms/global";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useIframe } from "./hooks/useIframeListener";
 
-function App() {
-  const [selectedCategory, setSelectedCategory] = useState(0)
-  const [selectedAction , setSelectedAction] = useState(null)
-  const [myAddress, setMyaddress] = useState('')
-    const [_, setTheme] = useRecoilState(themeAtom)
+export function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  useIframe()
+  const navItems = [
+    { label: 'Qortal Requests', path: '/', id: '/' },
+    { label: 'Framework', path: '/framework/default/getting-started-introduction', id: '/framework' },
+    { label: 'Tutorials', path: '/tutorials', id: '/tutorials' }
+  ];
+
+  const setTheme = useThemeStore((state) => state.setTheme);
     const theme = useTheme();
 
-  const askForAccountInformation = useCallback(async () => {
-    try {
-      const account = await qortalRequest({
-        action: "GET_USER_ACCOUNT",
-      });
-      if(account?.address){
-        setMyaddress(account.address)
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
 
-  useEffect(()=> {
-    askForAccountInformation()
-  }, [askForAccountInformation])
-  const handleClose = useCallback(()=> {
-    setSelectedAction(null)
-  }, [])
 
   return (
-    <div className="container">
+    <Box sx={{
+      height: '100vh',
+      width: '100%',
+      overflow: 'hidden'
+    }}>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
       <div className="flex-row">
         <Tooltip className="tooltip" title="Thanks for using Q-Sandbox! Please contact A-Test or Bester by Q-Mail if something does not seem to not work as expected. Thanks and happy coding!" arrow placement="bottom">
           <InfoIcon className="info-icon" />
@@ -65,36 +60,46 @@ function App() {
       </ThemeSelectRow>
         <div className="logo-container">
           <img className="logo" src={theme.palette.mode === "dark" ? QSandboxLogoDark : QSandboxLogoLight} alt="q-sandbox-logo" />
-        </div>
-      </div>
-      <Select
-            size="small"
-            labelId="label-select-category"
-            id="id-select-category"
-            value={selectedCategory}
-            displayEmpty
-            onChange={(e) => setSelectedCategory(e.target.value)}
+          <Box sx={{
+            display: 'flex',
+            marginLeft: 'auto',
+            gap: '25px',
+            paddingRight: '25px'
+          }}>
+            {navItems.map(({ label, path, id }) => {
+              console.log('path', path, location.pathname, location.pathname?.includes(path))
+        const isActive = id === '/' && location.pathname === '/' ? true : id === '/' ? false : location.pathname?.includes(id);
+
+        return (
+          <ButtonBase
+            key={path}
+            onClick={() => navigate(path)}
             sx={{
-              width: '150px'
+              borderBottom: isActive ? '2px solid' : '2px solid transparent',
+              color: isActive ? theme.palette.primary : theme.palette.secondary,
+              '&:hover': {
+                borderBottom: '2px solid',
+                color: theme.palette.primary,
+              },
+              transition: 'all 0.2s',
+              paddingBottom: '4px',
             }}
           >
-            <MenuItem value={0}>
-              <em>All</em>
-            </MenuItem>
-            {categories?.map((category) => {
-              return (
-                <MenuItem key={category} value={category}>
-                  {category}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        
-        <ShowCategories selectedCategory={selectedCategory} setSelectedAction={setSelectedAction}  />
-        <ShowAction myAddress={myAddress} selectedAction={selectedAction} handleClose={handleClose} />
+            <Typography>{label}</Typography>
+          </ButtonBase>
+        );
+      })}
+          </Box>
+        </div>
+      </div>
+      </AppBar>
+    </Box>
+    <div className="container">
+    
+     <Outlet />
     
     </div>
+    </Box>
   );
 }
 
-export default App;

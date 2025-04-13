@@ -37,30 +37,33 @@ const commonThemeOptions = createTheme({
     button: {
       textTransform: "none"
     },
-    h1: {
-      fontSize: "42px"
-    },
-    h2: {
-      fontSize: "32px"
-    },
-    h3: {
-      fontSize: "21px"
-    },
-    h4: {
-      fontSize: "18px"
-    },
-    h5: {
-      fontSize: "16px"
-    },
-    h6: {
-      fontSize: "14px"
-    },
-    body1: {
-      fontSize: "16px"
-    },
-    body2: {
-      fontSize: "14px"
-    }
+    
+      h1: {
+        fontSize: "2.625rem" // 42px
+      },
+      h2: {
+        fontSize: "2rem" // 32px
+      },
+      h3: {
+        fontSize: "1.3125rem" // 21px
+      },
+      h4: {
+        fontSize: "1.125rem" // 18px
+      },
+      h5: {
+        fontSize: "1rem" // 16px
+      },
+      h6: {
+        fontSize: "0.875rem" // 14px
+      },
+      body1: {
+        fontSize: "1rem" // 16px
+      },
+      body2: {
+        fontSize: "0.875rem" // 14px
+      }
+    
+    
   },
   spacing: 8, // Customize the base spacing unit (default is 8)
   shape: {
@@ -192,7 +195,7 @@ const darkTheme = createTheme({
       dark: "#302F40"
     },
     background: {
-      default: "#060a1e"
+      default: "#121212"
     },
     text: {
       primary: "#ffffff",
