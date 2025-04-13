@@ -80,13 +80,13 @@ export const NewProject = () => {
            The first thing you will need to do is give your app a name. For this example I'll put the name "my app".
         </SingleText>
         <Spacer height="5px" />
-        <DisplayCode hideLines codeBlock={codeblock3} language="bash" />
+        <DisplayCode hideLines codeBlock={codeblock3} hideCopy language="bash" />
         <Spacer height="10px"/>
         <SingleText>
            Next, we will choose a template. This tutorial is for the "react-default-template" so we will choose that. Press 'Enter' on your keyword.
         </SingleText>
         <Spacer height="5px" />
-        <DisplayCode hideLines codeBlock={codeblock4} language="bash" />
+        <DisplayCode hideLines codeBlock={codeblock4} hideCopy language="bash" />
         <Spacer height="10px"/>
         <SingleText>
            After waiting for about a minute, your project will be ready. If you are using vscode, the project's workspace should open up automatically. If not, open your IDE, and open your project's directory.
@@ -108,7 +108,7 @@ export const NewProject = () => {
          Once in production, do not change the "appName" or else all previous data meant for your app will not show up.
         </SingleText>
         <Spacer height="5px" />
-        <DisplayCode hideLines codeBlock={codeblock5} language="tsx" />
+        <DisplayCode hideLines codeBlock={codeblock5} hideCopy language="tsx" />
         <Spacer height="10px"/>
         <SingleText>
          And that's it! You are now ready to start coding.

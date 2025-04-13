@@ -5,7 +5,7 @@ import { Tooltip } from "@mui/material";
 import { CodeWrapper, CopyCodeIcon, DisplayCodePre } from "./Common-styles";
 import { useTheme } from "@mui/material";
 
-export const DisplayCode = ({ codeBlock, language = "javascript", hideLines }) => {
+export const DisplayCode = ({ codeBlock, language = "javascript", hideLines, hideCopy }) => {
 
   const [copyText, setCopyText] = useState("Copy");
 
@@ -21,9 +21,11 @@ export const DisplayCode = ({ codeBlock, language = "javascript", hideLines }) =
 
   return (
     <CodeWrapper>
-      <Tooltip title={copyText} arrow placement="top">
-        <CopyCodeIcon onClick={handleCopy} />
-      </Tooltip>
+      {!hideCopy && (
+          <Tooltip title={copyText} arrow placement="top">
+          <CopyCodeIcon onClick={handleCopy} />
+        </Tooltip>
+      )}
       <Highlight
         theme={
           themes.palenight 

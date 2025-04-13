@@ -30,6 +30,7 @@ const navSections = [
   {
     label: 'Lists',
     items: [
+      'Introduction to lists',
       'Displaying a list',
       'Adding to a list',
       'Updating a list',

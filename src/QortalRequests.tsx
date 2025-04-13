@@ -1,13 +1,14 @@
-import { MenuItem, Select } from '@mui/material';
+import { Box, MenuItem, Select } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { ShowCategories } from './ShowCategories';
 import { ShowAction } from './ShowAction';
 import { categories } from './constants';
+import { SearchInput } from './components/SearchInput';
 
 export const QortalRequests = () => {
       const [myAddress, setMyaddress] = useState('')
-    
+      const [search, setSearch] = useState('')
      const [selectedCategory, setSelectedCategory] = useState(0)
       const [selectedAction , setSelectedAction] = useState(null)
 
@@ -32,6 +33,11 @@ export const QortalRequests = () => {
       }, [])
   return (
     <>
+    <Box sx={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '20px'
+    }}>
      <Select
             size="small"
             labelId="label-select-category"
@@ -54,8 +60,9 @@ export const QortalRequests = () => {
               );
             })}
           </Select>
-        
-        <ShowCategories selectedCategory={selectedCategory} setSelectedAction={setSelectedAction}  />
+          <SearchInput placeholder='Filter requests' value={search} onChange={setSearch} />
+          </Box>
+        <ShowCategories search={search} selectedCategory={selectedCategory} setSelectedAction={setSelectedAction}  />
         <ShowAction myAddress={myAddress} selectedAction={selectedAction} handleClose={handleClose} />
     </>
   )

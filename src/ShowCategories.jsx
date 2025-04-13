@@ -2,31 +2,33 @@ import { Box, ButtonBase, Chip, Stack } from "@mui/material";
 import React, { useMemo } from "react";
 import { actions, categories } from "./constants";
 
-export const ShowCategories = ({ selectedCategory, setSelectedAction }) => {
+export const ShowCategories = ({ selectedCategory, setSelectedAction, search }) => {
   const actionsToShow = useMemo(() => {
     if (selectedCategory === 0) {
-      return categories?.map((category) => {
-        return {
-          category,
-          actions: Object.keys(actions)
-            .filter((action) => {
-              const actionCategory = actions[action].category;
-              if (actionCategory === category) return true;
-              return false;
-            })
-            .map((key) => {
-              return {
-                ...actions[key],
-                action: key,
-              };
-            }),
-        };
-      });
+      return categories
+  ?.map((category) => {
+    const matchedActions = Object.keys(actions)
+      .filter((key) => key.toLowerCase().includes(search.toLowerCase()))
+      .filter((key) => actions[key].category === category)
+      .map((key) => ({
+        ...actions[key],
+        action: key,
+      }));
+
+    if (matchedActions.length === 0) return null;
+
+    return {
+      category,
+      actions: matchedActions,
+    };
+  })
+  .filter(Boolean); // removes any nulls (categories with no actions)
+
     }
     return [
       {
         category: selectedCategory,
-        actions: Object.keys(actions)
+        actions: Object.keys(actions).filter((key)=> key.toLowerCase().includes(search.toLowerCase()))
           .filter((action) => {
             const actionCategory = actions[action].category;
             if (actionCategory === selectedCategory) return true;
@@ -54,7 +56,7 @@ export const ShowCategories = ({ selectedCategory, setSelectedAction }) => {
     //     action: key
     //     }
     // })
-  }, [selectedCategory, actions, categories]);
+  }, [selectedCategory, actions, categories, search]);
   return (
     <Box
       sx={{
