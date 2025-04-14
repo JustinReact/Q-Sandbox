@@ -69,18 +69,29 @@ export const PUBLISH_QDN_RESOURCE = () => {
   const [categories, setCategories] = useState([]);
   const [responseData, setResponseData] = useState(
     formatResponse(`{
-    "type": "PUBLISH_QDN_RESOURCE",
-    "timestamp": 1697286687406,
-    "reference": "3jU9WpEPAvu9iL3cMfVd2AUmn9AijJRzkGCxVtXfpuUFZubM8AFDcbk5XA9m5AhPfsbMDFkSDzPJnkjeLA5GA59E",
-    "fee": "0.01000000",
-    "signature": "3QJ1EUvX3rskVNaP3RWvJwb9DsGgHPvneWqBWS62PCcuCj5N4Ei9Tr4nFj4nQeMqMU2qNkVD3Sb59e7iUWkawH3s",
-    "txGroupId": 0,
-    "approvalStatus": "NOT_REQUIRED",
-    "creatorAddress": "Qhxphh7g5iNtxAyLLpPMZzp4X85yf2tVam",
-    "voterPublicKey": "C5spuNU1BAHZDEkxF3wnrAPRDuNrVceaDJ6tDKitenko",
-    "pollName": "A test poll 3",
-    "optionIndex": 1
-  }`)
+  "type": "ARBITRARY",
+  "timestamp": 1684337616751,
+  "reference": "4j2iPN5Xwgocs8Z32JB4UB63G87qS43kPyEwFmQMLvWBXtrSQwAfyx8S9CqQvbregnstXFKqXpkPT2dNdAscriT4",
+  "fee": "0.00100000",
+  "signature": "5Y6Jdyvo8n6JB44qC8i57x2gA3VXd7aah42GvnzkXL459vCWrRE5gae5TWbGqJxmKnk4p5ESHESv2FJfyB8bdzs9",
+  "txGroupId": 0,
+  "approvalStatus": "NOT_REQUIRED",
+  "creatorAddress": "QMjCNsctvWLoDdPSRpHn6TF2j96iDr9YWm",
+  "version": 5,
+  "senderPublicKey": "Bjo1iUHJXbCb4LKabmE6KWNL5jSgCK36ypasoDgJG53U",
+  "service": 777,
+  "nonce": 0,
+  "size": 496,
+  "name": "Demo",
+  "identifier": "myapp-image1234",
+  "method": "PUT",
+  "secret": "GELP1wMCyMAcwLWTvsAjsFoiR63BcAF7wmrhd1NVhjL",
+  "compression": "ZIP",
+  "data": "ArzaQASrXM74SDhWp6JhhmUBsocWRoVajZFtYECnAEEy",
+  "dataType": "DATA_HASH",
+  "metadataHash": "DU1sYzPcRnvAUL6VzerhAmDQUyrn4UceAvV4K6WtZxBi",
+  "payments": []
+}`)
   );
 
   //   const codePollName = `

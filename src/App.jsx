@@ -67,7 +67,6 @@ export function App() {
             paddingRight: '25px'
           }}>
             {navItems.map(({ label, path, id }) => {
-              console.log('path', path, location.pathname, location.pathname?.includes(path))
         const isActive = id === '/' && location.pathname === '/' ? true : id === '/' ? false : location.pathname?.includes(id);
 
         return (

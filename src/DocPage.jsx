@@ -6,10 +6,10 @@ import { GlobalProvider } from "./docs/default/getting-started/GlobalProvider";
 import { Authentication } from "./docs/default/user-info/Authentication";
 import { IntroductionToLists } from "./docs/default/lists/IntroductionToLists";
 import { DisplayingAList } from "./docs/default/lists/DisplayingAList";
+import { AddingToAList } from "./docs/default/lists/AddingToAList";
 
 export function DocPage() {
   const { pageId } = useParams();
-  console.log("pageId", pageId);
 
   switch (pageId) {
     case "getting-started-introduction":
@@ -22,9 +22,11 @@ export function DocPage() {
     case "user-info-authentication":
       return <Authentication />;
     case "lists-introduction-to-lists":
-      return <IntroductionToLists />
-      case "lists-displaying-a-list":
-        return <DisplayingAList />
+      return <IntroductionToLists />;
+    case "lists-displaying-a-list":
+      return <DisplayingAList />;
+    case "lists-adding-to-a-list":
+      return <AddingToAList />;
     default:
       return <Typography color="error">Page "{pageId}" not found.</Typography>;
   }

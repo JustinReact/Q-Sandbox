@@ -65,7 +65,6 @@ export const Framework = () => {
   useEffect(()=> {
     setSelected(pageId)
   }, [pageId])
-  console.log('selected', selected)
   return (
     <Box sx={{ display: 'flex', bgcolor: 'background.default', color: 'text.primary' }}>
       <CssBaseline />
