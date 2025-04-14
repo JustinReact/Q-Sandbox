@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   Typography,
@@ -9,9 +9,9 @@ import {
   TableBody,
   Paper,
   useTheme,
-} from '@mui/material';
+} from "@mui/material";
 
-export function PropsTable({ rows = [] }) {
+export function PropsTable({ rows = [], requiredColumn }) {
   const theme = useTheme();
 
   return (
@@ -19,8 +19,8 @@ export function PropsTable({ rows = [] }) {
       component={Paper}
       elevation={1}
       sx={{
-        width: '100%',
-        overflowX: 'auto',
+        width: "100%",
+        overflowX: "auto",
         mt: 3,
         borderRadius: 2,
       }}
@@ -33,19 +33,33 @@ export function PropsTable({ rows = [] }) {
       >
         <TableHead>
           <TableRow>
-            <TableCell sx={{ fontWeight: 'bold' }}>Prop</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>Type</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
-            <TableCell sx={{ fontWeight: 'bold' }}>Default</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Prop</TableCell>
+            {requiredColumn && (
+              <TableCell sx={{ fontWeight: "bold" }}>Required</TableCell>
+            )}
+            <TableCell sx={{ fontWeight: "bold" }}>Type</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Description</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Default</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row, idx) => (
             <TableRow key={idx}>
-              <TableCell><code>{row.prop}</code></TableCell>
-              <TableCell><code>{row.type}</code></TableCell>
+              <TableCell>
+                <code>{row.prop}</code>
+              </TableCell>
+              {requiredColumn && (
+                <TableCell>
+                  <code>{row.required}</code>
+                </TableCell>
+              )}
+              <TableCell>
+                <code>{row.type}</code>
+              </TableCell>
               <TableCell>{row.description}</TableCell>
-              <TableCell><code>{row.default ?? '-'}</code></TableCell>
+              <TableCell>
+                <code>{row.default ?? "-"}</code>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -13,6 +13,8 @@ import { Box, Card, Typography } from "@mui/material";
 import { CodePropsTable } from "../../components/CodePropsTable";
 
 const codeblock1 = `
+import { useGlobal } from "qapp-core";
+
 const publicKey = useGlobal().auth.publicKey
 console.log(publicKey)
 `.trim();

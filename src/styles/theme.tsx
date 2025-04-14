@@ -57,7 +57,7 @@ const commonThemeOptions = createTheme({
         fontSize: "0.875rem" // 14px
       },
       body1: {
-        fontSize: "1rem" // 16px
+        fontSize: "1.2rem" // 16px
       },
       body2: {
         fontSize: "0.875rem" // 14px
