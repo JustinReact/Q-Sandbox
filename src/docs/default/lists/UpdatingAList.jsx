@@ -12,7 +12,7 @@ import { DisplayCode } from "../../../components/DisplayCode";
 const codeblock1 = `
 import { useGlobal, objectToBase64 }  from "qapp-core";
 
-const addNewResources = useGlobal().lists.addNewResources
+const updateNewResources = useGlobal().lists.updateNewResources
 
 const data = {} // your data
 const dataToBase64 =  await objectToBase64(data);
@@ -24,7 +24,7 @@ const response = await qortalRequest({
   base64: dataToBase64
 });     
 
-addNewResources("homepage-videos", [
+updateNewResources("homepage-videos", [
     {
      qortalMetadata: {
      service: "DOCUMENT",
@@ -38,20 +38,20 @@ addNewResources("homepage-videos", [
 ]);
 `.trim();
 
-export const AddingToAList = () => {
+export const UpdatingAList = () => {
   return (
     <DocContainer>
-      <SectionTitle variant="h1">Adding to a list</SectionTitle>
+      <SectionTitle variant="h1">Updating a list</SectionTitle>
       <Spacer height="10px" />
       <SingleText>
-        After the user has performed a publish, add it to the list. Use the addNewResources method.
+        After the user has performed a publish that is meant as an update, update it in the list. Use the updateNewResources method.
       </SingleText>
       <Spacer height="25px" />
       <DisplayCode hideLines codeBlock={codeblock1} language="jsx" />
       <Spacer height="10px" />
       <SingleText>
-        The <strong>addNewResources</strong> requires the list's name and
-        resources to be added to the list.
+        The <strong>updateNewResources</strong> requires the list's name and
+        the updated resources.
       </SingleText>
       <Spacer height="10px" />
     </DocContainer>

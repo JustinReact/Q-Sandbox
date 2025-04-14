@@ -34,8 +34,7 @@ const navSections = [
       'Displaying a list',
       'Adding to a list',
       'Updating a list',
-      'Deleting from a list',
-      'Fetching directly a list'
+      'Removing from a list'
     ],
   },
   {
