@@ -39,7 +39,8 @@ export function DocPage() {
       return <RemovingFromAList />;
     case "publishes-fetching-data":
       return <FetchingData />;
-    case "publishes-updating-data":
+ case "publishes-cache-published-data":
+
       return <UpdatingData />;
     case "publishes-deleting-data":
       return <DeletingData />;

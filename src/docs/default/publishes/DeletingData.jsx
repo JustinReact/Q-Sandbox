@@ -10,24 +10,17 @@ import { FeatureList } from "../../components/FeatureList";
 import { DisplayCode } from "../../../components/DisplayCode";
 
 const codeblock1 = `
-import { useGlobal, objectToBase64 }  from "qapp-core";
+import { usePublish }  from "qapp-core";
 
-const deleteResource = useGlobal().lists.deleteResource
+// inside the React component
 
-// you can import the QortalMetadata interface from "qapp-core"
-interface QortalMetadata {
-    size: number;
-    created: number;
-    name: string;
-    identifier: string;
-    service: Service;
-}
+const deletePublish = usePublish().deletePublish
 
-const qortalMetadata: QortalMetadata = the qortalMetadata
-  
- await deleteResource([
-   qortalMetadata: qortalMetadata
-  ])
+ await deletePublish({
+  name,
+  service,
+  identifier
+ })
 ]);
 `.trim();
 
@@ -37,15 +30,10 @@ export const DeletingData = () => {
       <SectionTitle variant="h1">Deleting data</SectionTitle>
       <Spacer height="10px" />
       <SingleText>
-        To override(similar to a deletion) and remove it from the list, use the deleteResource method.
+        To override(similar to a deletion) the resource, use the deletePublish method.
       </SingleText>
       <Spacer height="25px" />
       <DisplayCode hideLines codeBlock={codeblock1} language="jsx" />
-      <Spacer height="10px" />
-      <SingleText>
-        The <strong>deleteResource</strong> requires the list's name and
-        the resource's qortalMetadata.
-      </SingleText>
       <Spacer height="10px" />
     </DocContainer>
   );

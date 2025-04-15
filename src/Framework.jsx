@@ -39,7 +39,7 @@ const navSections = [
   },
   {
     label: 'Publishes',
-    items: ['Fetching data', 'Updating data', 'Deleting data'],
+    items: ['Fetching data', 'Cache published data', 'Deleting data'],
   },
   {
     label: 'Identifiers',
