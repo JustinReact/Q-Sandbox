@@ -13,6 +13,8 @@ import { FetchingDirectlyAList } from "./docs/default/lists/FetchingDirectlyALis
 import { FetchingData } from "./docs/default/publishes/FetchingData";
 import { UpdatingData } from "./docs/default/publishes/UpdatingData";
 import { DeletingData } from "./docs/default/publishes/DeletingData";
+import { BuildingIdentifiers } from "./docs/default/identifiers/BuildingIdentifiers";
+import { SearchingByIdentifier } from "./docs/default/identifiers/SearchingByIdentifier";
 
 export function DocPage() {
   const { pageId } = useParams();
@@ -39,11 +41,14 @@ export function DocPage() {
       return <RemovingFromAList />;
     case "publishes-fetching-data":
       return <FetchingData />;
- case "publishes-cache-published-data":
-
+    case "publishes-cache-published-data":
       return <UpdatingData />;
     case "publishes-deleting-data":
       return <DeletingData />;
+    case "identifiers-building-identifiers":
+      return <BuildingIdentifiers />;
+    case "identifiers-searching-by-identifier":
+      return <SearchingByIdentifier />;
     default:
       return <Typography color="error">Page "{pageId}" not found.</Typography>;
   }
