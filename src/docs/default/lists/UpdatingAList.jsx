@@ -12,6 +12,8 @@ import { DisplayCode } from "../../../components/DisplayCode";
 const codeblock1 = `
 import { useGlobal, objectToBase64 }  from "qapp-core";
 
+// inside the React component
+
 const updateNewResources = useGlobal().lists.updateNewResources
 
 const data = {} // your data

@@ -10,6 +10,9 @@ import { AddingToAList } from "./docs/default/lists/AddingToAList";
 import { UpdatingAList } from "./docs/default/lists/UpdatingAList";
 import { RemovingFromAList } from "./docs/default/lists/RemovingFromAList";
 import { FetchingDirectlyAList } from "./docs/default/lists/FetchingDirectlyAList";
+import { FetchingData } from "./docs/default/publishes/FetchingData";
+import { UpdatingData } from "./docs/default/publishes/UpdatingData";
+import { DeletingData } from "./docs/default/publishes/DeletingData";
 
 export function DocPage() {
   const { pageId } = useParams();
@@ -34,6 +37,12 @@ export function DocPage() {
       return <UpdatingAList />;
     case "lists-removing-from-a-list":
       return <RemovingFromAList />;
+    case "publishes-fetching-data":
+      return <FetchingData />;
+    case "publishes-updating-data":
+      return <UpdatingData />;
+    case "publishes-deleting-data":
+      return <DeletingData />;
     default:
       return <Typography color="error">Page "{pageId}" not found.</Typography>;
   }

@@ -12,8 +12,6 @@ import { DisplayCode } from "../../../components/DisplayCode";
 const codeblock1 = `
 import { useGlobal, objectToBase64 }  from "qapp-core";
 
-const deleteResource = useGlobal().lists.deleteResource
-
 // you can import the QortalMetadata interface from "qapp-core"
 interface QortalMetadata {
     size: number;
@@ -22,6 +20,9 @@ interface QortalMetadata {
     identifier: string;
     service: Service;
 }
+    
+// inside the React component
+const deleteResource = useGlobal().lists.deleteResource
 
 const qortalMetadata: QortalMetadata = the qortalMetadata
   
