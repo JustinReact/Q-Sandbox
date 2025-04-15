@@ -21,7 +21,7 @@ const createPost = async ()=> {
   const data = {} // your data
   const dataToBase64 =  await objectToBase64(data);
 
-  const name = "DOCUMENT
+  const service = "DOCUMENT
   const entityType = "post" // Give a name to the type of data this is in your app. All posts will need to have the same entity type. do not give for example "comments" the entity type "post"
 
   const parentId = null  // Since there is no parent to posts in our example, we will give it a value of null.
@@ -58,7 +58,7 @@ const createComment = async ()=> {
   const data = {} // your data
   const dataToBase64 =  await objectToBase64(data);
 
-  const name = "DOCUMENT
+  const service = "DOCUMENT
   const entityType = "comment" 
 
   const parentId = postId  

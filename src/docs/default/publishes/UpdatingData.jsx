@@ -19,7 +19,7 @@ const updatePublish = usePublish().updatePublish;
 const data = {} // your data
 const dataToBase64 =  await objectToBase64(data);
 
-const name = "DOCUMENT
+const service = "DOCUMENT
 const identifier = "an identifier"
 const base64 = dataToBase64
 const response = await qortalRequest({
