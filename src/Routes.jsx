@@ -8,6 +8,7 @@ import { App } from "./App";
 import { QortalRequests } from './QortalRequests';
 import { Framework } from './Framework';
 import { DocPage } from './DocPage';
+import { Tutorials } from './Tutorials';
 
 
 
@@ -38,6 +39,10 @@ export function Routes() {
                 element: <DocPage />,
               },
             ],
+          },
+          {
+            path: '/tutorials',
+            element: <Tutorials />, // Wrapper component
           }
           
         ],

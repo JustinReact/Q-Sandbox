@@ -15,6 +15,7 @@ import { UpdatingData } from "./docs/default/publishes/UpdatingData";
 import { DeletingData } from "./docs/default/publishes/DeletingData";
 import { BuildingIdentifiers } from "./docs/default/identifiers/BuildingIdentifiers";
 import { SearchingByIdentifier } from "./docs/default/identifiers/SearchingByIdentifier";
+import { DataTransformation } from "./docs/default/utils/DataTransformation";
 
 export function DocPage() {
   const { pageId } = useParams();
@@ -49,6 +50,8 @@ export function DocPage() {
       return <BuildingIdentifiers />;
     case "identifiers-searching-by-identifier":
       return <SearchingByIdentifier />;
+      case "utils-data-transformation":
+        return <DataTransformation />;
     default:
       return <Typography color="error">Page "{pageId}" not found.</Typography>;
   }

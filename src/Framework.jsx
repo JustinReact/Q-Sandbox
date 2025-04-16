@@ -47,12 +47,14 @@ const navSections = [
   },
   {
     label: 'Utils',
-    items: [],
+    items: [
+      'Data transformation'
+    ],
   },
-  {
-    label: 'Global Components',
-    items: [],
-  },
+  // {
+  //   label: 'Global Components',
+  //   items: [],
+  // },
 ];
 
 export const Framework = () => {
@@ -84,9 +86,9 @@ export const Framework = () => {
           },
         }}
       >
-        <Typography variant="h6" gutterBottom>
+        {/* <Typography variant="h6" gutterBottom>
           Changelog
-        </Typography>
+        </Typography> */}
 
         {navSections.map((section) => (
           <Box key={section.label} mb={2}>
