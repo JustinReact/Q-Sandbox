@@ -41,7 +41,7 @@ const fetchPublish = usePublishOperations.fetchPublish
 
 const handleFetchPublish = async ()=> {
   
-    const {resource, hasResource, error, isLoading} = await fetchPublish({
+    const {resource, hasResource, error} = await fetchPublish({
           name,
           identifier,
           service,
