@@ -50,7 +50,8 @@ import { useGlobal }  from "qapp-core";
 
 // inside the React component
 
-const buildIdentifier = useGlobal().identifierOperations.buildIdentifier;
+const {identifierOperations} = useGlobal();
+const {buildIdentifier} = identifierOperations;
 
 const postId = "e03rJRCU5vxGvF-6fD4hr-MIupmf8DodRIEh-yhbiBoqQSy5tabt"
 

@@ -14,8 +14,8 @@ import { useGlobal, objectToBase64 }  from "qapp-core";
 
 
 // inside the React component
-const addNewResources = useGlobal().lists.addNewResources
-
+const {lists} = useGlobal()
+const {addNewResources} = lists
 const data = {} // your data
 const dataToBase64 =  await objectToBase64(data);
 

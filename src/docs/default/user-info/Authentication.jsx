@@ -15,14 +15,15 @@ import { CodePropsTable } from "../../components/CodePropsTable";
 const codeblock1 = `
 import { useGlobal } from "qapp-core";
 
-const publicKey = useGlobal().auth.publicKey
+const {auth} = useGlobal();
+const publicKey = auth?.publicKey
 console.log(publicKey)
 `.trim();
 
 
 const authProps = [
   {
-    prop: "useGlobal().auth.address",
+    prop: "auth.address",
     description: (
       <>
         The user’s Qortal <strong>address</strong> after authentication.
@@ -30,7 +31,7 @@ const authProps = [
     ),
   },
   {
-    prop: "useGlobal().auth.publicKey",
+    prop: "auth.publicKey",
     description: (
       <>
         The user’s <strong>public key</strong>.
@@ -38,7 +39,7 @@ const authProps = [
     ),
   },
   {
-    prop: "useGlobal().auth.name",
+    prop: "auth.name",
     description: (
       <>
         The registered <strong>Qortal name</strong>, if the user has one.
@@ -46,7 +47,7 @@ const authProps = [
     ),
   },
   {
-    prop: "useGlobal().auth.balance",
+    prop: "auth.balance",
     description: (
       <>
         The current balance (in <code>QORT</code>) of the authenticated user.
@@ -54,21 +55,21 @@ const authProps = [
     ),
   },
   {
-    prop: "useGlobal().auth.isLoadingUser",
+    prop: "auth.isLoadingUser",
     description: <>Whether the user is currently being authenticated.</>,
   },
   {
-    prop: "useGlobal().auth.errorMessageLoadingUser",
+    prop: "auth.errorMessageLoadingUser",
     description: (
       <>Holds an error message if something goes wrong during authentication.</>
     ),
   },
   {
-    prop: "useGlobal().auth.authenticateUser()",
+    prop: "auth.authenticateUser()",
     description: <>Triggers authentication manually.</>,
   },
   {
-    prop: "useGlobal().auth.getBalance()",
+    prop: "auth.getBalance()",
     description: <>Triggers get balance manually.</>,
   },
 ];
@@ -80,7 +81,7 @@ export const Authentication = () => {
       <Spacer height="30px" />
       <Box>
         <Typography variant="h4" gutterBottom>
-          Authentication (auth) — <code>useGlobal().auth</code>
+          Authentication (auth) — <code>{'const { auth } = useGlobal()'}</code>
         </Typography>
 
         <Card>
@@ -90,7 +91,7 @@ export const Authentication = () => {
           </Typography>
 
           <Typography component="code" sx={{ fontSize: "1rem" }}>
-            const auth = useGlobal().auth
+          <code>{'const { auth } = useGlobal()'}</code>
           </Typography>
         </Card>
         <Spacer height="20px" />

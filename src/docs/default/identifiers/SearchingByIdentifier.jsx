@@ -14,7 +14,8 @@ import { useGlobal }  from "qapp-core";
 
 // inside the React component
 
-const buildSearchPrefix = useGlobal().identifierOperations.buildSearchPrefix;
+const {identifierOperations} = useGlobal()
+const {buildSearchPrefix} = identifierOperations;
 
 
 const getPosts = async ()=> {

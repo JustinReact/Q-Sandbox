@@ -14,7 +14,7 @@ import { usePublish, objectToBase64 }  from "qapp-core";
 
 // inside the React component
 
-const updatePublish = usePublish().updatePublish;
+const {updatePublish} = usePublish();
 
 const data = {} // your data
 const dataToBase64 =  await objectToBase64(data);

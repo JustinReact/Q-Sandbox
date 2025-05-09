@@ -23,7 +23,8 @@ interface QortalMetadata {
 }
 
 // inside the React component
-const deleteResource = useGlobal().lists.deleteResource
+const {lists} = useGlobal()
+const {deleteResource} = lists
 
 
 const qortalMetadata: QortalMetadata = the qortalMetadata

@@ -14,7 +14,7 @@ import { usePublish }  from "qapp-core";
 
 // inside the React component
 
-const deletePublish = usePublish().deletePublish
+const {deletePublish} = usePublish();
 
  await deletePublish({
   name,

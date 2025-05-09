@@ -35,8 +35,8 @@ const codeblock2 = `
 import { usePublish }  from "qapp-core";
 
 // inside the React component
-const usePublishOperations = usePublish(3, "BASE64");
-const fetchPublish = usePublishOperations.fetchPublish
+const publishOperations = usePublish(3, "BASE64");
+const fetchPublish = publishOperations.fetchPublish
 
 
 const handleFetchPublish = async ()=> {
