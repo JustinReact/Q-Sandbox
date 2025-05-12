@@ -5,14 +5,14 @@ import { Spacer } from '../../../components/Spacer'
 import { FeatureList } from '../../components/FeatureList';
 import { DisplayCode } from '../../../components/DisplayCode';
 import devmode from './devmode.png'
-const codeblock1 = `npm install -g create-qortal`.trim();
-const codeblock2 = `npx create-qortal`.trim();
+const codeblock1 = `npm install -g create-qortal-app`.trim();
+const codeblock2 = `npx create-qortal-app`.trim();
 const codeblock3 = `
-  npx create-qortal
+  npx create-qortal-app
 ? Enter the name of your app: my app
 `.trim();
 const codeblock4 = `
-  npx create-qortal
+  npx create-qortal-app
 ✔ Enter the name of your app: my app
 
 🔍 Fetching available templates...
@@ -57,13 +57,13 @@ export const NewProject = () => {
         <SectionTitle variant='h1'>Starting a new project</SectionTitle>
         <Spacer height="10px"/>
         <SingleText>
-            Install <strong>create-qortal</strong> and create a new React Qortal project.
+            Install <strong>create-qortal-app</strong> and create a new React Qortal project.
         </SingleText>
         <Spacer height="25px" />
         <SectionSubTitle variant='h2'>Installation</SectionSubTitle>
         <Spacer height="10px"/>
         <SingleText>
-            From your terminal install create-qortal globally
+            From your terminal install create-qortal-app globally
         </SingleText>
         <Spacer height="5px" />
         <DisplayCode hideLines codeBlock={codeblock1} language="bash" />

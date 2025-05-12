@@ -8,7 +8,7 @@ const features = [
     {
       title: 'Quicker startup: ',
       description: <>
-        Starting a new project can be burdensome. The <strong>create-qortal</strong> framework helps developers jump-start their app logic in under a minute with just a few simple steps. Building apps that work seamlessly with Qortal's UI has some unique requirements — this framework takes care of those complexities for you.
+        Starting a new project can be burdensome. The <strong>create-qortal-app</strong> framework helps developers jump-start their app logic in under a minute with just a few simple steps. Building apps that work seamlessly with Qortal's UI has some unique requirements — this framework takes care of those complexities for you.
       </>,
     },
     {
@@ -58,11 +58,11 @@ export const Introduction = () => {
         <SectionTitle variant='h1'>Introduction</SectionTitle>
         <Spacer height="10px"/>
         <SingleText>
-            Welcome to the <strong>create-qortal</strong> framework.
+            Welcome to the <strong>create-qortal-app</strong> framework.
         </SingleText>
         <Spacer height="10px"/>
         <SingleText>
-            This documentation will help you on your journey using the <strong>default template</strong> of create-qortal.
+            This documentation will help you on your journey using the <strong>default template</strong> of create-qortal-app.
         </SingleText>
         <Spacer height="10px"/>
         <SingleText>
