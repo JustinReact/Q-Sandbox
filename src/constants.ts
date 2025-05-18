@@ -520,7 +520,13 @@ export const services = [
   { name: "COMMENT", sizeInBytes: 500 * 1024, sizeLabel: "500 KB" },
   { name: "CHAIN_COMMENT", sizeInBytes: 239, sizeLabel: "239 B" },
   { name: "MAIL", sizeInBytes: 1 * 1024 * 1024, sizeLabel: "1 MB" },
-  { name: "MESSAGE", sizeInBytes: 1 * 1024 * 1024, sizeLabel: "1 MB" }
+  { name: "MESSAGE", sizeInBytes: 1 * 1024 * 1024, sizeLabel: "1 MB" },
+  { name: "IMAGE_PRIVATE", sizeInBytes: 10 * 1024 * 1024, sizeLabel: "10 MB" },
+  { name: "VOICE_PRIVATE", sizeInBytes: 10 * 1024 * 1024, sizeLabel: "10 MB" },
+  { name: "MAIL_PRIVATE", sizeInBytes: 5 * 1024 * 1024, sizeLabel: "5 MB" },
+  { name: "MESSAGE_PRIVATE", sizeInBytes: 1 * 1024 * 1024, sizeLabel: "1 MB" },
+  { name: "QCHAT_ATTACHMENT_PRIVATE", sizeInBytes: 1 * 1024 * 1024, sizeLabel: "1 MB" },
+  { name: "ATTACHMENT_PRIVATE", sizeInBytes: 50 * 1024 * 1024, sizeLabel: "50 MB" }
 ];
 
 
