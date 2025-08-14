@@ -13,73 +13,58 @@ import { Box, Card, Typography } from "@mui/material";
 import { CodePropsTable } from "../../components/CodePropsTable";
 
 const codeblock1 = `
-import { useAuth } from "qapp-core";
+import { useQortBalance } from "qapp-core";
 
-const auth = useAuth();
-const publicKey = auth?.publicKey
-console.log(publicKey)
+const balanceInfo = useQortBalance();
+const balance = balanceInfo?.balance
+console.log(balance)
 `.trim();
 
 
 const authProps = [
   {
-    prop: "auth.address",
+    prop: "balanceInfo.value",
     description: (
       <>
-        The user’s Qortal <strong>address</strong> after authentication.
+        The user’s QORT balance <strong>value</strong>
       </>
     ),
   },
   {
-    prop: "auth.publicKey",
+    prop: "balanceInfo.isLoading",
     description: (
       <>
-        The user’s <strong>public key</strong>.
+        Informs you if the balance is still in the process of fetching
       </>
     ),
   },
   {
-    prop: "auth.name",
+    prop: "balanceInfo.getBalance",
     description: (
       <>
-        The registered <strong>Qortal name</strong>, if the user has one.
+        Returns the user's balance if you wish to fetch it on the fly.
       </>
     ),
   },
-  {
-    prop: "auth.isLoadingUser",
-    description: <>Whether the user is currently being authenticated.</>,
-  },
-  {
-    prop: "auth.errorMessageLoadingUser",
-    description: (
-      <>Holds an error message if something goes wrong during authentication.</>
-    ),
-  },
-  {
-    prop: "auth.authenticateUser()",
-    description: <>Triggers authentication manually.</>,
-  }
 ];
 
-export const Authentication = () => {
+export const Balance = () => {
   return (
     <DocContainer>
-      <SectionTitle variant="h1">Authentication</SectionTitle>
+      <SectionTitle variant="h1">Balance</SectionTitle>
       <Spacer height="30px" />
       <Box>
         <Typography variant="h4" gutterBottom>
-          Authentication (auth) — <code>{'const auth = useAuth()'}</code>
+          Balance  — <code>{'const balanceInfo = useQortBalance()'}</code>
         </Typography>
 
         <Card>
           <Typography variant="body1" gutterBottom>
-            This hook contains everything related to the currently
-            authenticated Qortal user. It is accessible globally via:
+            This hook contains everything related to the user's balance ( if they've authenticated)
           </Typography>
 
           <Typography component="code" sx={{ fontSize: "1rem" }}>
-          <code>{'const auth = useAuth()'}</code>
+          <code>{'const balanceInfo = useQortBalance()'}</code>
           </Typography>
         </Card>
         <Spacer height="20px" />
@@ -92,16 +77,12 @@ export const Authentication = () => {
         <SectionSubTitle variant="h1">Example</SectionSubTitle>
         <Spacer height="10px" />
         <SingleText>
-          Let's say you want to to access the user's public key. You can do the following.
+          Let's say you want to to access the user's QORT balance. You can do the following.
         </SingleText>
         <DisplayCode hideLines codeBlock={codeblock1} language="jsx" />
         <Spacer height="20px" />
-        <SectionSubTitle variant="h1">authenticateUser</SectionSubTitle>
-        <Spacer height="10px" />
         <SingleText>
-          Even if you have the authenticated process on mount using the
-          GlobalProvider, the user might decline it. This method allows you to
-          manually trigger the authentication modal again.
+          You can configure the GlobalProvider, so that the balance gets fetch on an interval.
         </SingleText>
       </Box>
     </DocContainer>

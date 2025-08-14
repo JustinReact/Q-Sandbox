@@ -24,9 +24,10 @@ const codeblock4 = `
   const codeblock5 = `
 // AppWrapper.tsx
 
-import { Routes } from "./Routes";
+
 import { GlobalProvider } from "qapp-core";
-import { publicSalt } from "./qapp-config.ts";
+import Layout from './styles/Layout';
+import { publicSalt } from './qapp-config';
 
 export const AppWrapper = () => {
   return (
@@ -43,7 +44,7 @@ export const AppWrapper = () => {
         appName: "My App Test" // ADD YOUR App's name
       }}
     >
-      <Routes />
+      <Layout />
     </GlobalProvider>
   );
 };

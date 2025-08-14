@@ -5,13 +5,17 @@ import { ShowCategories } from './ShowCategories';
 import { ShowAction } from './ShowAction';
 import { categories } from './constants';
 import { SearchInput } from './components/SearchInput';
+import { useAuthStore } from './atoms/global';
 
 export const QortalRequests = () => {
-      const [myAddress, setMyaddress] = useState('')
+    const myAddress = useAuthStore((state) => state.address);
+        const setMyaddress = useAuthStore((state) => state.setAddress);
+ const hasAsked = useAuthStore((state) => state.hasAsked);
+        const setHasAsked = useAuthStore((state) => state.setHasAsked);
       const [search, setSearch] = useState('')
      const [selectedCategory, setSelectedCategory] = useState(0)
       const [selectedAction , setSelectedAction] = useState(null)
-
+      
       const askForAccountInformation = useCallback(async () => {
         try {
           const account = await qortalRequest({
@@ -22,12 +26,15 @@ export const QortalRequests = () => {
           }
         } catch (error) {
           console.error(error);
+        } finally {
+          setHasAsked(true)
         }
       }, []);
     
       useEffect(()=> {
+        if(hasAsked) return
         askForAccountInformation()
-      }, [askForAccountInformation])
+      }, [askForAccountInformation, hasAsked])
       const handleClose = useCallback(()=> {
         setSelectedAction(null)
       }, [])

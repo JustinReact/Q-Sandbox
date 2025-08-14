@@ -16,6 +16,7 @@ import { DeletingData } from "./docs/default/publishes/DeletingData";
 import { BuildingIdentifiers } from "./docs/default/identifiers/BuildingIdentifiers";
 import { SearchingByIdentifier } from "./docs/default/identifiers/SearchingByIdentifier";
 import { DataTransformation } from "./docs/default/utils/DataTransformation";
+import { Balance } from "./docs/default/user-info/Balance";
 
 export function DocPage() {
   const { pageId } = useParams();
@@ -30,6 +31,8 @@ export function DocPage() {
       return <GlobalProvider />;
     case "user-info-authentication":
       return <Authentication />;
+    case "user-info-qort-balance":
+      return <Balance />;
     case "lists-introduction-to-lists":
       return <IntroductionToLists />;
     case "lists-displaying-a-list":

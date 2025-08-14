@@ -24,7 +24,8 @@ const navSections = [
   {
     label: 'User Info',
     items: [
-      'Authentication'
+      'Authentication',
+      'QORT Balance'
     ],
   },
   {
